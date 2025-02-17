@@ -34,7 +34,10 @@ bool Test()
     XMLElement* skininfo = WAL->FirstChildElement("skininfo");
     if (skininfo == nullptr) return false;
 
-    for( XMLElement* children_of_skininfo = skininfo->FirstChildElement(); children_of_skininfo != NULL; children_of_skininfo = children_of_skininfo->NextSiblingElement() )
+    // extensively document this
+    for( XMLElement* children_of_skininfo = skininfo->FirstChildElement();
+    children_of_skininfo != NULL;
+    children_of_skininfo = children_of_skininfo->NextSiblingElement() )
     {
         const char* tagName = children_of_skininfo->Name();
         const char* information = children_of_skininfo->GetText();
