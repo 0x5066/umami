@@ -1,6 +1,6 @@
 # Umami
 
-Umami (/uːˈmɑːmi/ from Japanese: うま味 Japanese pronunciation: [ɯmami]) is a current Work In Progress that aims to be compatible with Winamp3 and up skins.
+Umami (/uːˈmɑːmi/ from Japanese: うま味 Japanese pronunciation: [ɯmami]) is a current Work In Progress project that aims to be compatible with Winamp3 and up skins.
 
 Currently only partially processes the included ``skin.xml`` file to gather information about the ``WinampAbstractionLayer`` version, though it is planned that the complete file and subsequent ``<include file=""\>`` tags are parsed.
 
