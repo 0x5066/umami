@@ -12,14 +12,16 @@ void parseSkinXML(std::string filepath){
 
     if (eResult != XML_SUCCESS){
         std::cout << "File not found, exiting early." << '\n';
+        return;
     }
-    return;
 
     XMLElement* Container = xml_doc.FirstChildElement("container");
     if (Container != nullptr) std::cout << Container->Name() << '\n';
+    std::cout << Container->Attribute("id") << '\n';
 
     XMLElement* Layout = Container->FirstChildElement("layout");
     if (Layout != nullptr) std::cout << Layout->Name() << '\n';
+    std::cout << Layout->Attribute("id") << '\n';
 
     if (Container == nullptr) {
         std::cout << "Container not found! Exiting." << '\n';
@@ -30,9 +32,6 @@ void parseSkinXML(std::string filepath){
         std::cout << "Layout not found! Exiting." << '\n';
         return;
     }
-
-    std::cout << Container->Attribute("id") << '\n';
-    std::cout << Layout->Attribute("id") << '\n';
 }
 
 bool Test()
