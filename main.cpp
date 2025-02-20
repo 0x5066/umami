@@ -1,40 +1,53 @@
 #include <iostream>
 #include "tinyxml2/tinyxml2.h"
 
-// there are definitely more attributes
-struct umamiXML
-{
-    double WALversion {};
-    double version {};
-    char name {};
-    char comment {};
-    char author {};
-    char email {};
-    char screenshot {};
-};
-
 using namespace tinyxml2;
 
 bool Test()
 {
-    umamiXML skin {};
     XMLDocument xml_doc;
     XMLError eResult = xml_doc.LoadFile("skin/skin.xml");
 
     if (eResult != XML_SUCCESS) return false;
 
     // can i just adjust the root/FirstChildElement willynilly like that?
+    // yes
     XMLElement* WAL = xml_doc.FirstChildElement("WinampAbstractionLayer");
-    if (WAL == nullptr) return false;
+    // if WAL isnt a null pointer, print the name of root
+    if (WAL != nullptr) std::cout << WAL->Name() << '\n';
+
+    if (WAL == nullptr) {
+        // set WAL to "WasabiXML" if "WinampAbstractionLayer" doesnt exist
+        WAL = xml_doc.FirstChildElement("WasabiXML");
+        if (WAL != nullptr) std::cout << WAL->Name() << '\n';
+    }
+
+    if (WAL == nullptr) {
+        std::cout << "BAILED!!! Not a Modern Skin" << '\n';
+        return false;
+    }
 
     // figure this out later
-    /*skin.umamiXMLversion = (double)WAL->Attribute("version");
-    std::cout << skin.umamiXMLversion << '\n';*/
+    const char* ver;
+    char finalver[5];
+
+    ver = WAL->Attribute("version");
+
+    // this is horrible please ignore me
+    finalver[0] = ver[0];
+    for (int i = 2; i < 4; i++){
+        finalver[i-1] = ver[i];
+    }
+
+    for (int i = 0; i < 3; i++){
+        std::cout << finalver[i] << '\n';
+    }
 
     XMLElement* skininfo = WAL->FirstChildElement("skininfo");
     if (skininfo == nullptr) return false;
 
     // extensively document this
+    // iterate over skininfo, which is what we determined from WAL->FirstChildElement("skininfo");
     for( XMLElement* children_of_skininfo = skininfo->FirstChildElement();
     children_of_skininfo != NULL;
     children_of_skininfo = children_of_skininfo->NextSiblingElement() )
@@ -44,6 +57,15 @@ bool Test()
         std::cout << tagName << ": " << information << '\n';
     }
 
+    // iterate over WAL but only look for the includes
+    for( XMLElement* children_of_WAL = WAL->FirstChildElement("include");
+    children_of_WAL != NULL;
+    children_of_WAL = children_of_WAL->NextSiblingElement("include") )
+    {
+        // this is going to be fun
+        const char* fileAttribute = children_of_WAL->Attribute("file");
+        std::cout << "include file: " << fileAttribute << '\n';
+    }
     return true;
 }
 int main()
