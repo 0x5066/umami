@@ -30,7 +30,7 @@ void loadFreeform(const std::filesystem::path& directory) {
             if (entry.path().filename() == "wasabi") {
                 std::cout << "Found 'wasabi' folder at: " << entry.path() << "\nStopping search.\n";
                 std::string wasabixml = "/wasabi.xml";
-                Test((entry.path().string() + wasabixml).c_str());
+                WALvalidator((entry.path().string() + wasabixml).c_str());
                 std::cout << (entry.path().string() + wasabixml).c_str() << '\n';
                 return;
             }
@@ -38,7 +38,7 @@ void loadFreeform(const std::filesystem::path& directory) {
         } else {
             if (entry.path().extension() == ".xml") {
                 //std::cout << "XML File: " << entry.path() << std::endl;
-                if (Test(entry.path().c_str()) != 1){
+                if (WALvalidator(entry.path().c_str()) != 1){
                     parseSkinXML((entry.path().c_str()), 0);
                 }
             }
@@ -69,7 +69,7 @@ void parseGroupWithinGroup(XMLElement* children_of_Layout, XMLDocument& xml_doc)
                         std::cout << '\n' << "GROUP FOUND WITHIN GROUP, PARSING..." << '\n';
                         //std::cout << inside_Groupdef->Name() << ": " << inside_Groupdef->Attribute("id") << '\n';
                         parseGroupWithinGroup(inside_Groupdef, xml_doc);
-                        std::cout << "Finished, returning to groupdef" << children_of_Groupdef->Attribute("id") << "." << '\n' << '\n';
+                        std::cout << "Finished, returning to groupdef " << children_of_Groupdef->Attribute("id") << "." << '\n' << '\n';
                     }
                 }
                 if (Groupdef == nullptr) {
@@ -130,6 +130,26 @@ void parseSkinXML(std::string filepath, bool includeElements){
         //std::cout << "Elements not found! Continuing." << '\n';
     }
 
+/*    XMLElement* aboutSkin = xml_doc.FirstChildElement("groupdef");
+    if (aboutSkin != nullptr) {
+        for( XMLElement* children_of_aboutSkin = aboutSkin->FirstChildElement("groupdef");
+            children_of_aboutSkin != NULL;
+            children_of_aboutSkin = children_of_aboutSkin->NextSiblingElement("groupdef") )
+        {
+            const char* tagName = children_of_aboutSkin->Name();
+            const char* id = (children_of_aboutSkin->Attribute("id") != nullptr) ? children_of_aboutSkin->Attribute("id") : "No ID";
+            std::cout << tagName << ": " << id << '\n';
+            if (std::string(children_of_aboutSkin->Name()) == "group"){
+                //std::cout << children_of_aboutSkin->Name() << ": " << children_of_aboutSkin->Attribute("id") << '\n';
+                parseGroupWithinGroup(children_of_aboutSkin, xml_doc);
+            }
+        }
+    }
+
+    if (aboutSkin == nullptr) {
+        return;
+    }*/
+
     XMLElement* Container = xml_doc.FirstChildElement("container");
     if (Container != nullptr){
         const char* lid = (Container->Attribute("id") != nullptr) ? Container->Attribute("id") : "No ID";
@@ -148,6 +168,7 @@ void parseSkinXML(std::string filepath, bool includeElements){
         << ", desktopalpha:" << da
         << '\n' << '\n';
     }
+
     if (Container == nullptr) {
             //if (Container == nullptr && Groupdef != nullptr) return;
         std::cout << "Container not found! Exiting." << '\n' << '\n';
