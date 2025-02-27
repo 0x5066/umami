@@ -284,7 +284,7 @@ bool WALvalidator(const char* skinXML)
 }
 int main()
 {
-    loadFreeform("freeform");
+    //loadFreeform("freeform");
     WALvalidator("skin/skin.xml");
     return 0;
 }
