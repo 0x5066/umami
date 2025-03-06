@@ -2,6 +2,16 @@
 #include <string>
 #include <filesystem>
 #include "tinyxml2/tinyxml2.h"
+#ifdef _WIN32
+
+#ifndef UNICODE
+#define UNICODE
+#endif
+
+// windows.h conflicts with tinyxml2, so we need WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif // _WIN32
 
 using namespace tinyxml2;
 
@@ -10,6 +20,88 @@ void parseSkinXML(std::string filepath, bool includeElements);
 std::string stripXMLFileName(const std::string& filepath);
 void loadFreeform(const std::filesystem::path& directory);
 void parseGroupWithinGroup(XMLElement* children_of_Layout, XMLDocument& xml_doc);
+
+#ifdef _WIN32
+
+void SpawnCoolFuckingWindow(const char* minWidth, const char* minHeight, const char* lid);
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg)
+    {
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
+
+    case WM_PAINT:
+        {
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hwnd, &ps);
+
+            // All painting occurs here, between BeginPaint and EndPaint.
+
+            FillRect(hdc, &ps.rcPaint, (HBRUSH) (COLOR_WINDOW+1));
+
+            EndPaint(hwnd, &ps);
+        }
+    // figure out a way to set min size
+    /*
+    case WM_GETMINMAXINFO:
+        {
+            LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
+            lpMMI->ptMinTrackSize.x = 300;
+            lpMMI->ptMinTrackSize.y = 300;
+        }
+    */
+        return 0;
+
+    }
+    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
+
+void SpawnCoolFuckingWindow(const char* minWidth, const char* minHeight, const char* lid)
+{
+    HINSTANCE hInstance = GetModuleHandle(NULL);
+    const wchar_t CLASS_NAME[] = L"Cool Window Class";
+
+    WNDCLASS wc = {};
+    wc.lpfnWndProc = WindowProc;
+    wc.hInstance = hInstance;
+    wc.lpszClassName = CLASS_NAME;
+
+    RegisterClass(&wc);
+
+    std::wstring wideLid = std::wstring(lid, lid + strlen(lid));
+
+    HWND hwnd = CreateWindowEx(
+        0,
+        CLASS_NAME,
+        wideLid.c_str(), // Use the converted wide string
+        WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT, CW_USEDEFAULT, std::stoi(minWidth), std::stoi(minHeight),
+        NULL,
+        NULL,
+        hInstance,
+        NULL
+    );
+
+    if (hwnd == NULL) {
+        std::cerr << "Failed to create window." << std::endl;
+        return;
+    }
+
+    ShowWindow(hwnd, SW_SHOW);
+
+    MSG msg = {};
+    while (GetMessage(&msg, NULL, 0, 0) > 0)
+    {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+}
+
+#endif // _WIN32
 
 std::string stripXMLFileName(const std::string& filepath) {
     size_t pos = filepath.find_last_of("/\\"); // Find last '/' or '\'
@@ -32,15 +124,26 @@ void loadFreeform(const std::filesystem::path& directory) {
                 std::string wasabixml = "/wasabi.xml";
                 WALvalidator((entry.path().string() + wasabixml).c_str());
                 std::cout << (entry.path().string() + wasabixml).c_str() << '\n';
+#ifdef _WIN32
+                WALvalidator((entry.path().u8string().c_str() + wasabixml).c_str());
+                std::cout << (entry.path().u8string().c_str() + wasabixml).c_str() << '\n';
+#endif // _WIN32
                 return;
             }
             loadFreeform(entry.path());
         } else {
             if (entry.path().extension() == ".xml") {
                 //std::cout << "XML File: " << entry.path() << std::endl;
+#ifdef __linux__
                 if (WALvalidator(entry.path().c_str()) != 1){
                     parseSkinXML((entry.path().c_str()), 0);
                 }
+#endif // __linux__
+#ifdef _WIN32
+                if (WALvalidator(entry.path().u8string().c_str()) != 1){
+                    parseSkinXML((entry.path().u8string().c_str()), 0);
+                }
+#endif // _WIN32
             }
         }
     }
@@ -83,6 +186,9 @@ void parseGroupWithinGroup(XMLElement* children_of_Layout, XMLDocument& xml_doc)
 void parseSkinXML(std::string filepath, bool includeElements){
     XMLDocument xml_doc;
     XMLError eResult = xml_doc.LoadFile(filepath.c_str());
+
+    const char *cid, *cminiw, *cminih, *cmaxiw, *cmaxih, *cdt, *cda, *cdv;
+    const char *lid, *ln, *ldy, *ldx, *ldv, *ldw, *ldh, *lminiw, *lminih, *lmaxiw, *lmaxih;
 
     // this is really unhinged, but needed
     // we're going to create a new root just so quirky skins' elements files can still be parsed
@@ -152,20 +258,22 @@ void parseSkinXML(std::string filepath, bool includeElements){
 
     XMLElement* Container = xml_doc.FirstChildElement("container");
     if (Container != nullptr){
-        const char* lid = (Container->Attribute("id") != nullptr) ? Container->Attribute("id") : "No ID";
-        const char* miniw = (Container->Attribute("minimum_w") != nullptr) ? Container->Attribute("minimum_w") : "0";
-        const char* minih = (Container->Attribute("minimum_h") != nullptr) ? Container->Attribute("minimum_h") : "0";
-        const char* maxiw = (Container->Attribute("maximum_w") != nullptr) ? Container->Attribute("maximum_w") : "0";
-        const char* maxih = (Container->Attribute("maximum_h") != nullptr) ? Container->Attribute("maximum_h") : "0";
-        const char* dt = (Container->Attribute("droptarget") != nullptr) ? Container->Attribute("droptarget") : "???";
-        const char* da = (Container->Attribute("desktopalpha") != nullptr) ? Container->Attribute("desktopalpha") : "0";
-        std::cout << Container->Name() << ": " << lid
-        << ", minimum_w:" << miniw
-        << ", minimum_h:" << minih << '\n'
-        << ", maximum_w:" << maxiw
-        << ", maximum_h:" << maxih << '\n'
-        << ", droptarget:" << dt
-        << ", desktopalpha:" << da
+        cid = (Container->Attribute("id") != nullptr) ? Container->Attribute("id") : "No ID";
+        cminiw = (Container->Attribute("minimum_w") != nullptr) ? Container->Attribute("minimum_w") : "0";
+        cminih = (Container->Attribute("minimum_h") != nullptr) ? Container->Attribute("minimum_h") : "0";
+        cmaxiw = (Container->Attribute("maximum_w") != nullptr) ? Container->Attribute("maximum_w") : "0";
+        cmaxih = (Container->Attribute("maximum_h") != nullptr) ? Container->Attribute("maximum_h") : "0";
+        cdt = (Container->Attribute("droptarget") != nullptr) ? Container->Attribute("droptarget") : "???";
+        cda = (Container->Attribute("desktopalpha") != nullptr) ? Container->Attribute("desktopalpha") : "0";
+        cdv = (Container->Attribute("default_visible") != nullptr) ? Container->Attribute("default_visible") : "0";
+        std::cout << Container->Name() << ": " << cid
+        << ", minimum_w:" << cminiw
+        << ", minimum_h:" << cminih << '\n'
+        << ", maximum_w:" << cmaxiw
+        << ", maximum_h:" << cmaxih << '\n'
+        << ", droptarget:" << cdt
+        << ", desktopalpha:" << cda
+        << ", default_visible:" << cda
         << '\n' << '\n';
     }
 
@@ -177,26 +285,53 @@ void parseSkinXML(std::string filepath, bool includeElements){
 
     XMLElement* Layout = Container->FirstChildElement("layout");
     if (Layout != nullptr){
-        const char* lid = (Layout->Attribute("id") != nullptr) ? Layout->Attribute("id") : "No ID";
-        const char* ln = (Layout->Attribute("name") != nullptr) ? Layout->Attribute("name") : "None";
-        const char* dy = (Layout->Attribute("default_y") != nullptr) ? Layout->Attribute("default_y") : "0";
-        const char* dx = (Layout->Attribute("default_x") != nullptr) ? Layout->Attribute("default_x") : "0";
-        const char* dv = (Layout->Attribute("default_visible") != nullptr) ? Layout->Attribute("default_visible") : "0";
-        const char* miniw = (Layout->Attribute("minimum_w") != nullptr) ? Layout->Attribute("minimum_w") : "0";
-        const char* minih = (Layout->Attribute("minimum_h") != nullptr) ? Layout->Attribute("minimum_h") : "0";
-        const char* maxiw = (Layout->Attribute("maximum_w") != nullptr) ? Layout->Attribute("maximum_w") : "0";
-        const char* maxih = (Layout->Attribute("maximum_h") != nullptr) ? Layout->Attribute("maximum_h") : "0";
+        lid = (Layout->Attribute("id") != nullptr) ? Layout->Attribute("id") : "No ID";
+        ln = (Layout->Attribute("name") != nullptr) ? Layout->Attribute("name") : "None";
+        ldy = (Layout->Attribute("default_y") != nullptr) ? Layout->Attribute("default_y") : "0";
+        ldx = (Layout->Attribute("default_x") != nullptr) ? Layout->Attribute("default_x") : "0";
+        ldw = (Layout->Attribute("default_w") != nullptr) ? Layout->Attribute("default_w") : "0";
+        ldh = (Layout->Attribute("default_h") != nullptr) ? Layout->Attribute("default_h") : "0";
+        lminiw = (Layout->Attribute("minimum_w") != nullptr) ? Layout->Attribute("minimum_w") : "0";
+        lminih = (Layout->Attribute("minimum_h") != nullptr) ? Layout->Attribute("minimum_h") : "0";
+        lmaxiw = (Layout->Attribute("maximum_w") != nullptr) ? Layout->Attribute("maximum_w") : "0";
+        lmaxih = (Layout->Attribute("maximum_h") != nullptr) ? Layout->Attribute("maximum_h") : "0";
         std::cout << Layout->Name() << ": " << lid
         << ", name:" << ln << '\n'
-        << ", default_y:" << dy
-        << ", default_x:" << dx
-        << ", default_visible:" << dv << '\n'
-        << ", minimum_w:" << miniw
-        << ", minimum_h:" << minih << '\n'
-        << ", maximum_w:" << maxiw
-        << ", maximum_h:" << maxih
+        << ", default_y:" << ldy
+        << ", default_x:" << ldx
+        << ", default_w:" << ldw
+        << ", default_h:" << ldh << '\n'
+        << ", minimum_w:" << lminiw
+        << ", minimum_h:" << lminih << '\n'
+        << ", maximum_w:" << lmaxiw
+        << ", maximum_h:" << lmaxih
         << '\n' << '\n';
     }
+
+#ifdef _WIN32
+    if (cdv && strcmp(cdv, "1") == 0){
+        //if (ldv && strcmp(ldv, "0") == 0){
+            if (Container != nullptr || Layout != nullptr){
+                const char* w = cminiw;  // Default fallback
+                const char* h = cminih;  // Default fallback
+
+                if (ldw && strcmp(ldw, "0") != 0 && ldw[0] != '\0') {
+                    w = ldw;
+                } else if (lminiw && strcmp(lminiw, "0") != 0 && lminiw[0] != '\0') {
+                    w = lminiw;
+                }
+
+                if (ldh && strcmp(ldh, "0") != 0 && ldh[0] != '\0') {
+                    h = ldh;
+                } else if (lminih && strcmp(lminih, "0") != 0 && lminih[0] != '\0') {
+                    h = lminih;
+                }
+
+            SpawnCoolFuckingWindow(w, h, cid);
+            }
+        //}
+    }
+#endif // _WIN32
 
     for( XMLElement* children_of_Layout = Layout->FirstChildElement();
         children_of_Layout != NULL;
@@ -282,6 +417,7 @@ bool WALvalidator(const char* skinXML)
     }
     return true;
 }
+
 int main()
 {
     //loadFreeform("freeform");
