@@ -34,6 +34,9 @@
 		</Compiler>
 		<Unit filename="main.cpp" />
 		<Unit filename="tinyxml2/tinyxml2.cpp" />
+		<Unit filename="umamistructs.h" />
+		<Unit filename="wasabiparser.cpp" />
+		<Unit filename="wasabiparser.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

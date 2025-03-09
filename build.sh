@@ -28,6 +28,7 @@ if [ "$1" == "linux" ]; then
 
     cp -r skin/ build/skin/ -v
 
+    build/umami
 elif [ "$1" == "mingw" ]; then
     export WINEPREFIX=$HOME/.wineumami
     i686-w64-mingw32-cmake -B build -G Ninja
@@ -41,7 +42,7 @@ elif [ "$1" == "mingw" ]; then
 
     cp -r skin/ build/skin/ -v
 
-    wine build/umami.exe
+    wine explorer /desktop=shell build/umami.exe
 else
     echo "Invalid option. Use 'linux' or 'mingw'."
     exit 1
