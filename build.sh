@@ -42,7 +42,7 @@ elif [ "$1" == "mingw" ]; then
 
     cp -r skin/ build/skin/ -v
 
-    wine explorer /desktop=shell build/umami.exe
+    wine explorer /desktop=shell,1024x768 build/umami.exe
 else
     echo "Invalid option. Use 'linux' or 'mingw'."
     exit 1

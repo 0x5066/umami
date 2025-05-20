@@ -1,5 +1,6 @@
 #include "wasabiparser.h"
 #include "umamistructs.h"
+#include "layerparser.h" // Include the layerparser header
 
 struct umamiContainer umamiMain;
 struct umamiContainer PL;
@@ -7,6 +8,12 @@ struct umamiContainer EQ;
 struct umamiContainer MLibrary;
 
 std::vector<umamiElement> elements;
+std::unordered_map<std::string, umamiContainer*> containerMap = {
+    {"main", &umamiMain},
+    {"PL", &PL},
+    {"EQ", &EQ},
+    {"MLibrary", &MLibrary}
+};
 
 std::string stripXMLFileName(const std::string& filepath) {
     size_t pos = filepath.find_last_of("/\\"); // Find last '/' or '\'
@@ -55,13 +62,14 @@ void loadFreeform(const std::filesystem::path& directory) {
 }
 
 // doesnt yet handle groupdefs inside a layout
-void parseGroupWithinGroup(XMLElement* children_of_Layout, XMLDocument& xml_doc){
+void parseGroupWithinGroup(XMLElement* children_of_Layout, XMLDocument& xml_doc, const std::string& containerID){
     XMLElement* Groupdef = xml_doc.FirstChildElement("groupdef");
-        if (Groupdef != nullptr){
-            for( XMLElement* children_of_Groupdef = Groupdef;
-            children_of_Groupdef != NULL;
-            children_of_Groupdef = children_of_Groupdef->NextSiblingElement("groupdef") )
-            {
+    std::cout << "WE ARE IN PARSEGROUPWITHINGOUP" << '\n';
+    if (Groupdef != nullptr){
+        for( XMLElement* children_of_Groupdef = Groupdef;
+        children_of_Groupdef != NULL;
+        children_of_Groupdef = children_of_Groupdef->NextSiblingElement("groupdef") )
+        {
             if (std::string(children_of_Groupdef->Attribute("id")) == std::string(children_of_Layout->Attribute("id")) ) {
                 std::cout << children_of_Groupdef->Name() << ": " << children_of_Groupdef->Attribute("id") << '\n';
                 for( XMLElement* inside_Groupdef = children_of_Groupdef->FirstChildElement();
@@ -72,11 +80,18 @@ void parseGroupWithinGroup(XMLElement* children_of_Layout, XMLDocument& xml_doc)
                     const char* wy = (inside_Groupdef->Attribute("y") != nullptr) ? inside_Groupdef->Attribute("y") : "0 (default)";
                     const char* ww = (inside_Groupdef->Attribute("w") != nullptr) ? inside_Groupdef->Attribute("w") : "N/A";
                     const char* wh = (inside_Groupdef->Attribute("h") != nullptr) ? inside_Groupdef->Attribute("h") : "N/A";
-                    std::cout << tagName << ": " << id << ", x:" << wx << ", y:" << wy << ", w:" << ww << ", h:" << wh << '\n';
+                    if (std::string(tagName) == "layer"){
+                        std::cout << "WE ARE IN A LAYER" << '\n';
+                    } else {
+                        std::cout << tagName << ": " << id << ", x:" << wx << ", y:" << wy << ", w:" << ww << ", h:" << wh << '\n';
+                    }
+                    // Call parseLayers within the group itself
+                    std::cout << "BEFORE CALLING PARSELAYERS" << '\n';
+                    parseLayers(children_of_Groupdef, containerID);
+
                     if (std::string(tagName) == "group"){
                         std::cout << '\n' << "GROUP FOUND WITHIN GROUP, PARSING..." << '\n';
-                        //std::cout << inside_Groupdef->Name() << ": " << inside_Groupdef->Attribute("id") << '\n';
-                        parseGroupWithinGroup(inside_Groupdef, xml_doc);
+                        parseGroupWithinGroup(inside_Groupdef, xml_doc, containerID);
                         std::cout << "Finished, returning to groupdef " << children_of_Groupdef->Attribute("id") << "." << '\n' << '\n';
                     }
                 }
@@ -85,6 +100,26 @@ void parseGroupWithinGroup(XMLElement* children_of_Layout, XMLDocument& xml_doc)
                 }
             }
         }
+    }
+}
+
+void parseGammaGroup(XMLElement* gammaGroupElement) {
+    const char* id = (gammaGroupElement->Attribute("id") != nullptr) ? gammaGroupElement->Attribute("id") : "No ID";
+    const char* value = (gammaGroupElement->Attribute("value") != nullptr) ? gammaGroupElement->Attribute("value") : "0,0,0";
+    const char* gray = (gammaGroupElement->Attribute("gray") != nullptr) ? gammaGroupElement->Attribute("gray") : "0";
+    const char* boost = (gammaGroupElement->Attribute("boost") != nullptr) ? gammaGroupElement->Attribute("boost") : "0";
+
+    std::cout << "GammaGroup ID: " << id << ", Value: " << value << ", Gray: " << gray << ", Boost: " << boost << '\n';
+}
+
+void parseGammaSet(XMLElement* gammaSetElement) {
+    const char* id = (gammaSetElement->Attribute("id") != nullptr) ? gammaSetElement->Attribute("id") : "No ID";
+    std::cout << "GammaSet ID: " << id << '\n';
+
+    for (XMLElement* gammaGroupElement = gammaSetElement->FirstChildElement("gammagroup");
+         gammaGroupElement != nullptr;
+         gammaGroupElement = gammaGroupElement->NextSiblingElement("gammagroup")) {
+        parseGammaGroup(gammaGroupElement);
     }
 }
 
@@ -114,6 +149,15 @@ void parseSkinXML(std::string filepath, bool includeElements){
     if (eResult != XML_SUCCESS){
         std::cout << "File not found, exiting early." << '\n';
         return;
+    }
+
+    // First, handle all include tags
+    for (XMLElement* includeElement = xml_doc.FirstChildElement("include");
+         includeElement != nullptr;
+         includeElement = includeElement->NextSiblingElement("include")) {
+        std::string fileAttribute = "skin/xml/" + std::string(includeElement->Attribute("file"));
+        std::cout << "include file: " << fileAttribute << '\n';
+        parseSkinXML(fileAttribute, 0);
     }
 
     XMLElement* Elements = xml_doc.FirstChildElement("elements");
@@ -151,26 +195,6 @@ void parseSkinXML(std::string filepath, bool includeElements){
         //std::cout << "Elements not found! Continuing." << '\n';
     }
 
-/*    XMLElement* aboutSkin = xml_doc.FirstChildElement("groupdef");
-    if (aboutSkin != nullptr) {
-        for( XMLElement* children_of_aboutSkin = aboutSkin->FirstChildElement("groupdef");
-            children_of_aboutSkin != NULL;
-            children_of_aboutSkin = children_of_aboutSkin->NextSiblingElement("groupdef") )
-        {
-            const char* tagName = children_of_aboutSkin->Name();
-            const char* id = (children_of_aboutSkin->Attribute("id") != nullptr) ? children_of_aboutSkin->Attribute("id") : "No ID";
-            std::cout << tagName << ": " << id << '\n';
-            if (std::string(children_of_aboutSkin->Name()) == "group"){
-                //std::cout << children_of_aboutSkin->Name() << ": " << children_of_aboutSkin->Attribute("id") << '\n';
-                parseGroupWithinGroup(children_of_aboutSkin, xml_doc);
-            }
-        }
-    }
-
-    if (aboutSkin == nullptr) {
-        return;
-    }*/
-
     XMLElement* Container = xml_doc.FirstChildElement("container");
     if (Container != nullptr){
         cid = (Container->Attribute("id") != nullptr) ? Container->Attribute("id") : "NoID";
@@ -192,59 +216,35 @@ void parseSkinXML(std::string filepath, bool includeElements){
         << ", desktopalpha:" << cda
         << ", default_visible:" << cda
         << '\n' << '\n';
-        if (std::string(cid) == "main"){
-            std::cout << "HIT!" << cid << '\n';
-            umamiMain.containerID = cid;
-            umamiMain.containerMinimumW = cminiw;
-            umamiMain.containerMinimumH = cminih;
-            umamiMain.containerMaximumW = cmaxiw;
-            umamiMain.containerMaximumH = cmaxih;
-            umamiMain.containerDefaultVisible = cdv;
-            umamiMain.containerDefaultX = cdx;
-            umamiMain.containerDefaultY = cdy;
+        
+        auto it = containerMap.find(cid);
+        if (it != containerMap.end()) {
+            umamiContainer* container = it->second;
+            container->containerID = cid;
+            container->containerMinimumW = cminiw;
+            container->containerMinimumH = cminih;
+            container->containerMaximumW = cmaxiw;
+            container->containerMaximumH = cmaxih;
+            container->containerDefaultVisible = cdv;
+            container->containerDefaultX = cdx;
+            container->containerDefaultY = cdy;
         }
-        if (std::string(cid) == "PL"){
-            std::cout << "HIT!" << cid << '\n';
-            PL.containerID = cid;
-            PL.containerMinimumW = cminiw;
-            PL.containerMinimumH = cminih;
-            PL.containerMaximumW = cmaxiw;
-            PL.containerMaximumH = cmaxih;
-            PL.containerDefaultVisible = cdv;
-            PL.containerDefaultX = cdx;
-            PL.containerDefaultY = cdy;
-        }
-        if (std::string(cid) == "EQ"){
-            std::cout << "HIT!" << cid << '\n';
-            EQ.containerID = cid;
-            EQ.containerMinimumW = cminiw;
-            EQ.containerMinimumH = cminih;
-            EQ.containerMaximumW = cmaxiw;
-            EQ.containerMaximumH = cmaxih;
-            EQ.containerDefaultVisible = cdv;
-            EQ.containerDefaultX = cdx;
-            EQ.containerDefaultY = cdy;
-        }
-        if (std::string(cid) == "MLibrary"){
-            std::cout << "HIT!" << cid << '\n';
-            MLibrary.containerID = cid;
-            MLibrary.containerMinimumW = cminiw;
-            MLibrary.containerMinimumH = cminih;
-            MLibrary.containerMaximumW = cmaxiw;
-            MLibrary.containerMaximumH = cmaxih;
-            MLibrary.containerDefaultVisible = cdv;
-            MLibrary.containerDefaultX = cdx;
-            MLibrary.containerDefaultY = cdy;
+        for( XMLElement* children_of_Container = Container->FirstChildElement("include");
+        children_of_Container != NULL;
+        children_of_Container = children_of_Container->NextSiblingElement("include") )
+        {
+            // this is going to be *very* fun
+            // update: wow that's awful
+            std::string fileAttribute = "skin/xml/" + std::string(children_of_Container->Attribute("file"));
+            std::cout << "include file: " << fileAttribute << '\n';
+            parseSkinXML(fileAttribute, 0);
         }
     }
 
-    if (Container == nullptr) {
-            //if (Container == nullptr && Groupdef != nullptr) return;
-        std::cout << "Container not found! Exiting." << '\n' << '\n';
-        return;
-    }
+    
 
-    XMLElement* Layout = Container->FirstChildElement("layout");
+    // Process layouts and groups even if no container is found
+    XMLElement* Layout = xml_doc.FirstChildElement("layout");
     if (Layout != nullptr){
         lid = (Layout->Attribute("id") != nullptr) ? Layout->Attribute("id") : "No ID";
         ln = (Layout->Attribute("name") != nullptr) ? Layout->Attribute("name") : "None";
@@ -269,41 +269,35 @@ void parseSkinXML(std::string filepath, bool includeElements){
         << '\n' << '\n';
     }
 
+    if (Layout == nullptr) {
+        std::cout << "Layout not found! Exiting. (That would be exceptionally weird.)" << '\n';
+        return;
+    }
+
 #ifdef _WIN32
-        //if (ldv && strcmp(ldv, "0") == 0){
-            if (Container != nullptr || Layout != nullptr){
-                const char* w = cminiw;  // Default fallback
-                const char* h = cminih;  // Default fallback
+    if (Container != nullptr || Layout != nullptr){
+        const char* w = cminiw;  // Default fallback
+        const char* h = cminih;  // Default fallback
 
-                if (ldw && strcmp(ldw, "0") != 0 && ldw[0] != '\0') {
-                    w = ldw;
-                } else if (lminiw && strcmp(lminiw, "0") != 0 && lminiw[0] != '\0') {
-                    w = lminiw;
-                }
+        if (ldw && strcmp(ldw, "0") != 0 && ldw[0] != '\0') {
+            w = ldw;
+        } else if (lminiw && strcmp(lminiw, "0") != 0 && lminiw[0] != '\0') {
+            w = lminiw;
+        }
 
-                if (ldh && strcmp(ldh, "0") != 0 && ldh[0] != '\0') {
-                    h = ldh;
-                } else if (lminih && strcmp(lminih, "0") != 0 && lminih[0] != '\0') {
-                    h = lminih;
-                }
-                if (std::string(cid) == "main"){
-                    umamiMain.containerSizeH = h;
-                    umamiMain.containerSizeW = w;
-                }
-                if (std::string(cid) == "EQ"){
-                    EQ.containerSizeH = h;
-                    EQ.containerSizeW = w;
-                }
-                if (std::string(cid) == "PL"){
-                    PL.containerSizeH = h;
-                    PL.containerSizeW = w;
-                }
-                if (std::string(cid) == "MLibrary"){
-                    MLibrary.containerSizeH = h;
-                    MLibrary.containerSizeW = w;
-                }
-            }
-        //}
+        if (ldh && strcmp(ldh, "0") != 0 && ldh[0] != '\0') {
+            h = ldh;
+        } else if (lminih && strcmp(lminih, "0") != 0 && lminih[0] != '\0') {
+            h = lminih;
+        }
+
+        auto it = containerMap.find(cid);
+        if (it != containerMap.end()) {
+            umamiContainer* container = it->second;
+            container->containerSizeH = h;
+            container->containerSizeW = w;
+        }
+    }
 #endif // _WIN32
 
     for( XMLElement* children_of_Layout = Layout->FirstChildElement();
@@ -313,14 +307,18 @@ void parseSkinXML(std::string filepath, bool includeElements){
         const char* tagName = children_of_Layout->Name();
         const char* id = (children_of_Layout->Attribute("id") != nullptr) ? children_of_Layout->Attribute("id") : "No ID";
         std::cout << tagName << ": " << id << '\n';
+        std::cout << "CALLED BEFORE if (std::string(children_of_Layout->Name()) == group)" << '\n';
         if (std::string(children_of_Layout->Name()) == "group"){
-            //std::cout << children_of_Layout->Name() << ": " << children_of_Layout->Attribute("id") << '\n';
-            parseGroupWithinGroup(children_of_Layout, xml_doc);
+            std::cout << "CALLED BEFORE parseGroupWithinGroup(children_of_Layout, xml_doc, cid)" << '\n';
+            parseGroupWithinGroup(children_of_Layout, xml_doc, cid);
         }
     }
-    if (Layout == nullptr) {
-        std::cout << "Layout not found! Exiting. (That would be exceptionally weird.)" << '\n';
-        return;
+
+    // Parse GammaSets
+    XMLElement* GammaSet = xml_doc.FirstChildElement("gammaset");
+    while (GammaSet != nullptr) {
+        parseGammaSet(GammaSet);
+        GammaSet = GammaSet->NextSiblingElement("gammaset");
     }
 }
 
