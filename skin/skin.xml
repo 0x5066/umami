@@ -1,61 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WasabiXML version="1.35">
 
-<WinampAbstractionLayer version="1.35"> <!-- the root of all evil -->
-	<skininfo> <!-- child of WAL, call "root->FirstChildElement("skininfo")" to specify that we are looking for that in root -->
-		<version>-</version> <!-- children of skininfo, run "for( XMLElement* children_of_skininfo = skininfo->FirstChildElement(); children_of_skininfo != NULL; children_of_skininfo = children_of_skininfo->NextSiblingElement() )" -->
-		<name>-</name>
-		<comment>-</comment>
-		<author>-</author>
-		<email>-</email>
-		<wacupscreenshot>wacupscreenshot.png</wacupscreenshot>
+	<skininfo>
+		<version>1.1.1</version>
+		<name>Winamp5 Base Skin</name>
+		<comment>Please feel free to use this skin as a reference point to build your new Winamp5 skins.</comment>
+		<author gaybag="bartibartman">Sven Kistner</author>
+		<email>sven@metrix.de</email>
+		<homepage>http://www.winamp.com</homepage>
 		<screenshot>screenshot.png</screenshot>
 	</skininfo>
 
-	<!-- wasabi replacement stuff, loads first -->
-	<include file="xml/wasabi.classic/xui/slider/slider.xml"/>
-	<include file="xml/wasabi.classic/xui/standardframe/standardframe.xml"/>
-	<include file="xml/wasabi.classic/xui/titlebar/titlebar.xml"/>
-	<include file="xml/wasabi.classic/system-elements.xml"/>
-	<include file="xml/wasabi.classic/groups/objectframe.xml"/>
-	<include file="xml/wasabi.classic/titlebox/titlebox.xml"/>
-	<include file="xml/wasabi.classic/statusbar/statusbar.xml"/>
-	<include file="xml/wasabi.classic/tooltips/tooltips.xml"/>
-	<include file="xml/wasabi.classic/browser/browser.xml"/> 
-	<include file="xml/wasabi.classic/components.xml"/> 
+	<accelerators section="normal">
+		<accelerator bind="Alt+F" action="MENUHOTKEY_FILE"/>
+		<accelerator bind="Alt+P" action="MENUHOTKEY_PLAY"/>
+		<accelerator bind="Alt+O" action="MENUHOTKEY_OPTIONS"/>
+		<accelerator bind="Alt+I" action="MENUHOTKEY_VIEW"/>
+		<accelerator bind="Alt+H" action="MENUHOTKEY_HELP"/>
+	</accelerators>
 
-	<!-- the very building blocks to get our 4 main windows rendered -->
-	<include file="xml/classic-elements.xml"/>
+	<accelerators section="myvideownd">
+		<accelerator bind="Alt+F" action="MENUHOTKEY_FILE"/>
+		<accelerator bind="Alt+P" action="MENUHOTKEY_PLAY"/>
+		<accelerator bind="Alt+O" action="MENUHOTKEY_OPTIONS"/>
+		<accelerator bind="Alt+I" action="MENUHOTKEY_VIEW"/>
+		<accelerator bind="Alt+H" action="MENUHOTKEY_HELP"/>
+	</accelerators>
 
-	<!-- the usual suspects -->
-	<include file="xml/main.xml"/>
-	<include file="xml/eqmain.xml"/>
+	<accelerators section="player.content.pl.dummy.group">
+		<accelerator bind="Alt+F" action="PL_MENUHOTKEY_FILE"/>
+		<accelerator bind="Alt+P" action="PL_MENUHOTKEY_PLAYLIST"/>
+		<accelerator bind="Alt+S" action="PL_MENUHOTKEY_SORT"/>
+		<accelerator bind="Alt+H" action="PL_MENUHOTKEY_HELP"/>
+	</accelerators>
+
+	<accelerators section="player.content.ml.dummy.group">  
+		<accelerator bind="Alt+F" action="ML_MENUHOTKEY_FILE"/>
+		<accelerator bind="Alt+I" action="ML_MENUHOTKEY_VIEW"/>
+		<accelerator bind="Alt+H" action="ML_MENUHOTKEY_HELP"/>
+	</accelerators>  
+  
+	<include file="xml/color-presets.xml"/>
+	<include file="xml/system-colors.xml"/>
+	<include file="standardframe/standardframe.xml"/>
+	<include file="titlebar/titlebar.xml"/>
+	<include file="xml/player.xml"/>
 	<include file="xml/pledit.xml"/>
+	<include file="xml/ml.xml"/>
+	<include file="xml/vis.xml"/>
 	<include file="xml/video.xml"/>
-	<include file="xml/medialibrary.xml"/>
+	<include file="xml/albumart.xml"/>
+	<include file="xml/notifier.xml"/>
+	<include file="about/about.xml"/>
 
-	<!-- Minibrowser window -->
-	<include file="xml/minibrowser.xml"/> 
-
-	<!-- detect wacup -->
-	<!-- uncomment if you're not providing wacup specific assets -->
-	<script file="scripts/WACUPDetect.maki"/>
-
-	<!-- needs to exist for testing -->
-	<include file="xml/themes.xml"/>
-
-	<!-- needs to exist here to hook into the main window and equalizer/playlist editor -->
-	<script file="scripts/actioninfo.maki"/>
-	<script file="scripts/wa2visualizer.maki"/>
-	<script file="scripts/wa2songtimer.maki"/>
-
-	<!-- prevent loading for 5.8 users -->
-	<script file="scripts/NoWinamp58.maki"/>
-
-	<!-- Modern Skin Album Art window -->
-	<include file="xml/albumart.xml"/> 
-
-	<!-- About the skin -->
-	<include file="about/about.xml"/> 
-	<!--include file="external/beattime.xml"/-->
-
-</WinampAbstractionLayer>
+</WasabiXML>

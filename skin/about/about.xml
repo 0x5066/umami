@@ -1,60 +1,138 @@
 <elements>
-    <truetypefont id="winamp" file="about/winamp.ttf"/>
-    <bitmapfont id="studio.component.title.blur" file="about/titlebar_font_blur.png" hspacing="-2" vspacing="0" charwidth="8" charheight="8"/>
+  <bitmap id="about.bg" file="about/about_bg.png"/>
+  <bitmap id="about.fg" file="about/about_fg.png"/>
+  <bitmap id="about.winampbolt" file="about/about_bolt.png"/>
+  <bitmap id="about.starani" file="about/about_star.png"/>
+  <bitmap id="about.eye" file="about/eye.png"/>
+
+  <color id="font.about.color1" value="255,225,155" gammagroup=""/>
+  <color id="font.about.color2" value="255,255,255" gammagroup=""/>
+
 </elements>
 
-<groupdef id="aboutplayer">
-    <group id="mainwindow" ghost="1"/>
-    <sendparams target="songticker" visible="0"/>
-    <text id="andcredits" text="" x="110" y="27" offsetx="-1" offsety="-1"
-	w="155" h="9" font="wasabi.font.default" fontsize="13" ghost="0" cursor="cur.normal"/>
-
-    <script file="about/loveletter.maki"/>
-</groupdef>
-
-<groupdef id="cooldebuginfo" w="380">
-
-    <text id="status" text="Playback Status: " x="-2" w="380" font="wasabi.font.default" align="left" valign="top" cursor="cur.normal"/>
-    <text id="channel" text="Channel: " x="-2" y="7" w="380" font="wasabi.font.default" align="left" valign="top" cursor="cur.normal"/>
-    <text id="kbps" text="kbps: " x="-2" y="14" w="380" font="wasabi.font.default" align="left" valign="top" cursor="cur.normal"/> 
-    <text id="khz" text="khz: " x="-2" y="21" w="380" font="wasabi.font.default" align="left" valign="top" cursor="cur.normal"/>
-    <text id="displayvolume" text="Volume: " x="-2" y="28" w="380" font="wasabi.font.default" align="left" valign="top" cursor="cur.normal"/>
-    <text id="freqbands" text="Frequency Bands: " x="-2" y="35" w="380" font="wasabi.font.default" align="left" valign="top" cursor="cur.normal"/>
-    <text id="timer" text="Time: " x="-2" y="42" font="wasabi.font.default" align="left" valign="top" cursor="cur.normal"/>
-    <text id="isthiswacup" text="Is this WACUP?: " x="-2" y="49" font="wasabi.font.default" align="left" valign="top" cursor="cur.normal"/>
-    <text id="VUL" text="VU LEFT : " x="-2" y="56" font="wasabi.font.default" align="left" valign="top" alpha="0" cursor="cur.normal"/>
-    <text id="VUR" text="VU RIGHT: " x="-2" y="63" font="wasabi.font.default" align="left" valign="top" alpha="0" cursor="cur.normal"/>
-
-    <text text="DECLASSIFIED" x="0" y="53" w="380" font="Winamp" align="center" fontsize="43" valign="top" cursor="cur.normal"/>
-    <text text="Using the Winamp 2.9beta base skin for reference." x="43" y="89" w="380" font="studio.component.title" align="left" fontsize="14" valign="top" antialias="0" cursor="cur.normal"/>
-    <text id="blurrytext" text="Using the Winamp 2.9beta base skin for reference." x="43" y="89" w="380" font="studio.component.title.blur" align="left" fontsize="14" valign="top" antialias="0" cursor="cur.normal"/>
-
-<script file="about/wa2songtimer_about.maki"/>
-<script file="about/classicplaystatus_about.maki"/>
-<script file="about/winamp2kbps_about.maki"/>
-<script file="about/actioninfo_about.maki"/>
-<script file="about/monoster_about.maki"/>
-<script file="about/WACUPDetect_about.maki"/> <!-- uncomment if you dont provide wacup assets -->
-<script file="about/blurrytextanim.maki"/>
-<script file="about/quakeconsole2.maki"/>
-
-</groupdef>
-
 <groupdef id="skin.about.group" w="0" h="0" relatw="1" relath="1" rectrgn="1">
+  <rect fitparent="1" color="110,119,134" filled="1" />
+  <layer
+    x="0" y="0"
+    w="0" relatw="1"
+    h="321"
+    image="about.bg"
+  />
+  <layer
+    x="0" y="0"
+    w="371"
+    h="321"
+    image="about.fg"
+  />
+  <layer
+    id="about.bolt"
+    x="153" y="149"
+    w="56"
+    h="56"
+    image="about.winampbolt"
+  />
+  <layer
+    id="about.eye1"
+    x="186" y="78"
+    w="3"
+    h="4"
+    image="about.eye"
+  />
+  <layer
+    id="about.eye2"
+    x="197" y="79"
+    w="3"
+    h="4"
+    image="about.eye"
+  />
+  <AnimatedLayer
+    x="-75" y="-70"
+    w="68" h="70"
+    id="about.star1"
+    image="about.starani"
+    autoplay="0"
+    autoreplay="0"
+  />
+  <AnimatedLayer
+    x="-75" y="-70"
+    w="68" h="70"
+    id="about.star2"
+    image="about.starani"
+    autoplay="0"
+    autoreplay="0"
+  />
+  <AnimatedLayer
+    x="-75" y="-70"
+    w="68" h="70"
+    id="about.star3"
+    image="about.starani"
+    autoplay="0"
+    autoreplay="0"
+  />
+  <AnimatedLayer
+    x="-75" y="-70"
+    w="68" h="70"
+    id="about.star4"
+    image="about.starani"
+    autoplay="0"
+    autoreplay="0"
+  />
 
-    <rect w="380" h="321" color="x52" filled="1" cursor="cur.normal"/> <!-- using the window background pixel/color from classic-genex, use a different color if it doesnt look good -->
-    <group id="aboutplayer" x="52" y="100"/>
 
-    <rect y="313" w="380" h="11" color="0,0,0" filled="1" cursor="cur.normal"/>
-    <Songticker
-		id="songticker" ticker="1"
-		x="0" y="314"
-		w="380" h="9"
-		font="wasabi.font.default" altfont="arial" fontsize="13"
-		altvalign="center" cursor="cur.horizslider"
-	/>
-    <group id="cooldebuginfo" y="-55" alpha="0"/>
+  <text
+    id="about.text1b"
+    color="font.about.color1"
+    x="10" y="13"
+    w="351"
+    h="20"
+    valign="top"
+    align="center"
+    fontsize="13"
+    font="Arial"
+    bold="1"
+    default=""
+  />
+  <text
+    id="about.text2b"
+    color="font.about.color1"
+    x="10" y="13"
+    w="351"
+    h="20"
+    valign="top"
+    align="center"
+    fontsize="13"
+    font="Arial"
+    bold="1"
+    default=""
+  />
 
-<script file="about/quakeconsole.maki"/>
+  <text
+    id="about.text1"
+    color="font.about.color2"
+    x="10" y="27"
+    w="351"
+    h="30"
+    valign="top"
+    align="center"
+    fontsize="17"
+    font="Arial"
+    default=""
+  />
+  <text
+    id="about.text2"
+    color="font.about.color2"
+    x="10" y="27"
+    w="351"
+    h="30"
+    valign="top"
+    align="center"
+    fontsize="17"
+    font="Arial"
+    default=""
+  />
+
+ <guiobject fitparent="1" />
+
+ <script file="about/about.maki"/>
 
 </groupdef>

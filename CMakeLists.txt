@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-set(CMAKE_CXX_FLAGS "-g3")
+set(CMAKE_CXX_FLAGS "-g3 -static")
 
 project(umami)
 
@@ -10,4 +10,4 @@ add_executable(umami
     main.cpp
 )
 
-target_link_libraries(umami -static)
+target_link_libraries(umami)
