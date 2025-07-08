@@ -1,4 +1,5 @@
 #include "wasabiparser.h"
+#include "skin.h"
 
 std::string stripXMLFileName(const std::string& filepath) {
     size_t pos = filepath.find_last_of("/\\"); // Find last '/' or '\'
@@ -22,9 +23,9 @@ void parseSkinXML(const std::string& filepath, bool recursive) {
     file.close();
 
     if (recursive) {
-        std::cout << "recursively parsing from include: " << filepath << '\n';
+        //std::cout << "recursively parsing from include: " << filepath << '\n';
     } else {
-        std::cout << "parsing: " << filepath << '\n';
+        //std::cout << "parsing: " << filepath << '\n';
     }
 
     // Step 2: Wrap with a dummy root element
@@ -42,22 +43,20 @@ void parseSkinXML(const std::string& filepath, bool recursive) {
     std::function<void(XMLElement*)> traverse;
     traverse = [&](XMLElement* elem) {
         while (elem) {
-            std::cout << "Tag: " << elem->Name() << std::endl;
-            const char* id = elem->Attribute("id");
-            if (id) {
-                //std::cout << "  ID: " << id << std::endl;
-            }
+            // existing debug log
+            //std::cout << "Tag: " << elem->Name() << std::endl;
+
+            // hook into loader
+            registerElementHook(elem);
 
             if (std::string(elem->Name()) == "include" && elem->Attribute("file")) {
                 parseSkinXML(stripXMLFileName(filepath) + elem->Attribute("file"), 1);
             }
 
-            // Recurse into children
             if (elem->FirstChildElement()) {
                 traverse(elem->FirstChildElement());
             }
 
-            // Move to next sibling
             elem = elem->NextSiblingElement();
         }
     };
@@ -77,16 +76,16 @@ bool WALvalidator(const char* skinXML)
     // yes
     XMLElement* WAL = xml_doc.FirstChildElement("WinampAbstractionLayer");
     // if WAL isnt a null pointer, print the name of root
-    if (WAL != nullptr) std::cout << WAL->Name() << '\n';
+    if (WAL != nullptr) /*std::cout << WAL->Name() << '\n'*/;
 
     if (WAL == nullptr) {
         // set WAL to "WasabiXML" if "WinampAbstractionLayer" doesnt exist
         WAL = xml_doc.FirstChildElement("WasabiXML");
-        if (WAL != nullptr) std::cout << WAL->Name() << '\n';
+        if (WAL != nullptr) /*std::cout << WAL->Name() << '\n'*/ ;
     }
 
     if (WAL == nullptr) {
-        std::cout << "BAILED!!! Not a Modern Skin" << '\n';
+        //std::cout << "BAILED!!! Not a Modern Skin" << '\n';
         return false;
     }
 
@@ -103,7 +102,7 @@ bool WALvalidator(const char* skinXML)
     }
 
     for (int i = 0; i < 3; i++){
-        std::cout << finalver[i] << '\n';
+        //std::cout << finalver[i] << '\n';
     }
 
     XMLElement* skininfo = WAL->FirstChildElement("skininfo");
@@ -117,7 +116,7 @@ bool WALvalidator(const char* skinXML)
     {
         const char* tagName = children_of_skininfo->Name();
         const char* information = children_of_skininfo->GetText();
-        std::cout << tagName << ": " << information << '\n';
+        //std::cout << tagName << ": " << information << '\n';
     }
     // iterate over WAL but only look for the includes
     for( XMLElement* children_of_WAL = WAL->FirstChildElement("include");
@@ -127,7 +126,7 @@ bool WALvalidator(const char* skinXML)
         // this is going to be *very* fun
         // update: wow that's awful
         std::string fileAttribute = "skin/" + std::string(children_of_WAL->Attribute("file"));
-        std::cout << "include file: " << fileAttribute << '\n';
+        //std::cout << "include file: " << fileAttribute << '\n';
         parseSkinXML(fileAttribute, 0);
     }
     return true;

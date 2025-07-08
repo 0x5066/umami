@@ -1,0 +1,97 @@
+-- Variables Table ---------------------------------------------------
+var# |                Class |                                    What 
+----------------------------------------------------------------------
+0000 |               System |                                   System*
+0001 |                  Int |                                     NULL
+0002 |                  Int |                     __deprecated_runtime
+0003 |               Double |                                        v
+0004 |                  Int |                                        2
+0005 |                  Int |                                    65535
+0006 |                  Int |                                        1
+0007 |               String |                           "runtimecheck"
+0008 |                  Int |                                        0
+0009 |                  Int |                                     last
+000A |                  Int |                                      now
+000B |                  Int |                                     5000
+000C |               String |                  "This script requires "
+000D |               String |       "Winamp 5.631 (skin version 1.35)"
+000E |               String |                                  "Error"
+000F |               String |                                       ""
+0010 |               String |                                        s
+0011 |               String |                                  "DEBUG"
+0012 |                  Int |                                        s
+0013 |                Group |                               frameGroup
+0014 |                Layer |                           channelDisplay
+0015 |                 Text |                              bitrateText
+0016 |                 Text |                            FrequencyText
+0017 |                Timer |                            songInfoTimer
+0018 |               String |                           SongInfoString
+0019 |        AlbumArtLayer |                                     waaa
+001A |                  Int |                              waaaRetries
+001B |               String |                                "Bitrate"
+001C |               String |                              "Frequency"
+001D |               String |                               "channels"
+001E |                  Int |                                     1000
+001F |               String |                                      sit
+0020 |                  Int |                                       50
+0021 |               String |                        "winamp.albumart"
+0022 |            Container |                                 albumart
+0023 |               String |                                 "normal"
+0024 |               Layout |                                 aalayout
+0025 |               String |                                   "waaa"
+0026 |               String |                                      sit
+0027 |               String |                                   "(__)"
+0028 |               String |                                  "(___)"
+0029 |               String |                                  "image"
+002A |               String |                   "player.songinfo.none"
+002B |               String |                                      sit
+002C |               String |                                      sit
+002D |                  Int |                                        5
+002E |               String |                                      tkn
+002F |               String |                                    sinfo
+0030 |                  Int |                             searchResult
+0031 |               String |                                      rtn
+0032 |                  Int |                                        i
+0033 |               String |                                      " "
+0034 |               String |                                   "kbps"
+0035 |                  Int |                                        i
+0036 |               String |                                  "tereo"
+0037 |               String |                                 "stereo"
+0038 |               String |                                    "ono"
+0039 |               String |                                   "mono"
+003A |               String |                                 "annels"
+003B |                  Int |                                      pos
+003C |                  Int |                                        4
+003D |                  Int |                                        3
+003E |               String |                               "surround"
+003F |               String |                                   "none"
+0040 |                  Int |                                        i
+0041 |               String |                                    "khz"
+0042 |               String |                                        r
+0043 |               String |                                      "."
+0044 |                  Int |                                      dot
+0045 |               String |                                      ","
+0046 |               String |                           SongInfoString
+0047 |               String |                                      tkn
+0048 |               String |                                      "["
+0049 |               String |                                      "]"
+004A |               String |                       "player.songinfo."
+-- Events Table ------------------------------------------------------
+var# |         Code Pointer |                                    What 
+----------------------------------------------------------------------
+0000 |                 015F |                                      S.o
+0000 |                 02E6 |                                      S.o
+0000 |                 0303 |                                      S.o
+0000 |                 0374 |                                      S.o
+0000 |                 03DA |                                      S.o
+0000 |                 043F |                                      S.o
+0017 |                 0461 |                                      s.o
+-- User Functions Table ----------------------------------------------
+               Code Pointer |                                    What 
+----------------------------------------------------------------------
+                       0000 |                             versionCheck
+                       00F2 |                                    debug
+                       011D |                                 debugInt
+                       053E |                         tokenizeSongInfo
+                       08BD |                              getSonginfo
+                       0287 |                      loadPlaylistArtWork
