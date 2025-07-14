@@ -58,8 +58,12 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
     int spacingY = font.vspacing;
     int charsPerRow = (font.w > 0) ? font.w / charW : 1;
 
-    const wchar_t *charset = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ\"@   0123456789….:()-'!_+\\/[]^&%,=$#ÂÖÄ?* ";
+    #if defined(UNIX)
+        const wchar_t* charset = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ\"@   0123456789….:()-'!_+\\/[]^&%,=$#ÂÖÄ?* ";
 
+    #else
+    const wchar_t* charset = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ\"@   0123456789 .:()-'!_+\\/[]^&%,=$#ÂÖÄ?* "; // windows doesnt like … (u2026) - FUCK WINDOWS
+#endif
     // Mapping indices for each character in the charset
     const int charset_indices[] = {
         0, // A
