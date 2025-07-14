@@ -52,3 +52,11 @@ skins/Winamp100
 
 *.txt
 *.log
+
+
+
+
+.vs
+Debug
+x64
+Release
