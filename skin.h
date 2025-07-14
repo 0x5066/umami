@@ -9,8 +9,12 @@
 #include <iostream>
 #include <filesystem>
 #include "tinyxml2/tinyxml2.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 using namespace tinyxml2;
+
+extern std::string g_skinPath;
 
 // Represents a bitmap or bitmapfont resource
 struct SkinBitmap {
@@ -66,6 +70,8 @@ public:
     std::unordered_map<std::string, GroupDef> groupDefs; // id -> group definition
 
     std::vector<std::unique_ptr<UIElement>> globalElements; // optional raw UI elements
+    
+    std::unordered_map<std::string, std::string> xuiTagMap; // e.g. "Wasabi:MainFrame:NoStatus" → "wasabi.mainframe.nostatusbar"
 
     std::string name; // from skininfo
     std::string version; // from WAL root attribute

@@ -1,0 +1,231 @@
+<!-- eq-advanced-group.xml defines the layout of the Equalizer Window. -->  
+
+<groupdef id="eq.advanced.content.group" name="Equalizer" inherit_group="wasabi.panel">
+
+<layer x="0" y="0" w="0" h="0" relatw="1" relath="1"/>
+
+<layer id="placeholder" x="9" y="3" image="player.eq.placeholder"/>
+
+<!-- The spline display -->
+<eqvis 
+  id="spline"
+  x="80" y="5"
+  w="115" h="15" 
+  colortop="60,80,40"
+  colormiddle="255,192,255"
+  colorbottom="80,40,60"
+  colorpreamp="128,128,128"
+  gamma="192"
+/>
+
+<!-- the different eq switchess -->
+<button
+  id="toggle"
+  action="EQ_TOGGLE"
+  x="10" y="7"
+  image="player.eq.switch.on.disabled"
+  downImage="player.eq.switch.on.pressed"
+  activeImage="player.eq.switch.on.enabled"
+  tooltip="Toggle Equalizer On/Off"
+/>
+<button
+  id="auto"
+  action="EQ_AUTO"
+  x="37" y="7"
+  image="player.eq.switch.auto.disabled"
+  downImage="player.eq.switch.auto.pressed"
+  activeImage="player.eq.switch.auto.enabled"
+  tooltip="Toggle Equalizer Automatic Processing"
+/>
+<button
+  id="presets"
+  action="MENU" param="presets"
+  x="211" y="7"
+  image="player.eq.button.presets"
+  downImage="player.eq.button.presets.pressed"
+  tooltip="Manage Equalizer Presets"
+/>
+
+<!-- EQ Sliders -->
+<layer x="19" y="24" image="player.eq.slider.bar"/>
+<slider
+  id="preamp"
+  action="EQ_PREAMP"
+  x="13" y="24"
+  w="18" h="64"
+  orientation="vertical"
+  thumb="player.eq.slider.button"
+  downThumb="player.eq.slider.button.pressed"
+/>
+
+<layer x="77" y="24" image="player.eq.slider.bar"/>
+<slider
+  id="eq1"
+  action="EQ_BAND" param="1"
+  x="71" y="24"
+  w="18" h="64"
+  orientation="vertical"
+  thumb="player.eq.slider.button"
+  downThumb="player.eq.slider.button.pressed"
+/>
+
+<layer x="95" y="24" image="player.eq.slider.bar"/>
+<slider
+  id="eq2"
+  action="EQ_BAND" param="2"
+  x="89" y="24"
+  w="18" h="64"
+  orientation="vertical"
+  thumb="player.eq.slider.button"
+  downThumb="player.eq.slider.button.pressed"
+/>
+
+<layer x="113" y="24" image="player.eq.slider.bar"/>
+<slider
+  id="eq3"
+  action="EQ_BAND" param="3"
+  x="107" y="24"
+  w="18" h="64"
+  orientation="vertical"
+  thumb="player.eq.slider.button"
+  downThumb="player.eq.slider.button.pressed"
+/>
+
+<layer x="131" y="24" image="player.eq.slider.bar"/>
+<slider
+  id="eq4"
+  action="EQ_BAND" param="4"
+  x="125" y="24"
+  w="18" h="64"
+  orientation="vertical"
+  thumb="player.eq.slider.button"
+  downThumb="player.eq.slider.button.pressed"
+/>
+
+<layer x="149" y="24" image="player.eq.slider.bar"/>
+<slider
+  id="eq5"
+  action="EQ_BAND" param="5"
+  x="143" y="24"
+  w="18" h="64"
+  orientation="vertical"
+  thumb="player.eq.slider.button"
+  downThumb="player.eq.slider.button.pressed"
+/>
+
+<layer x="167" y="24" image="player.eq.slider.bar"/>
+<slider
+  id="eq6"
+  action="EQ_BAND" param="6"
+  x="161" y="24"
+  w="18" h="64"
+  orientation="vertical"
+  thumb="player.eq.slider.button"
+  downThumb="player.eq.slider.button.pressed"
+/>
+
+<layer x="185" y="24" image="player.eq.slider.bar"/>
+<slider
+  id="eq7"
+  action="EQ_BAND" param="7"
+  x="179" y="24"
+  w="18" h="64"
+  orientation="vertical"
+  thumb="player.eq.slider.button"
+  downThumb="player.eq.slider.button.pressed"
+/>
+
+<layer x="203" y="24" image="player.eq.slider.bar"/>
+<slider
+  id="eq8"
+  action="EQ_BAND" param="8"
+  x="197" y="24"
+  w="18" h="64"
+  orientation="vertical"
+  thumb="player.eq.slider.button"
+  downThumb="player.eq.slider.button.pressed"
+/>
+
+<layer x="221" y="24" image="player.eq.slider.bar"/>
+<slider
+  id="eq9"
+  action="EQ_BAND" param="9"
+  x="215" y="24"
+  w="18" h="64"
+  orientation="vertical"
+  thumb="player.eq.slider.button"
+  downThumb="player.eq.slider.button.pressed"
+/>
+
+<layer x="239" y="24" image="player.eq.slider.bar"/>
+<slider
+  id="eq10"
+  action="EQ_BAND" param="10"
+  x="233" y="24"
+  w="18" h="64"
+  orientation="vertical"
+  thumb="player.eq.slider.button"
+  downThumb="player.eq.slider.button.pressed"
+/>
+
+<layer
+  id="eq.label.slider.bar"
+  x="40" y="100"
+  image="player.eq.slider.horizontal.bar.label"
+/>
+<layer
+  id="eq.balance.slider.bar"
+  x="40" y="106"
+  image="player.eq.slider.horizontal.bar"
+/>
+<layer
+  id="eq.label.balance.slider"
+  x="65" y="116"
+  image="player.eq.label.balance"
+/>
+
+<slider
+  id="Balance"
+  action="PAN"
+  x="39" y="105"
+  w="79" h="13"
+  thumb="player.eq.slider.horizontal.button"
+  downThumb="player.eq.slider.horizontal.button.pressed"
+  tooltip="Balance"
+/>
+
+<layer
+  id="eq.label.slider.bar"
+  x="149" y="100"
+  image="player.eq.slider.horizontal.bar.label"
+/>
+<layer
+  id="eq.crossfade.slider.bar"
+  x="149" y="106"
+  image="player.eq.slider.horizontal.bar"
+/>
+<layer
+  id="eq.label.crossfade.slider"
+  x="170" y="116"
+  image="player.eq.label.crossfade"
+/>
+
+<slider
+  id="Crossfade"
+  cfgattrib="{F1239F09-8CC6-4081-8519-C2AE99FCB14C};Crossfade time"
+  high="20"
+  x="148" y="105"
+  w="79" h="13"
+  thumb="player.eq.slider.horizontal.button"
+  downThumb="player.eq.slider.horizontal.button.pressed"
+  tooltip="Crossfade Fade Duration"
+/>
+
+<layer
+  id="Resizer"
+  scale="bottomright"
+  x="254" y="113"
+  image="player.eq.button.resize"
+/>
+
+</groupdef>

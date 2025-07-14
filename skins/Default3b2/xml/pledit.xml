@@ -1,0 +1,67 @@
+<include file="pledit-elements.xml" />
+
+  <container id="Pledit" name="Playlist Editor" component="guid:{45F3F7C1-A6F3-4ee6-A15E-125E92FC3F8D}" default_visible="0">
+
+   <!-- This is the group we will insert inside the standard frame -->
+
+   <groupdef id="pledit.content.group">
+    <component
+      x="0"
+      y="0"
+      w="0"
+      relatw="1"
+      h="0"
+      relath="1"
+      param="guid:{45F3F7C1-A6F3-4ee6-A15E-125E92FC3F8D}"
+      autoopen="1"
+      autoclose="1"
+    />
+   </groupdef>
+
+   <!-- Our actual layout, composed of a standard frame with some content (see above) -->
+
+   <layout id="normal" background="pledit.basetexture" desktopalpha="0" >
+
+     <!-- the notify tells the standardframe to put this group inside its client area -->
+     <group id="studio.standardframe" 
+      x="0" y="0" w="0" h="0" relatw="1" relath="1" 
+      notify="content,pledit.content.group" 
+     />
+    <button
+      id="winshade" tooltip="Toggle Windowshade mode"
+      action="SWITCH" param="shade"
+      x="-34" relatx="1" y="3"
+      image="pledit.button.winshade"
+      downImage="pledit.button.winshade.pressed"
+    />
+   </layout>
+
+   <!-- and another layout for windowshade mode -->
+
+   <layout id="shade" background="pledit.winshade.bg">
+  
+    <layer id="placeholder" x="0" y="0" image="pledit.winshade.placeholder"/>
+
+    <svc id="plshade" x="2" y="2" w="-43" relatw="1"
+     guid="{07917C36-A49A-40e3-85DF-AA1817DA10DA}"
+     font="pledit.smallfixed"
+    />
+
+    <button
+      id="winshade" tooltip="Toggle Windowshade mode"
+      action="SWITCH" param="normal"
+      x="244" y="3"
+      image="pledit.button.winshade"
+      downImage="pledit.button.winshade.pressed"
+    />
+    <button
+      id="Close"
+      action="CLOSE"
+      x="261" y="3"
+      image="pledit.button.close"
+      downImage="pledit.button.close.pressed"
+      tooltip="Close"
+    />
+  </layout>
+
+  </container>

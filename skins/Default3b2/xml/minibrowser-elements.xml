@@ -1,0 +1,10 @@
+  <elements>
+
+   <bitmap id="minibrowser.back.nonpressed" file="minibrowser/left-arrow-nonpressed.png"/>
+   <bitmap id="minibrowser.back.pressed" file="minibrowser/left-arrow-pressed.png"/>
+   <bitmap id="minibrowser.back.hover" file="minibrowser/left-arrow-hover.png"/>
+   <bitmap id="minibrowser.forward.nonpressed" file="minibrowser/right-arrow-nonpressed.png"/>
+   <bitmap id="minibrowser.forward.pressed" file="minibrowser/right-arrow-pressed.png"/>
+   <bitmap id="minibrowser.forward.hover" file="minibrowser/right-arrow-hover.png"/>
+
+  </elements>

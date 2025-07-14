@@ -1,0 +1,285 @@
+   <!-- Player:Standard mode -->  
+
+   <layout id="normal" background="player.main.bg">
+
+    <layer id="placeholder" x="0" y="0" image="player.placeHolder"/>
+
+    <!-- Playback buttons -->
+    <button 
+      id="Previous"
+      action="PREV" 
+      x="12" y="85" 
+      image="player.button.previous" 
+      downImage="player.button.previous.pressed" 
+      tooltip="Previous"
+    />
+    <button
+      id="Play"
+      action="PLAY"
+      x="35" y="85"
+      image="player.button.play"
+      downImage="player.button.play.pressed"
+      tooltip="Play"
+    />
+    <button
+      id="Pause"
+      action="PAUSE"
+      x="58" y="85"
+      image="player.button.pause"
+      downImage="player.button.pause.pressed"
+      tooltip="Pause"
+    />
+    <button
+      id="Stop"
+      action="STOP"
+      x="81" y="85"
+      image="player.button.stop"
+      downImage="player.button.stop.pressed"
+      tooltip="Stop"
+    />
+    <button
+      id="Next"
+      action="NEXT"
+      x="104" y="85"
+      image="player.button.next"
+      downImage="player.button.next.pressed"
+      tooltip="Next"
+    />
+    <button
+      id="Eject"
+      action="EJECT"
+      x="133" y="86"
+      image="player.button.eject"
+      downImage="player.button.eject.pressed"
+      tooltip="Eject"
+    />
+
+    <togglebutton
+      id="Crossfade"
+      x="162" y="90"
+      image="player.toggler.crossfade.disabled"
+      downImage="player.toggler.crossfade.pressed"
+      activeImage="player.toggler.crossfade.enabled"
+      tooltip="Crossfade"
+    />
+    <togglebutton
+      id="Shuffle"
+      x="188" y="90"
+      image="player.toggler.shuffle.disabled"
+      downImage="player.toggler.shuffle.pressed"
+      activeImage="player.toggler.shuffle.enabled"
+      tooltip="Shuffle"
+    />
+    <togglebutton
+      id="Repeat"
+      x="214" y="90"
+      image="player.toggler.repeat.disabled"
+      downImage="player.toggler.repeat.pressed"
+      activeImage="player.toggler.repeat.enabled"
+      tooltip="Repeat"
+    />
+    <button
+      id="Thinger"
+      action="TOGGLE" param="thinger"
+      x="242" y="83"
+      image="player.button.about"
+      downImage="player.button.about.pressed"
+      tooltip="Thinger"
+    />
+    <layer
+      id="Resizer"
+      scale="bottomright"
+      x="259" y="100"
+      image="player.button.resize"
+    />
+
+    <!-- Window switching buttons -->
+    <!-- note that you can also use "guid:avs" or "guid:pl" for toggling parameters -->
+    <button
+      id="eq"
+      action="TOGGLE" param="eq"
+      x="185" y="53"
+      image="player.switch.eq.disabled"
+      downImage="player.switch.eq.pressed"
+      activeImage="player.switch.eq.enabled"
+      tooltip="Toggle Equalizer"
+    />
+    <button
+      id="ml"
+      action="TOGGLE" param="guid:{6B0EDF80-C9A5-11d3-9F26-00C04F39FFC6}"
+      x="213" y="53"
+      image="player.switch.ml.disabled"
+      downImage="player.switch.ml.pressed"
+      activeImage="player.switch.ml.enabled"
+      tooltip="Toggle Music Library"
+    />
+    <button
+      id="pl"
+      action="TOGGLE" param="guid:{45f3f7c1-a6f3-4ee6-a15e-125e92fc3f8d}"
+      x="241" y="53"
+      image="player.switch.playlist.disabled"
+      downImage="player.switch.playlist.pressed"
+      activeImage="player.switch.playlist.enabled"
+      tooltip="Toggle Playlist Editor"
+    />
+
+    <!-- Sliders -->
+    <slider
+      id="Seeker"
+      action="SEEK"
+      x="11" y="70"
+      w="252" h="13"
+      thumb="player.button.seek"
+      downThumb="player.button.seek.pressed"
+    />
+    <slider
+      id="SeekerGhost"
+      action="SEEK"
+      x="11" y="70"
+      w="252" h="13"
+      thumb="player.button.seek"
+      downThumb="player.button.seek.pressed"
+    />
+    <slider
+      id="Volume"
+      action="VOLUME"
+      x="103" y="55"
+      w="79" h="13"
+      thumb="player.button.volume"
+      downThumb="player.button.volume.pressed"
+    />
+
+    <!-- Timer -->
+    <text
+      id="timer"
+      display="time"
+      x="30" y="24"
+      w="70" h="18"
+      font="player.BIGNUM" fontsize="21" align="right"
+      timecolonwidth="7"
+    />
+
+    <!-- Da song ticker -->
+    <text
+      id="songticker" ticker="1"
+      display="songname" default="" showlen="1"
+      x="108" y="23"
+      w="157" h="14"
+      font="player.SmallFixed" fontsize="13"
+    />
+
+    <!-- Info line -->
+    <text
+      id="infoline" ticker="1"
+      display="songinfo" default=""
+      x="108" y="37"
+      w="157" h="11"
+      font="player.SmallFixed" fontsize="12"
+    />
+
+    <!-- Little status bitmap -->
+    <status
+      id="status"
+      x="18" y="27"
+      w="9" h="9"
+      stopBitmap="player.status.stop"
+      playBitmap="player.status.play"
+      pauseBitmap="player.status.pause"
+    />
+
+    <!-- Sound Analyzer -->
+    <vis
+      id="vis"
+      x="20" y="46"
+      w="72" h="16"
+    />
+
+    <!-- Titlebar buttons -->
+    <button
+      id="sysbutton"
+      action="SYSMENU"
+      x="5" y="3"
+      image="player.button.menu"
+      downImage="player.button.menu.pressed"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;shade"
+      x="22" y="4"
+      image="player.titlebar.active.left"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;shade"
+      x="29" y="4" w="79"
+      image="player.titlebar.active.center"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;shade"
+      x="108" y="4"
+      image="player.titlebar.active.right"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      action=""
+      x="117" y="2"
+      dblClickAction="SWITCH;shade"
+      image="player.titlebar.active.text"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;shade"
+      x="164" y="4"
+      image="player.titlebar.active.left"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;shade"
+      x="171" y="4" w="49"
+      image="player.titlebar.active.center"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;shade"
+      x="220" y="4"
+      image="player.titlebar.active.right"
+      inactiveAlpha="128"
+    />
+
+    <button
+      id="Minimize"
+      action="MINIMIZE"
+      x="230" y="3"
+      image="player.button.minimize"
+      downImage="player.button.minimize.pressed"
+      tooltip="Minimize Winamp"
+      inactiveAlpha="128"
+    />
+    <button
+      id="winshade" tooltip="Toggle Windowshade mode"
+      action="SWITCH" param="shade"
+      x="244" y="3"
+      image="player.button.winshade"
+      downImage="player.button.winshade.pressed"
+      inactiveAlpha="128"
+    />
+    <button
+      id="Close"
+      action="CLOSE"
+      x="261" y="3"
+      image="player.button.close"
+      downImage="player.button.close.pressed"
+      tooltip="Exit Winamp"
+      inactiveAlpha="128"
+    />
+
+
+   </layout>

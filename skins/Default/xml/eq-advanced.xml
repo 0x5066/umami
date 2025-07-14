@@ -1,0 +1,55 @@
+<!-- eq-normal.xml defines the layout of the Equalizer Window. -->  
+
+<include file="eq-advanced-group.xml"/>
+  
+<layout id="advanced" minimum_h="144" maximum_h="144" minimum_w="275" maximum_w="275">
+
+  <Wasabi:StandardFrame:NoStatus 
+    x="0" y="0" w="0" h="0" relatw="1" relath="1" 
+    content="eq.advanced.content.group" 
+    padtitleright="31" 
+    shade="normal"
+  />
+  <sendparams target="window.titlebar.title" default="Equalizer"/>
+  <sendparams target="mousetrap" dblClickAction="SWITCH;shade"/>
+  <sendparams target="window.top.left;window.top;window.top.right;window.left;window.right;window.bottom.left.top;window.bottom.left;window.bottom.left.bottom;window.bottom.top;window.bottom;window.bottom.bottom;window.bottom.right.top;window.bottom.right;window.bottom.right.bottom;" resize="0"/>
+  <sendparams target="window.bottom.right.top;window.bottom.right;window.bottom.right.bottom;" scale="bottomright"/>
+
+  <button
+    id="winshade" tooltip="Windowshade mode"
+    action="SWITCH" param="shade"
+    x="-35" relatx="1" y="3"
+    image="wasabi.button.winshade.pressed"
+    downImage="wasabi.button.winshade"
+    activeAlpha="0"
+  />
+  
+  <button
+    id="winshade" tooltip="Windowshade mode"
+    action="SWITCH" param="shade"
+    x="-35" relatx="1" y="3"
+    image="wasabi.button.winshade"
+    downImage="wasabi.button.winshade.pressed"
+    inactiveAlpha="0"
+  />
+
+  <button
+    id="standard.eq" tooltip="Standard Equalizer"
+    action="SWITCH" param="normal"
+    x="-49" relatx="1" y="3"
+    image="wasabi.button.less.pressed"
+    downImage="wasabi.button.less"
+    activeAlpha="0"
+  />
+  
+  <button
+    id="standard.eq" tooltip="Standard Equalizer"
+    action="SWITCH" param="normal"
+    x="-49" relatx="1" y="3"
+    image="wasabi.button.less"
+    downImage="wasabi.button.less.pressed"
+    inactiveAlpha="0"
+  />
+
+
+</layout>

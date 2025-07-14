@@ -1,0 +1,172 @@
+<!-- equalizer-normal.xml defines the layout of the Equalizer Window Shade Window. -->  
+
+<groupdef id="eq.shade.content.group" name="Equalizer(windowshade mode)">
+ 
+<layer id="highlight.left" x="0" y="0" image="player.winshade.highlight.left"/>
+<layer id="highlight.center" x="3" y="0" w="269" image="player.winshade.highlight.center"/>
+<layer id="highlight.right" x="272" y="0" image="player.winshade.highlight.right"/>
+
+<layer id="placeholder" x="0" y="0" image="player.eq.winshade.placeHolder"/>
+
+<!-- Titlebar -->
+<button
+  id="controlbutton"
+  action="CONTROLMENU"
+  x="5" y="3"
+  image="wasabi.button.sysmenu.pressed"
+  downImage="wasabi.button.sysmenu"
+  activeAlpha="0"
+  tooltip="Control Menu"
+/>
+<button
+  id="controlbutton"
+  action="CONTROLMENU"
+  x="5" y="3"
+  image="wasabi.button.sysmenu"
+  downImage="wasabi.button.sysmenu.pressed"
+  inactiveAlpha="0"
+  tooltip="Control Menu"
+/>
+<layer
+  id="titlebar"
+  dblClickAction="SWITCH;eq"
+  x="22" y="3"
+  image="wasabi.titlebar.left.active"
+  inactiveAlpha="0"
+/>
+<layer
+  id="titlebar"
+  dblClickAction="SWITCH;eq"
+  x="29" y="3"
+  image="wasabi.titlebar.right.active"
+  inactiveAlpha="0"
+/>
+<layer
+  id="titlebar.inactive"
+  dblClickAction="SWITCH;eq"
+  x="22" y="3"
+  image="wasabi.titlebar.left.inactive"
+  activeAlpha="0"
+/>
+<layer
+  id="titlebar.inactive"
+  dblClickAction="SWITCH;eq"
+  x="29" y="3"
+  image="wasabi.titlebar.right.inactive"
+  activeAlpha="0"
+/>
+<layer
+  id="titlebar"
+  dblClickAction="SWITCH;eq"
+  x="101" y="3"
+  image="wasabi.titlebar.left.active"
+  inactiveAlpha="0"
+/>
+<layer
+  id="titlebar"
+  dblClickAction="SWITCH;eq"
+  x="108" y="3" w="3"
+  image="wasabi.titlebar.center.active"
+  inactiveAlpha="0"
+/>
+<layer
+  id="titlebar"
+  dblClickAction="SWITCH;eq"
+  x="111" y="3"
+  image="wasabi.titlebar.right.active"
+  inactiveAlpha="0"
+/>
+<layer
+  id="titlebar.inactive"
+  dblClickAction="SWITCH;eq"
+  x="101" y="3"
+  image="wasabi.titlebar.left.inactive"
+  activeAlpha="0"
+/>
+<layer
+  id="titlebar.inactive"
+  dblClickAction="SWITCH;eq"
+  x="108" y="3" w="3"
+  image="wasabi.titlebar.center.inactive"
+  activeAlpha="0"
+/>
+<layer
+  id="titlebar.inactive"
+  dblClickAction="SWITCH;eq"
+  x="111" y="3"
+  image="wasabi.titlebar.right.inactive"
+  activeAlpha="0"
+/>
+<!-- Slider Controls -->
+<slider
+  id="Volume"
+  action="VOLUME"
+  x="39" y="3"
+  w="59" h="9"
+  thumb="player.eq.winshade.button.volume"
+  downThumb="player.eq.winshade.button.volume.pressed"
+  tooltip="Volume"
+/>
+<slider
+  id="Seeker"
+  action="SEEK"
+  x="121" y="3"
+  w="100" h="9"
+  thumb="player.eq.winshade.button.seek"
+  downThumb="player.eq.winshade.button.seek.pressed"
+  tooltip="Seeker"
+/>
+
+<!-- Titlebar buttons -->
+  <button
+    id="advanced.eq" tooltip="Advanced Equalizer"
+    action="SWITCH" param="advanced"
+    x="226" y="3"
+    image="wasabi.button.more.pressed"
+    downImage="wasabi.button.more"
+    activeAlpha="0"
+  />
+  
+  <button
+    id="advanced.eq" tooltip="Advanced Equalizer"
+    action="SWITCH" param="advanced"
+    x="226" y="3"
+    image="wasabi.button.more"
+    downImage="wasabi.button.more.pressed"
+    inactiveAlpha="0"
+  />
+<button
+  id="winshade" tooltip="Windowshade Mode"
+  action="SWITCH" param="open"
+  x="240" y="3"
+  image="wasabi.button.winshade.pressed"
+  downImage="wasabi.button.winshade"
+  activeAlpha="0"
+/>
+<button
+  id="winshade" tooltip="Windowshade Mode"
+  action="SWITCH" param="open"
+  x="240" y="3"
+  image="wasabi.button.winshade"
+  downImage="wasabi.button.winshade.pressed"
+  inactiveAlpha="0"
+/>
+<button
+  id="Close"
+  action="CLOSE"
+  x="257" y="3"
+  image="wasabi.button.close.pressed"
+  downImage="wasabi.button.close"
+  tooltip="Close Window"
+  activeAlpha="0"
+/>
+<button
+  id="Close"
+  action="CLOSE"
+  x="257" y="3"
+  image="wasabi.button.close"
+  downImage="wasabi.button.close.pressed"
+  tooltip="Close Window"
+  inactiveAlpha="0"
+/>
+</groupdef>

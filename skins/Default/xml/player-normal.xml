@@ -1,0 +1,94 @@
+<!-- player-normal.xml creates the layout of the Winamp Player Window. -->  
+
+<include file="player-normal-group.xml" />
+
+<layout id="normal" minimum_h="116" maximum_h="116" minimum_w="275" maximum_w="275" droptarget="pldr">
+
+  <Wasabi:StandardFrame:NoStatus 
+    x="0" y="0" w="0" h="0" relatw="1" relath="1" 
+    content="player.content.group" 
+    padtitleleft="12"
+    padtitleright="28" 
+    shade="shade"
+  />
+  <sendparams target="window.titlebar.title" default="WINAMP"/>
+  <sendparams target="mousetrap" dblClickAction="SWITCH;shade"/>
+  <sendparams target="window.top.left;window.top;window.top.right;window.left;window.right;window.bottom.left.top;window.bottom.left;window.bottom.left.bottom;window.bottom.top;window.bottom;window.bottom.bottom;window.bottom.right.top;window.bottom.right;window.bottom.right.bottom;" resize="0"/>
+  <sendparams target="window.bottom.right.top;window.bottom.right;window.bottom.right.bottom;" scale="bottomright"/>
+  <hideobject target="close;close.inactive"/>
+  
+<button
+  id="MainMenu"
+  action="SYSMENU"
+  x="21" y="3"
+  image="wasabi.button.appmenu.pressed"
+  downImage="wasabi.button.appmenu"
+  tooltip="Main Menu"
+  activeAlpha="0"
+/>
+<button
+  id="MainMenu"
+  action="SYSMENU"
+  x="21" y="3"
+  image="wasabi.button.appmenu"
+  downImage="wasabi.button.appmenu.pressed"
+  tooltip="Main Menu"
+  inactiveAlpha="0"
+/>
+
+<button
+  id="Minimize"
+  action="MINIMIZE"
+  x="230" y="3"
+  image="wasabi.button.minimize.pressed"
+  downImage="wasabi.button.minimize"
+  tooltip="Minimize Winamp"
+  activeAlpha="0"
+/>
+<button
+  id="Minimize"
+  action="MINIMIZE"
+  x="230" y="3"
+  image="wasabi.button.minimize"
+  downImage="wasabi.button.minimize.pressed"
+  tooltip="Minimize Winamp"
+  inactiveAlpha="0"
+/>
+<button
+  id="winshade"
+  action="SWITCH" param="shade"
+  x="244" y="3"
+  image="wasabi.button.winshade.pressed"
+  downImage="wasabi.button.winshade"
+  tooltip="Windowshade Mode"
+  activeAlpha="0"
+/>
+<button
+  id="winshade"
+  action="SWITCH" param="shade"
+  x="244" y="3"
+  image="wasabi.button.winshade"
+  downImage="wasabi.button.winshade.pressed"
+  tooltip="Windowshade Mode"
+  inactiveAlpha="0"
+/>
+
+<button
+  id="Close"
+  action="CLOSE"
+  x="261" y="3"
+  image="wasabi.button.exit.pressed"
+  downImage="wasabi.button.exit"
+  tooltip="Exit Winamp"
+  activeAlpha="0"
+/>
+<button
+  id="Close"
+  action="CLOSE"
+  x="261" y="3"
+  image="wasabi.button.exit"
+  downImage="wasabi.button.exit.pressed"
+  tooltip="Exit Winamp"
+  inactiveAlpha="0"
+/>         
+</layout>

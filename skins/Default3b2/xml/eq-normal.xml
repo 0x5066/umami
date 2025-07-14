@@ -1,0 +1,243 @@
+<!-- Equalizer:Standard Mode -->
+  
+   <layout id="eq" background="player.eq.bg">
+    <layer id="placeholder" x="0" y="0" image="player.eq.placeholder"/>
+    <!-- Titlebar buttons -->
+    <button
+      id="sysbutton"
+      action="SYSMENU"
+      x="5" y="3"
+      image="player.eq.button.menu"
+      downImage="player.eq.button.menu.pressed"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;shade"
+      x="22" y="4"
+      image="player.eq.titlebar.active.left"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;shade"
+      x="29" y="4" w="72"
+      image="player.eq.titlebar.active.center"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;shade"
+      x="101" y="4"
+      image="player.eq.titlebar.active.right"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      action=""
+      x="110" y="2"
+      dblClickAction="SWITCH;shade"
+      image="player.eq.titlebar.text"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;shade"
+      x="170" y="4"
+      image="player.eq.titlebar.active.left"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;shade"
+      x="176" y="4" w="54"
+      image="player.eq.titlebar.active.center"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;shade"
+      x="230" y="4"
+      image="player.eq.titlebar.active.right"
+      inactiveAlpha="128"
+    />
+    <button
+      id="winshade" tooltip="Toggle Windowshade mode"
+      action="SWITCH" param="shade"
+      x="240" y="3"
+      image="player.eq.button.winshade"
+      downImage="player.eq.button.winshade.pressed"
+      inactiveAlpha="128"
+    />
+    <button
+      id="Close"
+      action="CLOSE"
+      x="257" y="3"
+      image="player.eq.button.close"
+      downImage="player.eq.button.close.pressed"
+      tooltip="Close Window"
+      inactiveAlpha="128"
+    />
+
+    <!-- The spline display -->
+    <eqvis id="spline" x="85" y="20" w="115" h="15" 
+           colortop="60,80,40" colormiddle="255,192,255" colorbottom="80,40,60"
+           colorpreamp="128,128,128" gamma="192" />
+
+    <!-- the different eq switchess -->
+    <button
+      id="on"
+      action="EQ_TOGGLE"
+      x="15" y="22"
+      image="player.eq.switch.on.disabled"
+      downImage="player.eq.switch.on.pressed"
+      activeImage="player.eq.switch.on.enabled"
+      tooltip="Toggle EQ processing"
+    />
+    <button
+      id="on"
+      action="EQ_AUTO"
+      x="42" y="22"
+      image="player.eq.switch.auto.disabled"
+      downImage="player.eq.switch.auto.pressed"
+      activeImage="player.eq.switch.auto.enabled"
+      tooltip="Toggle EQ automatic processing"
+    />
+    <button
+      id="on"
+      action="MENU" param="presets"
+      x="216" y="22"
+      image="player.eq.button.presets"
+      downImage="player.eq.button.presets.pressed"
+      tooltip="Display Presets menu"
+    />
+
+    <!-- EQ Sliders -->
+    <layer x="24" y="38" image="player.eq.slider.bar"/>
+    <slider
+      id="preamp"
+      action="EQ_PREAMP"
+      x="18" y="38"
+      w="18" h="66"
+      orientation="vertical"
+      thumb="player.eq.slider.button"
+      downThumb="player.eq.slider.button.pressed"
+    />
+
+    <layer x="82" y="38" image="player.eq.slider.bar"/>
+    <slider
+      id="eq1"
+      action="EQ_BAND" param="1"
+      x="76" y="38"
+      w="18" h="66"
+      orientation="vertical"
+      thumb="player.eq.slider.button"
+      downThumb="player.eq.slider.button.pressed"
+    />
+
+    <layer x="100" y="38" image="player.eq.slider.bar"/>
+    <slider
+      id="eq2"
+      action="EQ_BAND" param="2"
+      x="94" y="38"
+      w="18" h="66"
+      orientation="vertical"
+      thumb="player.eq.slider.button"
+      downThumb="player.eq.slider.button.pressed"
+    />
+
+    <layer x="118" y="38" image="player.eq.slider.bar"/>
+    <slider
+      id="eq3"
+      action="EQ_BAND" param="3"
+      x="112" y="38"
+      w="18" h="66"
+      orientation="vertical"
+      thumb="player.eq.slider.button"
+      downThumb="player.eq.slider.button.pressed"
+    />
+
+    <layer x="136" y="38" image="player.eq.slider.bar"/>
+    <slider
+      id="eq4"
+      action="EQ_BAND" param="4"
+      x="130" y="38"
+      w="18" h="66"
+      orientation="vertical"
+      thumb="player.eq.slider.button"
+      downThumb="player.eq.slider.button.pressed"
+    />
+
+    <layer x="154" y="38" image="player.eq.slider.bar"/>
+    <slider
+      id="eq5"
+      action="EQ_BAND" param="5"
+      x="148" y="38"
+      w="18" h="66"
+      orientation="vertical"
+      thumb="player.eq.slider.button"
+      downThumb="player.eq.slider.button.pressed"
+    />
+
+    <layer x="172" y="38" image="player.eq.slider.bar"/>
+    <slider
+      id="eq6"
+      action="EQ_BAND" param="6"
+      x="166" y="38"
+      w="18" h="66"
+      orientation="vertical"
+      thumb="player.eq.slider.button"
+      downThumb="player.eq.slider.button.pressed"
+    />
+
+    <layer x="190" y="38" image="player.eq.slider.bar"/>
+    <slider
+      id="eq7"
+      action="EQ_BAND" param="7"
+      x="184" y="38"
+      w="18" h="66"
+      orientation="vertical"
+      thumb="player.eq.slider.button"
+      downThumb="player.eq.slider.button.pressed"
+    />
+
+    <layer x="208" y="38" image="player.eq.slider.bar"/>
+    <slider
+      id="eq8"
+      action="EQ_BAND" param="8"
+      x="202" y="38"
+      w="18" h="66"
+      orientation="vertical"
+      thumb="player.eq.slider.button"
+      downThumb="player.eq.slider.button.pressed"
+    />
+
+    <layer x="226" y="38" image="player.eq.slider.bar"/>
+    <slider
+      id="eq9"
+      action="EQ_BAND" param="9"
+      x="220" y="38"
+      w="18" h="66"
+      orientation="vertical"
+      thumb="player.eq.slider.button"
+      downThumb="player.eq.slider.button.pressed"
+    />
+
+    <layer x="244" y="38" image="player.eq.slider.bar"/>
+    <slider
+      id="eq10"
+      action="EQ_BAND" param="10"
+      x="238" y="38"
+      w="18" h="66"
+      orientation="vertical"
+      thumb="player.eq.slider.button"
+      downThumb="player.eq.slider.button.pressed"
+    />
+
+    <layer
+      id="Resizer"
+      scale="bottomright"
+      x="259" y="100"
+      image="player.eq.button.resize"
+    />
+   </layout>

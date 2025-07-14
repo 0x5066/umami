@@ -26,9 +26,10 @@ if [ "$1" == "linux" ]; then
     cmake --build build
     check_build_status
 
-    cp -r skin/ build/skin/ -v
+    cp -r freeform/ build/freeform/ -v
+    cp -r skins/ build/skins/ -v
 
-    build/umami
+    build/umami #&> log.txt &
 elif [ "$1" == "mingw" ]; then
     export WINEPREFIX=$HOME/.wineumami
     i686-w64-mingw32-cmake -B build -G Ninja
@@ -40,7 +41,7 @@ elif [ "$1" == "mingw" ]; then
     cmake --build build
     check_build_status
 
-    cp -r skin/ build/skin/ -v
+    cp -r skins/ build/skins/ -v
 
     wine explorer /desktop=shell build/umami.exe
 else

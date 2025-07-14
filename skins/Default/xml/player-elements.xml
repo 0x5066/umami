@@ -1,0 +1,74 @@
+<elements>
+
+  <bitmapfont id="player.BIGNUM" file="player/numfont.png" charwidth="9" charheight="13" hspacing="3" vspacing="1" gammagroup="Fonts"/>
+
+  <bitmap id="player.placeHolder" file="player/window-elements.png" x="0" y="40" h="88" w="256" gammagroup="Backgrounds"/>
+  <bitmap id="player.display.background" file="player/window-elements.png" x="0" y="129" h="45" w="253" gammagroup="Display Backgrounds"/>
+  
+  <bitmap id="player.button.previous" file="player/window-elements.png" x="0" y="0" h="20" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.button.previous.pressed" file="player/window-elements.png" x="0" y="20" h="20" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.button.play" file="player/window-elements.png" x="24" y="0" h="20" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.button.play.pressed" file="player/window-elements.png" x="24" y="20" h="20" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.button.pause" file="player/window-elements.png" x="48" y="0" h="20" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.button.pause.pressed" file="player/window-elements.png" x="48" y="20" h="20" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.button.stop" file="player/window-elements.png" x="72" y="0" h="20" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.button.stop.pressed" file="player/window-elements.png" x="72" y="20" h="20" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.button.next" file="player/window-elements.png" x="96" y="0" h="20" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.button.next.pressed" file="player/window-elements.png" x="96" y="20" h="20" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.button.eject" file="player/window-elements.png" x="120" y="0" h="18" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.button.eject.pressed" file="player/window-elements.png" x="120" y="19" h="20" w="23" gammagroup="Buttons"/>
+
+  <bitmap id="player.volume.slider" file="player/window-elements.png" x="290" y="26" w="77" h="8" gammagroup="Slider Backgrounds"/>
+  
+  <bitmap id="player.toggler.crossfade.disabled" file="player/window-elements.png" x="144" y="0" h="11" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.toggler.crossfade.pressed" file="player/window-elements.png" x="144" y="11" h="11" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.toggler.crossfade.enabled" file="player/window-elements.png" x="144" y="22" h="11" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.toggler.shuffle.disabled" file="player/window-elements.png" x="168" y="0" h="11" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.toggler.shuffle.pressed" file="player/window-elements.png" x="168" y="11" h="11" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.toggler.shuffle.enabled" file="player/window-elements.png" x="168" y="22" h="11" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.toggler.repeat.disabled" file="player/window-elements.png" x="192" y="0" h="11" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.toggler.repeat.pressed" file="player/window-elements.png" x="192" y="11" h="11" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.toggler.repeat.enabled" file="player/window-elements.png" x="192" y="22" h="11" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.button.thinger" file="player/window-elements.png" x="291" y="0" h="24" w="24" gammagroup="Buttons"/>
+  <bitmap id="player.button.thinger.pressed" file="player/window-elements.png" x="315" y="0" h="24" w="24" gammagroup="Buttons"/>
+  <bitmap id="player.switch.ml.disabled" file="player/window-elements.png" x="216" y="0" h="13" w="24" gammagroup="Buttons"/>
+  <bitmap id="player.switch.ml.pressed" file="player/window-elements.png" x="216" y="13" h="13" w="24" gammagroup="Buttons"/>
+  <bitmap id="player.switch.ml.enabled" file="player/window-elements.png" x="216" y="26" h="13" w="24" gammagroup="Buttons"/>
+  <bitmap id="player.switch.eq.disabled" file="player/window-elements.png" x="241" y="0" h="13" w="24" gammagroup="Buttons"/>
+  <bitmap id="player.switch.eq.pressed" file="player/window-elements.png" x="241" y="13" h="13" w="24" gammagroup="Buttons"/>
+  <bitmap id="player.switch.eq.enabled" file="player/window-elements.png" x="241" y="26" h="13" w="24" gammagroup="Buttons"/>
+  <bitmap id="player.switch.playlist.disabled" file="player/window-elements.png" x="266" y="0" h="13" w="24" gammagroup="Buttons"/>
+  <bitmap id="player.switch.playlist.pressed" file="player/window-elements.png" x="266" y="13" h="13" w="24" gammagroup="Buttons"/>
+  <bitmap id="player.switch.playlist.enabled" file="player/window-elements.png" x="266" y="26" h="13" w="24" gammagroup="Buttons"/>
+  <bitmap id="player.button.seek" file="player/window-elements.png" x="361" y="0" h="13" w="31"/>
+  <bitmap id="player.button.seek.pressed" file="player/window-elements.png" x="361" y="13" h="13" w="31"/>
+  <bitmap id="player.button.volume" file="player/window-elements.png" x="343" y="0" h="13" w="17" gammagroup="Buttons"/>
+  <bitmap id="player.button.volume.pressed" file="player/window-elements.png" x="343" y="13" h="13" w="17" gammagroup="Buttons"/>
+  <bitmap id="player.status.stop" file="player/window-elements.png" x="261" y="40" h="9" w="9" gammagroup="Playback Status Symbols"/>
+  <bitmap id="player.status.play" file="player/window-elements.png" x="271" y="40" h="9" w="9" gammagroup="Playback Status Symbols"/>
+  <bitmap id="player.status.pause" file="player/window-elements.png" x="281" y="40" h="9" w="9" gammagroup="Playback Status Symbols"/>
+  <bitmap id="player.button.resize" file="player/window-elements.png" x="376" y="26" h="16" w="16"/>
+
+  <bitmap id="player.winshade.bg" file="player-winshade/background.png" gammagroup="Backgrounds" />
+  <bitmap id="player.winshade.highlight.left" file="player-winshade/window-elements.png" x="25" y="18" h="15" w="3" gammagroup="Backgrounds" />   
+  <bitmap id="player.winshade.highlight.center" file="player-winshade/window-elements.png" x="29" y="18" h="15" w="15" gammagroup="Backgrounds" />   
+  <bitmap id="player.winshade.highlight.right" file="player-winshade/window-elements.png" x="45" y="18" h="15" w="3" gammagroup="Backgrounds" />   
+  <bitmap id="player.winshade.display.left" file="player-winshade/window-elements.png" x="0" y="18" h="11" w="2"/>
+  <bitmap id="player.winshade.display.center" file="player-winshade/window-elements.png" x="3" y="18" h="11" w="18"/>
+  <bitmap id="player.winshade.display.right" file="player-winshade/window-elements.png" x="22" y="18" h="11" w="2"/>
+  <bitmap id="player.winshade.button.previous" file="player-winshade/window-elements.png" x="0" y="0" h="9" w="14" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.previous.pressed" file="player-winshade/window-elements.png" x="0" y="9" h="9" w="14" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.play" file="player-winshade/window-elements.png" x="14" y="0" h="9" w="11" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.play.pressed" file="player-winshade/window-elements.png" x="14" y="9" h="9" w="11" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.pause" file="player-winshade/window-elements.png" x="25" y="0" h="9" w="11" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.pause.pressed" file="player-winshade/window-elements.png" x="25" y="9" h="9" w="11" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.stop" file="player-winshade/window-elements.png" x="36" y="0" h="9" w="11" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.stop.pressed" file="player-winshade/window-elements.png" x="36" y="9" h="9" w="11" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.next" file="player-winshade/window-elements.png" x="47" y="0" h="9" w="14" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.next.pressed" file="player-winshade/window-elements.png" x="47" y="9" h="9" w="14" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.eject" file="player-winshade/window-elements.png" x="61" y="0" h="9" w="13" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.eject.pressed" file="player-winshade/window-elements.png" x="61" y="9" h="9" w="13" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.winshade" file="player/window-elements.png" x="305" y="0" h="9" w="14" gammagroup="Buttons"/>
+  <bitmap id="player.winshade.button.winshade.pressed" file="player/window-elements.png" x="305" y="9" h="9" w="14" gammagroup="Buttons"/>
+
+</elements>

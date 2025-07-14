@@ -1,0 +1,33 @@
+  <include file="components-elements.xml"/>
+  
+<!--Dynamic containers aren't created at skin loading time but when the 
+    component(s) they own is being shown -->
+
+  <container id="Component" name=":componenttitle" dynamic="1" component="guid:default" default_x="275" default_y="0">
+
+   <!-- This is the group we will insert inside the standard frame -->
+
+   <groupdef id="component.content.group">
+    <component
+      x="0"
+      y="0"
+      w="0"
+      relatw="1"
+      h="0"
+      relath="1"
+      param="guid:default"
+    />
+   </groupdef>
+
+   <!-- Our actual layout, composed of a standard frame with some content (see above) -->
+
+   <layout id="normal" background="component.basetexture">
+
+     <!-- the notify tells the standardframe to put this group inside its client area -->
+     <group id="studio.standardframe" 
+      x="0" y="0" w="0" h="0" relatw="1" relath="1" 
+      notify="content,component.content.group" 
+     />
+
+   </layout>
+  </container>

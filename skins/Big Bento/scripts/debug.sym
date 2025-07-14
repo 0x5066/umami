@@ -1,0 +1,417 @@
+-- Variables Table ---------------------------------------------------
+var# |                Class |                                    What 
+----------------------------------------------------------------------
+0000 |               System |                                   System*
+0001 |                  Int |                                     NULL
+0002 |                  Int |                     __deprecated_runtime
+0003 |               Double |                                        v
+0004 |                  Int |                                        2
+0005 |                  Int |                                    65535
+0006 |                  Int |                                        1
+0007 |               String |                           "runtimecheck"
+0008 |                  Int |                                        0
+0009 |                  Int |                                     last
+000A |                  Int |                                      now
+000B |                  Int |                                     5000
+000C |               String |                  "This script requires "
+000D |               String |       "Winamp 5.631 (skin version 1.35)"
+000E |               String |                                  "Error"
+000F |               String |                                       ""
+0010 |               String |                                        s
+0011 |               String |                                  "DEBUG"
+0012 |                  Int |                                        s
+0013 |               Config |                                   Config*
+0014 |           ConfigItem |                         optionsmenu_page
+0015 |           ConfigItem |                      custom_windows_page
+0016 |           ConfigItem |                   custom_page_nonexposed
+0017 |               String |                                 "Hidden"
+0018 |               String | "{E9C2D926-53CA-400f-9A4D-85E31755A4CF}"
+0019 |               String | "{1828D28F-78DD-4647-8532-EBA504B8FC04}"
+001A |               String | "{6559CA61-7EB2-4415-A8A9-A2AEEF762B7F}"
+001B |                  Int |                         attribs_mychange
+001C |                  Int |                        attribs_mychange2
+001D |      ConfigAttribute |                                      sep
+001E |                  Int |                                sep_count
+001F |           ConfigItem |                              cfgmenupage
+0020 |           ConfigItem |                                   parent
+0021 |               String |                                     name
+0022 |               String |                                     guid
+0023 |           ConfigItem |                                    __ret
+0024 |      ConfigAttribute |                                   __dret
+0025 |      ConfigAttribute |                                   attrib
+0026 |               String |                                      "0"
+0027 |               String |                                      "1"
+0028 |      ConfigAttribute |                       sui_browser_attrib
+0029 |      ConfigAttribute |                            sui_eq_attrib
+002A |      ConfigAttribute |                        sui_config_attrib
+002B |      ConfigAttribute |                              ic_fileinfo
+002C |      ConfigAttribute |                        ic_cover_fileinfo
+002D |      ConfigAttribute |                                   ic_vis
+002E |      ConfigAttribute |                          ic_vis_fileinfo
+002F |      ConfigAttribute |                                ic_hidden
+0030 |      ConfigAttribute |                                    ic_eq
+0031 |      ConfigAttribute |                                ic_config
+0032 |      ConfigAttribute |                          _plsc_ic_attrib
+0033 |           ConfigItem |                     custom_page_fileinfo
+0034 |      ConfigAttribute |                        InfoLineAttribute[]
+0035 |    InfoLineAttribute |                     infocomp_show_rating
+0036 |    InfoLineAttribute |                      infocomp_show_genre
+0037 |    InfoLineAttribute |                       infocomp_show_year
+0038 |    InfoLineAttribute |                      infocomp_show_track
+0039 |    InfoLineAttribute |                  infocomp_show_publisher
+003A |    InfoLineAttribute |                   infocomp_show_composer
+003B |    InfoLineAttribute |                infocomp_show_albumartist
+003C |    InfoLineAttribute |                     infocomp_show_format
+003D |    InfoLineAttribute |                       infocomp_show_disc
+003E |      ConfigAttribute |                           infocomp_cycle
+003F |      ConfigAttribute |                      infocomp_nowplaying
+0040 |      ConfigAttribute |                         infocomp_browser
+0041 |               String |                       "Equalizer\tAlt+G"
+0042 |               String |                     "Web Browser\tAlt+X"
+0043 |               String |                   "Skin Settings\tAlt+C"
+0044 |               String |                     "Multi Content View"
+0045 |               String | "{6A619628-6A91-46e3-A3F3-5C1B2D93DF4F}"
+0046 |               String |                              "File Info"
+0047 |               String |                        "Visualization  "
+0048 |               String |                       "Stored Playlists"
+0049 |               String |                              "Equalizer"
+004A |               String |                          "Skin Settings"
+004B |               String |                   "File Info Components"
+004C |               String | "{8D3829F9-5790-4c8e-9C3A-C397D3602FF9}"
+004D |           ConfigItem |                          fileinfo_parent
+004E |               String |                         "Visualization "
+004F |               String |                              "Album Art"
+0050 |               String |                           "Show Track #"
+0051 |               String |                              "Show Year"
+0052 |               String |                             "Show Genre"
+0053 |               String |                              "Show Disc"
+0054 |               String |                      "Show Album Artist"
+0055 |               String |                          "Show Composer"
+0056 |               String |                         "Show Publisher"
+0057 |               String |                           "Show Decoder"
+0058 |               String |                       "Show Song Rating"
+0059 |               String |                        "Cycle File Info"
+005A |               String |              "Open Links in Now Playing"
+005B |               String |                  "Open Links in Browser"
+005C |               String |                           songinfo_title
+005D |               String |                          songinfo_artist
+005E |               String |                           songinfo_album
+005F |               String |                        songinfo_location
+0060 |               String |                    songinfo_displayTitle
+0061 |               String |                     songinfo_streamTitle
+0062 |               String |                      songinfo_streamName
+0063 |               String |                       songinfo_streamURL
+0064 |               String |                  songinfo_streamAlbumArt
+0065 |              Boolean |                        songinfo_isStream
+0066 |                  Int |                      songinfo_streamType
+0067 |               String |                               metaPrefix
+0068 |               String |                             "streamtype"
+0069 |                  Int |                                        3
+006A |                  Int |                                        4
+006B |                  Int |                                        5
+006C |                  Int |                                      666
+006D |               String |                             "streamname"
+006E |               String |                            "streamtitle"
+006F |               String |                              "streamurl"
+0070 |               String |                                  "uvox/"
+0071 |               String |                                   "cbs/"
+0072 |               String |                               "albumart"
+0073 |               String | "http://broadband-albumart.music.aol.com/scan/"
+0074 |               String |                                  "title"
+0075 |               String |                                 "Artist"
+0076 |               String |                                  "album"
+0077 |            GuiObject |                               LinkObject[]
+0078 |            GuiObject |                              CycleObject[]
+0079 |               Button |                             RatingButton[]
+007A |                Group |                                 Infoline[]
+007B |                Group |                              scriptGroup
+007C |                Group |                                  g_cover
+007D |                Layer |                               l_webcover
+007E |        AlbumArtLayer |                               l_albumart
+007F |        AlbumArtLayer |                                 AlbumArt
+0080 |             Infoline |                                 g_rating
+0081 |             Infoline |                                  g_title
+0082 |             Infoline |                                  g_album
+0083 |             Infoline |                                 g_artist
+0084 |             Infoline |                                   g_year
+0085 |             Infoline |                                  g_genre
+0086 |             Infoline |                                  g_track
+0087 |             Infoline |                              g_publisher
+0088 |             Infoline |                                  g_sname
+0089 |             Infoline |                                   g_surl
+008A |             Infoline |                            g_albumartist
+008B |             Infoline |                               g_composer
+008C |             Infoline |                                 g_format
+008D |             Infoline |                                   g_disc
+008E |             Infoline |                                 g_target
+008F |                 Text |                                  t_title
+0090 |                 Text |                                  t_album
+0091 |                 Text |                                 t_artist
+0092 |                 Text |                                   t_year
+0093 |                 Text |                                  t_genre
+0094 |                 Text |                                  t_track
+0095 |                 Text |                              t_publisher
+0096 |                 Text |                                  t_sname
+0097 |                 Text |                                   t_surl
+0098 |                 Text |                               t_composer
+0099 |                 Text |                            t_albumartist
+009A |                 Text |                                 t_format
+009B |                 Text |                                   t_disc
+009C |                 Text |                                 t_rating
+009D |                Timer |                                   cycler
+009E |               String |                              stationLink
+009F |                 List |                                    cycle
+00A0 |              Boolean |                            cycler_paused
+00A1 |              Boolean |                             quick_change
+00A2 |                 List |                              ratingStars
+00A3 |                Layer |                               l_branding
+00A4 |            GuiObject |                           _BrandingLayer
+00A5 |                Group |                           _BrandingGroup
+00A6 |                  Int |                         _Brandingcenterx
+00A7 |                  Int |                         _Brandingcentery
+00A8 |                  Int |                            _Brandingaddx
+00A9 |                  Int |                            _Brandingaddy
+00AA |                  Int |                            _Brandingaddh
+00AB |                  Int |                            _Brandingaddw
+00AC |            GuiObject |                                   _layer
+00AD |                Group |                             parentLayout
+00AE |                  Int |                                  centerx
+00AF |                  Int |                                  centery
+00B0 |                  Int |                                      val
+00B1 |                  Int |                                      val
+00B2 |                  Int |                                      val
+00B3 |                  Int |                                      val
+00B4 |                  Int |                                      myw
+00B5 |                  Int |                                      myh
+00B6 |                  Int |                                   layerw
+00B7 |                  Int |                                   layerh
+00B8 |                  Int |                                        x
+00B9 |                  Int |                                        y
+00BA |               String |                                      "x"
+00BB |               String |                                      "y"
+00BC |              Boolean |                                  iserror
+00BD |                  Int |                                        x
+00BE |                  Int |                                        y
+00BF |                  Int |                                        w
+00C0 |                  Int |                                        h
+00C1 |           LinkObject |                               linkArtist
+00C2 |           LinkObject |                                linkAlbum
+00C3 |           LinkObject |                                linkTitle
+00C4 |           LinkObject |                                linkGenre
+00C5 |           LinkObject |                            linkPublisher
+00C6 |           LinkObject |                                 linkSURl
+00C7 |           LinkObject |                                linkSname
+00C8 |          CycleObject |                               cycleGenre
+00C9 |          CycleObject |                           cyclePublisher
+00CA |          CycleObject |                               cycleTrack
+00CB |          CycleObject |                                cycleYear
+00CC |          CycleObject |                            cycleComposer
+00CD |          CycleObject |                         cycleAlbumartist
+00CE |          CycleObject |                              cycleFormat
+00CF |          CycleObject |                                cycleDisc
+00D0 |         RatingButton |                                    rate1
+00D1 |         RatingButton |                                    rate2
+00D2 |         RatingButton |                                    rate3
+00D3 |         RatingButton |                                    rate4
+00D4 |         RatingButton |                                    rate5
+00D5 |         RatingButton |                                    rate0
+00D6 |                Layer |                                    star1
+00D7 |                Layer |                                    star2
+00D8 |                Layer |                                    star3
+00D9 |                Layer |                                    star4
+00DA |                Layer |                                    star5
+00DB |                  Int |                                startwith
+00DC |                  Int |                               artRetries
+00DD |                  Int |                                 maxlines
+00DE |                Timer |                                delayLoad
+00DF |                  Int |                                     4000
+00E0 |                  Int |                                       10
+00E1 |               String |                "infodisplay.line.rating"
+00E2 |               String |                 "infodisplay.line.title"
+00E3 |               String |                 "infodisplay.line.album"
+00E4 |               String |                "infodisplay.line.artist"
+00E5 |               String |                  "infodisplay.line.year"
+00E6 |               String |                 "infodisplay.line.genre"
+00E7 |               String |                 "infodisplay.line.track"
+00E8 |               String |             "infodisplay.line.publisher"
+00E9 |               String |                 "infodisplay.line.sname"
+00EA |               String |                  "infodisplay.line.surl"
+00EB |               String |              "infodisplay.line.composer"
+00EC |               String |           "infodisplay.line.albumartist"
+00ED |               String |                "infodisplay.line.format"
+00EE |               String |                  "infodisplay.line.disc"
+00EF |               String |                                   "text"
+00F0 |               String |                                   "link"
+00F1 |                Group |                                   parent
+00F2 |               String |                               "branding"
+00F3 |               String |                   "info.component.cover"
+00F4 |               String |                        "winamp.albumart"
+00F5 |               String |                     "winamp.webalbumart"
+00F6 |               String |                                 "rate.1"
+00F7 |               String |                                 "rate.2"
+00F8 |               String |                                 "rate.3"
+00F9 |               String |                                 "rate.4"
+00FA |               String |                                 "rate.5"
+00FB |               String |                                 "rate.0"
+00FC |               String |                                 "star.1"
+00FD |               String |                                 "star.2"
+00FE |               String |                                 "star.3"
+00FF |               String |                                 "star.4"
+0100 |               String |                                 "star.5"
+0101 |               String |                                  "label"
+0102 |               String |                               "demo.mp3"
+0103 |               String |                          "DJ Mike Llama"
+0104 |               String |                   "Llama Whippin' Intro"
+0105 |               String |                                 newtitle
+0106 |               String |                                      "["
+0107 |                  Int |                                        7
+0108 |               String |                                "[Buffer"
+0109 |               String |                                   "[ICY"
+010A |              Boolean |                                  success
+010B |                Group |                                 g_cover2
+010C |            Container |                                   player
+010D |                Frame |                                  dualwnd
+010E |                Frame |                               pl_dualwnd
+010F |                Frame |                                mainframe
+0110 |               Layout |                                mainframe
+0111 |               String |                                   "main"
+0112 |               String |                                 "normal"
+0113 |               String |                         "player.dualwnd"
+0114 |               String |                       "playlist.dualwnd"
+0115 |               String |     "player.component.playlist.albumart"
+0116 |                  Int |                                      255
+0117 |              Boolean |                                   _cycle
+0118 |              Boolean |                                  _rating
+0119 |                  Int |                                      pos
+011A |                  Int |                                        n
+011B |                  Int |                                       15
+011C |               String |                                    " - "
+011D |                  Int |                                        v
+011E |               String |                                       s1
+011F |               String |                                       s2
+0120 |               String |                            "streamgenre"
+0121 |               String |                                        s
+0122 |               String |                                      "w"
+0123 |               String |                                  "image"
+0124 |               String |                  "winamp.cover.aolradio"
+0125 |               String |                 "winamp.cover.shoutcast"
+0126 |               String |                                        s
+0127 |               String |                                  "track"
+0128 |               String |                                     "-1"
+0129 |               String |                                      "/"
+012A |               String |                                   " of "
+012B |               String |                                   "year"
+012C |               String |                       "FileInfo_usersel"
+012D |               String |                                  "genre"
+012E |               String |                                   "disc"
+012F |               String |                            "albumartist"
+0130 |               String |                               "composer"
+0131 |               String |                              "publisher"
+0132 |               String |                                 "format"
+0133 |                  Int |                                        i
+0134 |                  Int |                                        i
+0135 |               Double |                                     0.25
+0136 |               String |                                      "."
+0137 |               String |                                        v
+0138 |                  Int |                                      180
+0139 |                  Int |                                        x
+013A |                  Int |                                        y
+013B |                  Int |                                      220
+013C |                  Int |                                        x
+013D |                  Int |                                        y
+013E |                  Int |                                        x
+013F |                  Int |                                        y
+0140 |                  Int |                                        x
+0141 |                  Int |                                        y
+0142 |               String |                                      nav
+0143 |               String |                            "sui.content"
+0144 |                Group |                                      sui
+0145 |               String |                       "browser_navigate"
+0146 |               String |                                        s
+0147 |               String |                                      " "
+0148 |                Group |                                      sui
+0149 |               String |                         "browser_search"
+014A |                Group |                                      sui
+014B |               String |                          "fileinfotitle"
+014C |               String |                                     icid
+014D |               String |                         "fileinfoartist"
+014E |               String |                          "fileinfoalbum"
+014F |               String |                                   artist
+0150 |               String | "http://client.winamp.com/nowplaying/artist/?icid="
+0151 |               String |                           "&artistName="
+0152 |                  Int |                                   rating
+0153 |                  Int |                                        x
+0154 |                  Int |                                        y
+0155 |                  Int |                                   rating
+0156 |                  Int |                                        i
+0157 |            GuiObject |                                        o
+0158 |                  Int |                                      pos
+0159 |                  Int |                                   rating
+015A |                  Int |                                        i
+015B |            GuiObject |                                        o
+015C |                  Int |                                   rating
+015D |                  Int |                                        x
+015E |                  Int |                                        y
+015F |            PopupMenu |                                    rmenu
+0160 |               String |                          "Remove Rating"
+0161 |                  Int |                                   result
+0162 |               String |                                   newtxt
+0163 |                  Int |                                        w
+0164 |               String |          "infodisplay.line.rating.stars"
+0165 |                Group |                                        g
+0166 |              Boolean |                                  iserror
+-- Events Table ------------------------------------------------------
+var# |         Code Pointer |                                    What 
+----------------------------------------------------------------------
+00A5 |                 097E |                                      _.o
+0000 |                 09C6 |                                      S.o
+0000 |                 10AB |                                      S.o
+00DE |                 10E7 |                                      d.o
+0000 |                 1120 |                                      S.o
+0034 |                 1253 |                                      I.o
+007E |                 1285 |                                      l.o
+009D |                 32BF |                                      c.o
+008E |                 3575 |                                      g.o
+003E |                 3758 |                                      i.o
+0078 |                 399F |                                      C.o
+0078 |                 39D7 |                                      C.o
+0078 |                 3A0F |                                      C.o
+0078 |                 3A51 |                                      C.o
+0077 |                 3AC6 |                                      L.o
+0077 |                 3AFE |                                      L.o
+0077 |                 3B36 |                                      L.o
+0077 |                 3B78 |                                      L.o
+0000 |                 3E57 |                                      S.o
+0079 |                 3E7D |                                      R.o
+0079 |                 3ED0 |                                      R.o
+0079 |                 3F8A |                                      R.o
+0079 |                 41C0 |                                      R.o
+0079 |                 4307 |                                      R.o
+009C |                 4392 |                                      t.o
+0000 |                 45AE |                                      S.o
+002B |                 464C |                                      i.o
+002C |                 46B6 |                                      i.o
+002E |                 46E2 |                                      i.o
+-- User Functions Table ----------------------------------------------
+               Code Pointer |                                    What 
+----------------------------------------------------------------------
+                       0000 |                             versionCheck
+                       00F2 |                                    debug
+                       011D |                                 debugInt
+                       0153 |                                initPages
+                       01AF |                         addMenuSeparator
+                       01BA |                         addConfigSubMenu
+                       021E |                             toggleAttrib
+                       0266 |                   initAttribs_windowpage
+                       0548 |                          songinfo_reload
+                       139B |                             loadFileInfo
+                       12D9 |                      loadPlaylistArtWork
+                       4289 |                            refreshRating
+                       443A |                             showBranding
+                       077A |                            _BrandingInit
+                       0826 |                    _BrandinghandleResize
+                       07CA |                       _BrandingsetXSpace
+                       07E1 |                       _BrandingsetYSpace
+                       080F |                       _BrandingsetWSpace
+                       07F8 |                       _BrandingsetHSpace
+                       4572 |                       _BrandingsizeError

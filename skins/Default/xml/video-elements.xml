@@ -1,0 +1,11 @@
+<elements>
+
+  <bitmap id="video.winamp3.logo" file="video/logo.png"/>
+
+  <bitmap id="video.playback.placeHolder" file="player/window-elements.png" x="0" y="104" h="22" w="146"/>
+
+  <bitmap id="video.seekbar.placeHolder.left" file="player/window-elements.png" x="0" y="91" h="8" w="2"/>
+  <bitmap id="video.seekbar.placeHolder.middle" file="player/window-elements.png" x="2" y="91" h="8" w="8"/>
+  <bitmap id="video.seekbar.placeHolder.right" file="player/window-elements.png" x="250" y="91" h="8" w="2"/>
+
+</elements>

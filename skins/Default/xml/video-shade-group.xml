@@ -1,0 +1,134 @@
+<groupdef id="video.shade.playbuttons">
+  <group id="wasabi.objectframe.group" x="4" y="0" w="59" h="11"/>
+  
+  <group id="wasabi.objectframe.group" x="65" y="0" w="15" h="11"/>
+
+  <button 
+    id="Previous"
+    action="PREV" 
+    x="5" y="1" 
+    image="player.winshade.button.previous" 
+    downImage="player.winshade.button.previous.pressed" 
+    tooltip="Previous"
+  />
+  <button
+    id="Play"
+    action="PLAY"
+    x="18" y="1"
+    image="player.winshade.button.play"
+    downImage="player.winshade.button.play.pressed"
+    tooltip="Play"
+  />
+  <button
+    id="Pause"
+    action="PAUSE"
+    x="28" y="1"
+    image="player.winshade.button.pause"
+    downImage="player.winshade.button.pause.pressed"
+    tooltip="Pause"
+  />
+  <button
+    id="Stop"
+    action="STOP"
+    x="38" y="1"
+    image="player.winshade.button.stop"
+    downImage="player.winshade.button.stop.pressed"
+    tooltip="Stop"
+  />
+  <button
+    id="Next"
+    action="NEXT"
+    x="48" y="1"
+    image="player.winshade.button.next"
+    downImage="player.winshade.button.next.pressed"
+    tooltip="Next"
+  />
+  <button
+    id="Eject"
+    action="EJECT"
+    x="66" y="1"
+    image="player.winshade.button.eject"
+    downImage="player.winshade.button.eject.pressed"
+    tooltip="Open File"
+  />
+
+ </groupdef>
+
+ <groupdef id="video.shade.content.group">
+
+  <group id="wasabi.window" 
+   x="0" y="0" w="0" h="-45" relatw="1" relath="1"
+  />
+
+  <group id="wasabi.panel" 
+   x="0" y="-35" w="0" h="35" relaty="1" relatw="1"
+  />
+
+  <layer x="0" y="0" w="0" h="0" relatw="1" relath="1"/>
+
+  <component
+    id="video.component"
+    x="0"
+    y="0"
+    w="0"
+    relatw="1"
+    h="-35"
+    relath="1"
+    param="guid:{F0816D7B-FFFC-4343-80F2-E8199AA15CC3}"
+    disableanimatedrects="1"
+  />
+
+  <group id="video.shade.playbuttons" 
+   x="0" y="-16" w="150" h="45" relaty="1" 
+  />
+
+  <layer
+    id="volume.slider.bar"
+    x="-83" y="-15" relatx="1" relaty="1" 
+    image="player.volume.slider"
+  />
+  
+  <slider
+    id="Volume"
+    action="VOLUME"
+    x="-84" y="-16" relatx="1" relaty="1"
+    w="79" h="13"
+    thumb="player.button.volume"
+    downThumb="player.button.volume.pressed"
+  />
+  
+  <layer
+    id="seekbar.slider.bar"
+    x="4" y="-29" relaty="1"
+    image="video.seekbar.placeholder.left"
+  />
+  <layer
+    id="seekbar.slider.bar"
+    x="6" y="-29" relaty="1" w="-13" relatw="1"
+    image="video.seekbar.placeholder.middle"
+  />
+  <layer
+    id="seekbar.slider.bar"
+    x="-7" y="-29" relatx="1" relaty="1"
+    image="video.seekbar.placeholder.right"
+  />
+  
+  <slider
+    id="Seeker"
+    action="SEEK"
+    x="4" y="-30" relaty="1"
+    w="-9" relatw="1" h="13"
+    thumb="player.button.seek"
+    downThumb="player.button.seek.pressed"
+  />
+  
+  <slider
+    id="SeekerGhost"
+    action="SEEK"
+    x="4" y="-30" relaty="1"
+    w="-9" relatw="1" h="13"
+    thumb="player.button.seek"
+    downThumb="player.button.seek.pressed"
+  />
+
+</groupdef>

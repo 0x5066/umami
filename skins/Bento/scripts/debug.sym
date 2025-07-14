@@ -1,0 +1,406 @@
+-- Variables Table ---------------------------------------------------
+var# |                Class |                                    What 
+----------------------------------------------------------------------
+0000 |               System |                                   System*
+0001 |                  Int |                                     NULL
+0002 |                  Int |                     __deprecated_runtime
+0003 |               Double |                                        v
+0004 |                  Int |                                        2
+0005 |                  Int |                                    65535
+0006 |                  Int |                                        1
+0007 |               String |                           "runtimecheck"
+0008 |                  Int |                                        0
+0009 |                  Int |                                     last
+000A |                  Int |                                      now
+000B |                  Int |                                     5000
+000C |               String |                  "This script requires "
+000D |               String |       "Winamp 5.631 (skin version 1.35)"
+000E |               String |                                  "Error"
+000F |               String |                                       ""
+0010 |               String |                                        s
+0011 |               String |                                  "DEBUG"
+0012 |                  Int |                                        s
+0013 |               Config |                                   Config*
+0014 |           ConfigItem |                         optionsmenu_page
+0015 |           ConfigItem |                      custom_windows_page
+0016 |           ConfigItem |                   custom_page_nonexposed
+0017 |               String |                                 "Hidden"
+0018 |               String | "{E9C2D926-53CA-400f-9A4D-85E31755A4CF}"
+0019 |               String | "{1828D28F-78DD-4647-8532-EBA504B8FC04}"
+001A |               String | "{6559CA61-7EB2-4415-A8A9-A2AEEF762B7F}"
+001B |                  Int |                         attribs_mychange
+001C |                  Int |                        attribs_mychange2
+001D |      ConfigAttribute |                                      sep
+001E |                  Int |                                sep_count
+001F |           ConfigItem |                              cfgmenupage
+0020 |           ConfigItem |                                   parent
+0021 |               String |                                     name
+0022 |               String |                                     guid
+0023 |           ConfigItem |                                    __ret
+0024 |      ConfigAttribute |                                   __dret
+0025 |      ConfigAttribute |                                   attrib
+0026 |               String |                                      "0"
+0027 |               String |                                      "1"
+0028 |      ConfigAttribute |                       sui_browser_attrib
+0029 |      ConfigAttribute |                            sui_eq_attrib
+002A |      ConfigAttribute |                        sui_config_attrib
+002B |      ConfigAttribute |                              ic_fileinfo
+002C |      ConfigAttribute |                        ic_cover_fileinfo
+002D |      ConfigAttribute |                                   ic_vis
+002E |      ConfigAttribute |                          ic_vis_fileinfo
+002F |      ConfigAttribute |                                ic_hidden
+0030 |      ConfigAttribute |                                    ic_eq
+0031 |      ConfigAttribute |                                ic_config
+0032 |      ConfigAttribute |                          _plsc_ic_attrib
+0033 |           ConfigItem |                     custom_page_fileinfo
+0034 |      ConfigAttribute |                        InfoLineAttribute[]
+0035 |    InfoLineAttribute |                     infocomp_show_rating
+0036 |    InfoLineAttribute |                      infocomp_show_genre
+0037 |    InfoLineAttribute |                       infocomp_show_year
+0038 |    InfoLineAttribute |                      infocomp_show_track
+0039 |    InfoLineAttribute |                  infocomp_show_publisher
+003A |    InfoLineAttribute |                   infocomp_show_composer
+003B |    InfoLineAttribute |                infocomp_show_albumartist
+003C |    InfoLineAttribute |                     infocomp_show_format
+003D |    InfoLineAttribute |                       infocomp_show_disc
+003E |      ConfigAttribute |                           infocomp_cycle
+003F |      ConfigAttribute |                      infocomp_nowplaying
+0040 |      ConfigAttribute |                         infocomp_browser
+0041 |               String |                       "Equalizer\tAlt+G"
+0042 |               String |                     "Web Browser\tAlt+X"
+0043 |               String |                   "Skin Settings\tAlt+C"
+0044 |               String |                     "Multi Content View"
+0045 |               String | "{6A619628-6A91-46e3-A3F3-5C1B2D93DF4F}"
+0046 |               String |                              "File Info"
+0047 |               String |                        "Visualization  "
+0048 |               String |                       "Stored Playlists"
+0049 |               String |                              "Equalizer"
+004A |               String |                          "Skin Settings"
+004B |               String |                   "File Info Components"
+004C |               String | "{8D3829F9-5790-4c8e-9C3A-C397D3602FF9}"
+004D |           ConfigItem |                          fileinfo_parent
+004E |               String |                         "Visualization "
+004F |               String |                              "Album Art"
+0050 |               String |                           "Show Track #"
+0051 |               String |                              "Show Year"
+0052 |               String |                             "Show Genre"
+0053 |               String |                              "Show Disc"
+0054 |               String |                      "Show Album Artist"
+0055 |               String |                          "Show Composer"
+0056 |               String |                         "Show Publisher"
+0057 |               String |                           "Show Decoder"
+0058 |               String |                       "Show Song Rating"
+0059 |               String |                        "Cycle File Info"
+005A |               String |              "Open Links in Now Playing"
+005B |               String |                  "Open Links in Browser"
+005C |      ConfigAttribute |                  vis_lefttoplayer_attrib
+005D |      ConfigAttribute |                         vis_inbig_attrib
+005E |      ConfigAttribute |             vis_lefttoplayer_full_attrib
+005F |               String |                          "Visualization"
+0060 |               String | "{090B63DE-FD24-4528-ABE5-A522615E8AE9}"
+0061 |           ConfigItem |                               vis_parent
+0062 |               String |             "Open in Big Component View"
+0063 |               String | "Open in Multi Content View (stretched)"
+0064 |               String |      "Open in Multi Content View (mini)"
+0065 |      ConfigAttribute |                    vis_reflection_attrib
+0066 |      ConfigAttribute |                  timer_reflection_attrib
+0067 |      ConfigAttribute |                      menubar_main_attrib
+0068 |      ConfigAttribute |                           beatvis_attrib
+0069 |      ConfigAttribute |               artist_info_buttons_attrib
+006A |      ConfigAttribute |                            pl_tab_attrib
+006B |           ConfigItem |                   custom_page_appearance
+006C |               String |                             "Appearance"
+006D |               String | "{F1036C9C-3919-47ac-8494-366778CF10F9}"
+006E |               String |                  "Show Main Window Menu"
+006F |               String |             "Show Visualizer Reflection"
+0070 |               String |                  "Show Timer Reflection"
+0071 |               String |        "Show Artist-Information Buttons"
+0072 |               String |                      "Show Playlist Tab"
+0073 |               String |              "Enable Beat Visualization"
+0074 |              Boolean |                             bypasscancel
+0075 |                Timer |                            callbackTimer
+0076 |                Timer |                              tempDisable
+0077 |                Group |                                _plsc_sui
+0078 |              Boolean |                    _plsc_callback_hiding
+0079 |              Boolean |                   _plsc_callback_showing
+007A |              Boolean |                            _plsc_showing
+007B |              Boolean |                             _plsc_hiding
+007C |            GuiObject |                                        o
+007D |            GuiObject |                                        o
+007E |                Group |                                       sg
+007F |                Group |                                sui_cover
+0080 |                Group |                             sui_vis_full
+0081 |                Group |                                  sui_vis
+0082 |                Group |                                   sui_fi
+0083 |                Group |                                   sui_eq
+0084 |                Group |                                  sui_cfg
+0085 |                Group |                                 g_footer
+0086 |                Group |                                g_visbtns
+0087 |         WindowHolder |                              sui_vis_wdh
+0088 |         WindowHolder |                         sui_vis_full_wdh
+0089 |               Layout |                                     main
+008A |              Boolean |                     callback_showing_vis
+008B |              Boolean |                      callback_hiding_vis
+008C |              Boolean |                callback_showing_vis_full
+008D |              Boolean |                 callback_hiding_vis_full
+008E |              Boolean |                   callback_showing_cover
+008F |              Boolean |                    callback_hiding_cover
+0090 |              Boolean |                      callback_showing_fi
+0091 |              Boolean |                       callback_hiding_fi
+0092 |              Boolean |                       callback_hiding_eq
+0093 |              Boolean |                      callback_showing_eq
+0094 |              Boolean |                      callback_hiding_cfg
+0095 |              Boolean |                     callback_showing_cfg
+0096 |              Boolean |                              showing_vis
+0097 |              Boolean |                               hiding_vis
+0098 |              Boolean |                         showing_vis_full
+0099 |              Boolean |                          hiding_vis_full
+009A |              Boolean |                            showing_cover
+009B |              Boolean |                             hiding_cover
+009C |              Boolean |                                hiding_fi
+009D |              Boolean |                               showing_fi
+009E |              Boolean |                               showing_eq
+009F |              Boolean |                                hiding_eq
+00A0 |              Boolean |                              showing_cfg
+00A1 |              Boolean |                               hiding_cfg
+00A2 |              Boolean |                                 Mychange
+00A3 |              Boolean |                              prevent_vis
+00A4 |                Frame |                                  dualwnd
+00A5 |                Frame |                                mainframe
+00A6 |            GuiObject |                               footerGrid
+00A7 |            GuiObject |                                sendToBtn
+00A8 |            PopupMenu |                                 compMenu
+00A9 |               Button |                               compChoose
+00AA |               Button |                            nowPlayingBtn
+00AB |               Button |                             webSearchBtn
+00AC |              Boolean |                             startup_done
+00AD |                  Int |                                substract
+00AE |               String |                       "player.mainframe"
+00AF |               String |                         "player.dualwnd"
+00B0 |               String |                   "info.component.cover"
+00B1 |               String |                     "info.component.vis"
+00B2 |               String |                "info.component.vis.full"
+00B3 |               String |                                    "vis"
+00B4 |               String |             "info.component.infodisplay"
+00B5 |               String |                      "info.component.eq"
+00B6 |               String |                  "info.component.config"
+00B7 |               String |               "info.component.plsidecar"
+00B8 |               String |             "infocomp.background.footer"
+00B9 |               String |                    "infocomp.visbuttons"
+00BA |               String |                 "footer.background.grid"
+00BB |               String |                              "comp.menu"
+00BC |               String |                                 "sendTo"
+00BD |               String |                             "nowplaying"
+00BE |               String |                                 "search"
+00BF |                  Int |                                       50
+00C0 |               String |                                      "x"
+00C1 |               String |                                      "4"
+00C2 |               String |                               "maxwidth"
+00C3 |               String |                                   "-100"
+00C4 |               String |                           "set_maxwidth"
+00C5 |                  Int |                                      100
+00C6 |               String |                                     "90"
+00C7 |               String |                                      "w"
+00C8 |               String |                                    "-91"
+00C9 |                  Int |                                       92
+00CA |                  Int |                                       95
+00CB |                  Int |                                       76
+00CC |               String |                                     "92"
+00CD |               String |                                   "-188"
+00CE |                  Int |                                      188
+00CF |               String |                                    "178"
+00D0 |               String |                                   "-179"
+00D1 |                  Int |                                      180
+00D2 |                  Int |                                      183
+00D3 |               String |                                      "6"
+00D4 |               String |                                     "-7"
+00D5 |                  Int |                                        4
+00D6 |                  Int |                                        7
+00D7 |               String |                                   "-196"
+00D8 |                  Int |                                      196
+00D9 |               String |                                   "-244"
+00DA |                  Int |                                      244
+00DB |               String |                                     "75"
+00DC |               String |                                    "-76"
+00DD |               String |                                   "-156"
+00DE |                  Int |                                      156
+00DF |                  Int |                                        3
+00E0 |               String |                             "Component3"
+00E1 |            GuiObject |                                        o
+00E2 |            GuiObject |                                        o
+00E3 |            GuiObject |                                        o
+00E4 |            GuiObject |                                        o
+00E5 |            GuiObject |                                        o
+00E6 |            GuiObject |                                        o
+00E7 |            GuiObject |                                        o
+00E8 |            GuiObject |                                        o
+00E9 |            GuiObject |                                        o
+00EA |            GuiObject |                                        o
+00EB |            GuiObject |                                        o
+00EC |            GuiObject |                                        o
+00ED |                  Int |                    _callback_showing_vis
+00EE |                  Int |                     _callback_hiding_vis
+00EF |                  Int |                     _callback_showing_fi
+00F0 |                  Int |                      _callback_hiding_fi
+00F1 |                  Int |                  _callback_showing_cover
+00F2 |                  Int |                   _callback_hiding_cover
+00F3 |                  Int |               _callback_showing_vis_full
+00F4 |                  Int |                _callback_hiding_vis_full
+00F5 |                  Int |                     _callback_showing_eq
+00F6 |                  Int |                      _callback_hiding_eq
+00F7 |                  Int |                    _callback_showing_cfg
+00F8 |                  Int |                     _callback_hiding_cfg
+00F9 |                  Int |              _plsc_callback_showing_temp
+00FA |                  Int |               _plsc_callback_hiding_temp
+00FB |               String |                                     guid
+00FC |              Boolean |                             goingvisible
+00FD |               String | "{0000000A-000C-0010-FF7B-01014263450C}"
+00FE |               String |                               "autoopen"
+00FF |               String |                              "Component"
+0100 |               String |                          "Media Library"
+0101 |               String |                           window_content
+0102 |               String |                         "ComponentXgive"
+0103 |                  Int |                                       xg
+0104 |               String |                           window_content
+0105 |                  Int |                                       xg
+0106 |                  Int |                                        x
+0107 |                  Int |                                        y
+0108 |            PopupMenu |                                    fiSub
+0109 |                  Int |                                        5
+010A |                  Int |                                       12
+010B |                  Int |                                       11
+010C |                  Int |                                       24
+010D |                  Int |                                       21
+010E |                  Int |                                       22
+010F |                  Int |                                       28
+0110 |                  Int |                                       25
+0111 |                  Int |                                       26
+0112 |                  Int |                                       23
+0113 |                  Int |                                       27
+0114 |                  Int |                                       20
+0115 |                  Int |                                       30
+0116 |                  Int |                                       40
+0117 |                  Int |                                       41
+0118 |                  Int |                                        a
+0119 |                  Int |                                        x
+011A |                  Int |                                        y
+011B |                  Int |                                        w
+011C |                  Int |                                        h
+011D |                  Int |                                      101
+011E |                  Int |                                      135
+011F |                  Int |                                       66
+0120 |                  Int |                                      117
+0121 |                  Int |                                       97
+0122 |                  Int |                                       74
+0123 |                  Int |                                       70
+0124 |                Group |                                        g
+0125 |                  Int |                                        x
+0126 |                  Int |                                       rx
+0127 |                  Int |                                        y
+0128 |                  Int |                                       ry
+0129 |                  Int |                                        w
+012A |                  Int |                                       rw
+012B |                  Int |                                        h
+012C |                  Int |                                       rh
+012D |               String |                                      "y"
+012E |               String |                                      "h"
+012F |               String |                                 "relatx"
+0130 |               String |                                 "relaty"
+0131 |               String |                                 "relatw"
+0132 |               String |                                 "relath"
+-- Events Table ------------------------------------------------------
+var# |         Code Pointer |                                    What 
+----------------------------------------------------------------------
+0000 |                 0807 |                                      S.o
+0000 |                 0B64 |                                      S.o
+0076 |                 15A3 |                                      t.o
+0075 |                 1B94 |                                      c.o
+0000 |                 2080 |                                      S.o
+002C |                 22D6 |                                      i.o
+002B |                 2394 |                                      i.o
+0030 |                 244C |                                      i.o
+0031 |                 2504 |                                      i.o
+0032 |                 25BC |                                      _.o
+002D |                 2674 |                                      i.o
+002E |                 272C |                                      i.o
+005C |                 27EA |                                      v.o
+005E |                 2950 |                                      v.o
+00A9 |                 2A8F |                                      c.o
+00A9 |                 2AB0 |                                      c.o
+00A9 |                 2AD2 |                                      c.o
+0069 |                 317C |                                      a.o
+0085 |                 3198 |                                      g.o
+-- User Functions Table ----------------------------------------------
+               Code Pointer |                                    What 
+----------------------------------------------------------------------
+                       0000 |                             versionCheck
+                       00F2 |                                    debug
+                       011D |                                 debugInt
+                       0153 |                                initPages
+                       01AF |                         addMenuSeparator
+                       01BA |                         addConfigSubMenu
+                       021E |                             toggleAttrib
+                       0266 |                   initAttribs_windowpage
+                       0548 |                          initAttribs_vis
+                       05C3 |                   initAttribs_Appearance
+                       1372 |                           _plsc_switchTo
+                       06B3 |                               _plsc_show
+                       0721 |                               _plsc_hide
+                       07E9 |                             _plsc_onHide
+                       07E3 |                             _plsc_onShow
+                       078F |                            _plsc_dc_show
+                       07B9 |                            _plsc_dc_hide
+                       345F |                                      fit
+                       1004 |                           switchToIcOnly
+                       0B88 |                            switchToCover
+                       0CFD |                         switchToVisCover
+                       0E94 |                              switchToVis
+                       1152 |                               switchToEQ
+                       1262 |                              switchToCfg
+                       1482 |                         switchToVis_Full
+                       0AE3 |                           updateFileInfo
+                       16DA |                                   hideFi
+                       164B |                                   showFi
+                       1892 |                                hideCover
+                       1824 |                                showCover
+                       17B6 |                                  hideVis
+                       1748 |                                  showVis
+                       196E |                             hideVis_Full
+                       1900 |                             showVis_Full
+                       1A4A |                                   hideEq
+                       19DC |                                   showEq
+                       1B26 |                                  hideCfg
+                       1AB8 |                                  showCfg
+                       1639 |                                   openIC
+                       1627 |                                  closeIC
+                       FFFFFFFF |                                   openLC
+                       15C5 |                                  closeLC
+                       3411 |                                 onHideFi
+                       340B |                                 onShowFi
+                       3405 |                              onHideCover
+                       33FF |                              onShowCover
+                       3441 |                                onHideVis
+                       342F |                                onShowVis
+                       3459 |                           onHideVis_Full
+                       3453 |                           onShowVis_Full
+                       341D |                                 onHideEq
+                       3417 |                                 onShowEq
+                       3429 |                                onHideCfg
+                       3423 |                                onShowCfg
+                       33F3 |                                onCloseIC
+                       33F9 |                                 onOpenIC
+                       FFFFFFFF |                                onhideMCV
+                       1EB2 |                                dc_hideFi
+                       1E88 |                                dc_showFi
+                       1FD8 |                                dc_showEq
+                       2002 |                                dc_hideEq
+                       202C |                               dc_showCfg
+                       2056 |                               dc_hideCfg
+                       1F06 |                             dc_hideCover
+                       1EDC |                             dc_showCover
+                       1F5A |                               dc_hideVis
+                       1F30 |                               dc_showVis
+                       1FAE |                          dc_hideVis_Full
+                       1F84 |                          dc_showVis_Full
+                       33C7 |                             updateFooter
+                       2EE2 |                        ProcessMenuResult

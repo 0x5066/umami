@@ -1,0 +1,10 @@
+<elements>
+   <bitmapfont id="pledit.SmallFixed" file="player/font.png" charwidth="5" charheight="6" hspacing="0" vspacing="0"/>
+   <bitmap id="pledit.basetexture" file="studio/application-background.png" gammagroup="Backgrounds" />
+   <bitmap id="pledit.winshade.bg" file="player-winshade/player-winshade-background.png" gammagroup="Backgrounds" />
+   <bitmap id="pledit.winshade.placeholder" file="pe/pledit-winshade-placeholder.png"/>
+   <bitmap id="pledit.button.winshade" file="player/player-buttons.png" x="305" y="0" h="9" w="14"/>
+   <bitmap id="pledit.button.winshade.pressed" file="player/player-buttons.png" x="305" y="9" h="9" w="14"/>
+   <bitmap id="pledit.button.close" file="player/player-buttons.png" x="333" y="0" h="9" w="10"/>
+   <bitmap id="pledit.button.close.pressed" file="player/player-buttons.png" x="333" y="9" h="9" w="10"/>
+</elements>

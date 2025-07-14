@@ -9,6 +9,14 @@ add_executable(umami
     wasabiparser.cpp
     skin.cpp
     renderer.cpp
+    render_element.cpp
+    render_helpers.cpp
+    renderLayer.cpp
+    renderText.cpp
+    renderGroup.cpp
+    renderStatus.cpp
+    renderGrid.cpp
+    render_shared.cpp
     main.cpp
 )
 

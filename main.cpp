@@ -3,6 +3,8 @@
 #include <SDL2/SDL_image.h>
 #include "skin.h"
 
+std::string g_skinPath = "skins/Default3b2/";
+
 extern bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& containerId, const std::string& basePath);
 
 int main(int argc, char* argv[]) {
@@ -30,23 +32,41 @@ int main(int argc, char* argv[]) {
     }
 
     Skin skin;
-    if (!skin.loadFromXML("skin/skin.xml")) {
-        SDL_Log("Failed to load skin\n");
-        return 1;
-    }
+    skin.loadFromXML("freeform/xml/winamp/cover/cover.xml");
+    skin.loadFromXML("freeform/xml/winamp/thinger/thinger.xml");
+    skin.loadFromXML("freeform/xml/wasabi/wasabi.xml");
+    skin.loadFromXML("freeform/xml/pathpicker/pathpicker.xml");
+    skin.loadFromXML("freeform/xml/statusbar/statusbar.xml");
+    skin.loadFromXML("freeform/xml/tabsheet/tabsheet.xml");
+    skin.loadFromXML("freeform/xml/checkbox/checkbox.xml");
+    skin.loadFromXML("freeform/xml/titlebox/titlebox.xml");
+    skin.loadFromXML("freeform/xml/dropdownlist/dropdownlist.xml");
+    skin.loadFromXML("freeform/xml/combobox/combobox.xml");
+    skin.loadFromXML("freeform/xml/historyeditbox/historyeditbox.xml");
+    skin.loadFromXML("freeform/xml/tooltips/tooltips.xml");
+
+    skin.loadFromXML(g_skinPath + "skin.xml");
+
+    const char* container_name = "main";
 
     std::cout << "Skin has " << skin.containers.size() << " container(s)\n";
 
-    auto it = skin.containers.find("main");
-    if (it == skin.containers.end()) {
-        std::cout << "Container 'main' not found!\n";
-    } else {
-        std::cout << "'main' container has " << it->second.layouts.size() << " layout(s)\n";
-        for (const auto& layout : it->second.layouts) {
-            std::cout << " - layout id: " << layout->id << ", with " << layout->elements.size() << " root element(s)\n";
-        }
-    }
+    for (const auto& container_pair : skin.containers) {
+        const auto& container_name = container_pair.first;     // container name (string)
+        const auto& container = container_pair.second;         // container object
 
+        std::cout << "Container: " << container_name << "\n";
+        std::cout << " - " << container.layouts.size() << " layout(s)\n";
+
+        // Iterate over all layouts in the container
+        for (const auto& layout : container.layouts) {
+            std::cout << "   - Layout ID: " << layout->id
+            << ", with " << layout->elements.size()
+            << " root element(s)\n";
+        }
+
+        std::cout << "\n"; // extra line for readability between containers
+    }
 
     std::cout << "Skin loaded successfully.\n";
     std::cout << "Containers: " << skin.containers.size() << '\n';
@@ -63,9 +83,9 @@ int main(int argc, char* argv[]) {
         SDL_SetRenderDrawColor(renderer, 58, 110, 165, 255);
         SDL_RenderClear(renderer);
 
-        renderContainer(renderer, skin, "main", "skin");
+        renderContainer(renderer, skin, container_name, g_skinPath);
 
-        SDL_Delay(100);
+        SDL_Delay(200);
 
         SDL_RenderPresent(renderer);
     }

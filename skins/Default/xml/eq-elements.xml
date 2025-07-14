@@ -1,0 +1,32 @@
+<elements>
+
+  <bitmap id="player.eq.placeholder" file="equalizer/window-elements.png" x="104" y="0" h="90" w="244"/>
+  <bitmap id="player.eq.label.balance" file="equalizer/window-elements.png" x="0" y="73" h="5" w="27"/>
+  <bitmap id="player.eq.label.crossfade" file="equalizer/window-elements.png" x="27" y="73" h="5" w="35"/>
+
+  <bitmap id="player.eq.switch.on.disabled" file="equalizer/window-elements.png" x="8" y="0" h="11" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.eq.switch.on.pressed" file="equalizer/window-elements.png" x="8" y="11" h="11" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.eq.switch.on.enabled" file="equalizer/window-elements.png" x="8" y="22" h="11" w="23" gammagroup="Buttons"/>
+  <bitmap id="player.eq.switch.auto.disabled" file="equalizer/window-elements.png" x="32" y="0" h="11" w="31" gammagroup="Buttons"/>
+  <bitmap id="player.eq.switch.auto.pressed" file="equalizer/window-elements.png" x="32" y="11" h="11" w="31" gammagroup="Buttons"/>
+  <bitmap id="player.eq.switch.auto.enabled" file="equalizer/window-elements.png" x="32" y="22" h="11" w="31" gammagroup="Buttons"/>
+  <bitmap id="player.eq.button.presets" file="equalizer/window-elements.png" x="63" y="0" h="11" w="41" gammagroup="Buttons"/>
+  <bitmap id="player.eq.button.presets.pressed" file="equalizer/window-elements.png" x="63" y="11" h="11" w="41" gammagroup="Buttons"/>
+  <bitmap id="player.eq.slider.bar" file="equalizer/window-elements.png" x="0" y="0" h="61" w="8" gammagroup="Slider Backgrounds"/>
+  <bitmap id="player.eq.slider.button" file="equalizer/window-elements.png" x="8" y="45" h="12" w="16" gammagroup="Buttons"/>
+  <bitmap id="player.eq.slider.button.pressed" file="equalizer/window-elements.png" x="8" y="33" h="12" w="16" gammagroup="Buttons"/>
+  <bitmap id="player.eq.slider.horizontal.bar.label" file="equalizer/window-elements.png" x="0" y="61" h="4" w="77" gammagroup="Slider Backgrounds"/>
+  <bitmap id="player.eq.slider.horizontal.bar" file="equalizer/window-elements.png" x="0" y="65" h="8" w="77" gammagroup="Slider Backgrounds"/>
+  <bitmap id="player.eq.slider.horizontal.button" file="equalizer/window-elements.png" x="76" y="22" h="13" w="17" gammagroup="Buttons"/>
+  <bitmap id="player.eq.slider.horizontal.button.pressed" file="equalizer/window-elements.png" x="76" y="35" h="13" w="17" gammagroup="Buttons"/>
+  
+  <bitmap id="player.eq.button.resize" file="player/window-elements.png" x="376" y="26" h="16" w="16"/>
+
+  <bitmap id="player.eq.winshade.bg" file="player-winshade/background.png" gammagroup="Backgrounds"/>
+  <bitmap id="player.eq.winshade.placeHolder" file="equalizer-winshade/window-elements.png" gammagroup="Backgrounds"/>
+  <bitmap id="player.eq.winshade.button.volume" file="equalizer/window-elements.png" x="54" y="34" h="9" w="11" gammagroup="Buttons"/>
+  <bitmap id="player.eq.winshade.button.volume.pressed" file="equalizer/window-elements.png" x="65" y="34" h="9" w="11" gammagroup="Buttons"/>
+  <bitmap id="player.eq.winshade.button.seek" file="equalizer/window-elements.png" x="24" y="34" h="9" w="15" gammagroup="Buttons"/>
+  <bitmap id="player.eq.winshade.button.seek.pressed" file="equalizer/window-elements.png" x="39" y="34" h="9" w="15" gammagroup="Buttons"/>
+
+</elements>

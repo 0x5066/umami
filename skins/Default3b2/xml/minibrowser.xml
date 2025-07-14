@@ -1,0 +1,75 @@
+<include file="minibrowser-elements.xml"/>
+  
+<container id="mb" name="Minibrowser" default_x="275" default_y="0" default_visible="0">
+
+ <!-- Our standardframe content group -->
+
+  <groupdef id="minibrowser.content.group">
+   <browser
+      id="browser"
+      x="0"
+      y="0"
+      w="0"
+      relatw="1"
+      h="-24"
+      relath="1"
+      url="http://www.winamp.com/browser/"
+      mainmb="1"
+   />
+   <layer
+     id="innerbottomstretch"
+     x="0"
+     y="-24"
+     relaty="1"
+     w="0"
+     relatw="1"
+     image="minibrowser.inner.bottom.stretch"
+   />
+   <button
+      id="back"
+      x="4"
+      y="-18"
+      relaty="1"
+      image="minibrowser.back.nonpressed"
+      downimage="minibrowser.back.pressed"
+      hoverimage="minibrowser.back.hover"
+      action="MB_BACK"
+      rectrgn="1"
+      tooltip="Back"
+   />
+   <button
+      id="forward"
+      x="23"
+      y="-18"
+      relaty="1"
+      image="minibrowser.forward.nonpressed"
+      downimage="minibrowser.forward.pressed"
+      hoverimage="minibrowser.forward.hover"
+      action="MB_FORWARD"
+      rectrgn="1"
+      tooltip="Forward"
+   />
+   <edit
+      id="url"
+      x="42"
+      y="-18"
+      relaty="1"
+      h="16"
+      w="-60"
+      relatw="1"
+      action="MB_URL"
+   />
+  </groupdef>
+
+   <!-- Minibrowser layout, a standardframe with a browser and a few controls -->
+
+   <layout id="normal" background="minibrowser.basetexture">
+
+     <group id="studio.standardframe" 
+      x="0" y="0" w="0" h="0" relatw="1" relath="1" 
+      notify="content,minibrowser.content.group"
+     />
+
+   </layout>
+
+  </container>

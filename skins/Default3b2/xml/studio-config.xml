@@ -1,0 +1,82 @@
+<groupdef id="studio.configgroup.int" default_h="16">
+
+ <layer x="0" y="0" w="-43" h="16" image="studio.config.textbg"
+  id="cfg.bg"
+  relatw="1"
+ />
+
+ <text
+  id="cfg.txt"
+  x="0" y="0"
+  w="120" h="16" 
+  fontsize="14"
+ />
+
+ <edit 
+  id="cfg.edit"
+  x="-45" y="0"
+  w="45" h="16" 
+  relatx="1"
+ />
+
+ <script id="cfg.int" file="scripts/cfgint.maki"/>
+
+</groupdef>
+
+
+
+
+<groupdef id="studio.configgroup.bool" default_h="16" >
+
+ <layer x="0" y="0" w="0" h="16" image="studio.config.textbg"
+  relatw="1"
+  id="cfg.bg"
+ />
+
+ <text
+  id="cfg.txt"
+  x="0" y="0"
+  w="-17" relatw="1"
+  h="16"
+  fontsize="14"
+ />
+
+ <togglebutton
+  id="cfg.toggle"
+  x="-16" y="2" relatx="1"
+  image="studio.button.checkbox.unchecked"
+  activeImage="studio.button.checkbox.checked"
+ />
+
+ <button id="cfg.toggle2" x="0" y="0"
+  w="0" relatw="1" h="0" relath="1"
+ />
+
+ <script id="cfg.bool" file="scripts/cfgbool.maki"/>
+
+</groupdef>
+
+<groupdef id="studio.configgroup.string" default_h="16" >
+
+ <layer x="0" y="0" w="0" h="16" image="studio.config.textbg"
+  relatw="1"
+  id="cfg.bg"
+ />
+
+ <text
+  id="cfg.txt"
+  x="0" y="0"
+  w="-17" relatw="1"
+  h="16"
+  fontsize="14"
+ />
+
+ <edit
+  id="cfg.edit"
+  x="-150" y="0" relatx="1"
+  w="150" h="16" 
+ />
+
+ <script id="cfg.string" file="scripts/cfgstring.maki"/>
+
+</groupdef>

@@ -1,0 +1,12 @@
+<!-- pledit-shade.xml defines the layout for the playlist editor windowshade mode. -->  
+
+<include file="pledit-shade-group.xml"/>
+
+<layout id="shade" background="pledit.winshade.bg" minimum_w="275" linkwidth="normal">
+  <group
+    id="pledit.shade.content.group"
+    x="0" y="0"
+    w="0" h="0"
+    relatw="1" relath="1"
+  />
+</layout>

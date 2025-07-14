@@ -3,6 +3,8 @@
 #include <SDL2/SDL_image.h>
 #include "skin.h"
 
+extern bool renderElement(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int x, int y, int w, int h);
+
 bool renderSkinBitmaps(SDL_Renderer* renderer, Skin& skin, const std::string& basePath) {
     int x = 10, y = 10, rowHeight = 0;
 
@@ -34,28 +36,28 @@ bool renderSkinBitmaps(SDL_Renderer* renderer, Skin& skin, const std::string& ba
     return true;
 }
 
-static int compute_dimension(const std::string& value, int relatMode, int parent) {
-    int val = std::stoi(value);
-    switch (relatMode) {
-        case 1: return (val * parent) / 255; // relative
-        case 2: return val * parent;         // proportional
-        default: return val;                // absolute
-    }
-}
-
+int parentWidth, parentHeight; // fallback default
 bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& containerId, const std::string& basePath) {
     auto it = skin.containers.find(containerId);
     if (it == skin.containers.end()) return false;
     const Container& container = it->second;
 
     for (const auto& layout : container.layouts) {
-        int parentWidth = 275, parentHeight = 116; // fallback default
+        parentWidth = 800; parentHeight = 600;
 
         if (layout->attributes.count("minimum_w")) {
             parentWidth = std::stoi(layout->attributes.at("minimum_w"));
         }
         if (layout->attributes.count("minimum_h")) {
             parentHeight = std::stoi(layout->attributes.at("minimum_h"));
+        }
+
+        // fallback to the image's actual size instead of hard coding this
+        if (!(layout->attributes.count("minimum_w"))){
+            parentWidth = 275;
+        }
+        if (!(layout->attributes.count("minimum_h"))){
+            parentHeight = 116;
         }
 
         // --- Render background ONCE per layout, before elements ---
@@ -93,46 +95,9 @@ bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& cont
         // --- End background ---
 
         for (const auto& elem : layout->elements) {
-            std::string tag = elem->tag;
-            if (tag == "layer" || tag == "button") {
-                auto it_img = elem->attributes.find("image");
-                if (it_img == elem->attributes.end()) continue;
-                const std::string& imageId = it_img->second;
-
-                auto bmpIt = skin.bitmaps.find(imageId);
-                if (bmpIt == skin.bitmaps.end()) continue;
-                const SkinBitmap& bmp = bmpIt->second;
-
-                std::string fullPath = basePath + "/" + bmp.file;
-                SDL_Surface* surface = IMG_Load(fullPath.c_str());
-                if (!surface) continue;
-
-                SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-                SDL_FreeSurface(surface);
-                if (!texture) continue;
-
-                int x = compute_dimension(elem->attributes.count("x") ? elem->attributes.at("x") : "0",
-                                          std::stoi(elem->attributes.count("relatx") ? elem->attributes.at("relatx") : "0"),
-                                          parentWidth);
-
-                int y = compute_dimension(elem->attributes.count("y") ? elem->attributes.at("y") : "0",
-                                          std::stoi(elem->attributes.count("relaty") ? elem->attributes.at("relaty") : "0"),
-                                          parentHeight);
-
-                int w = compute_dimension(std::to_string(bmp.w),
-                                          std::stoi(elem->attributes.count("relatw") ? elem->attributes.at("relatw") : "0"),
-                                          parentWidth);
-
-                int h = compute_dimension(std::to_string(bmp.h),
-                                          std::stoi(elem->attributes.count("relath") ? elem->attributes.at("relath") : "0"),
-                                          parentHeight);
-
-                SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
-                SDL_Rect dst = { x, y, w, h };
-                SDL_RenderCopy(renderer, texture, &src, &dst);
-                SDL_DestroyTexture(texture);
-            }
+            renderElement(renderer, skin, *elem, 0, 0, parentWidth, parentHeight);
         }
+        break; // Only render the first layout
     }
     return true;
 }

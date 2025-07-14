@@ -1,0 +1,122 @@
+   <!-- Player:Windowshade Mode -->
+   
+   <layout id="shade" background="player.winshade.bg" 
+     inactive="player.winshade.bg.inactive">
+
+    <layer id="placeholder" x="0" y="0" image="player.winshade.placeHolder"/>
+
+    <!-- Playback buttons -->
+    <button 
+      id="Previous"
+      action="PREV" 
+      x="151" y="3" 
+      image="player.winshade.button.previous" 
+      downImage="player.winshade.button.previous.pressed" 
+      tooltip="Previous"
+      inactiveAlpha="128"
+    />
+    <button
+      id="Play"
+      action="PLAY"
+      x="164" y="3"
+      image="player.winshade.button.play"
+      downImage="player.winshade.button.play.pressed"
+      tooltip="Play"
+      inactiveAlpha="128"
+    />
+    <button
+      id="Pause"
+      action="PAUSE"
+      x="174" y="3"
+      image="player.winshade.button.pause"
+      downImage="player.winshade.button.pause.pressed"
+      tooltip="Pause"
+      inactiveAlpha="128"
+    />
+    <button
+      id="Stop"
+      action="STOP"
+      x="184" y="3"
+      image="player.winshade.button.stop"
+      downImage="player.winshade.button.stop.pressed"
+      tooltip="Stop"
+      inactiveAlpha="128"
+    />
+    <button
+      id="Next"
+      action="NEXT"
+      x="194" y="3"
+      image="player.winshade.button.next"
+      downImage="player.winshade.button.next.pressed"
+      tooltip="Next"
+      inactiveAlpha="128"
+    />
+    <button
+      id="Eject"
+      action="EJECT"
+      x="211" y="3"
+      image="player.winshade.button.eject"
+      downImage="player.winshade.button.eject.pressed"
+      tooltip="Eject"
+      inactiveAlpha="128"
+    />
+    <!-- Timer -->
+    <text
+      id="timer"
+      display="time"
+      x="116" y="2"
+      w="30" h="10"
+      font="player.SmallFixed" fontsize="13" align="right"
+    />
+    
+    <!-- Sound Analyzer -->
+    <vis
+      id="vis"
+      x="74" y="3"
+      w="38" h="8"
+    />
+
+
+    <!-- Titlebar buttons -->
+    <button
+      id="sysbutton"
+      action="SYSMENU"
+      x="5" y="3"
+      image="player.button.menu"
+      downImage="player.button.menu.pressed"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;normal"
+      x="23" y="2"
+      image="player.titlebar.active.text"
+      inactiveAlpha="128"
+    />
+    <button
+      id="Minimize"
+      action="MINIMIZE"
+      x="230" y="3"
+      image="player.button.minimize"
+      downImage="player.button.minimize.pressed"
+      tooltip="Minimize Winamp"
+      inactiveAlpha="128"
+    />
+    <button
+      id="winshade" tooltip="Toggle Windowshade mode"
+      action="SWITCH" param="normal"
+      x="244" y="3"
+      image="player.winshade.button.winshade"
+      downImage="player.winshade.button.winshade.pressed"
+      inactiveAlpha="128"
+    />
+    <button
+      id="Close"
+      action="CLOSE"
+      x="261" y="3"
+      image="player.button.close"
+      downImage="player.button.close.pressed"
+      tooltip="Exit Winamp"
+      inactiveAlpha="128"
+    />
+   </layout>

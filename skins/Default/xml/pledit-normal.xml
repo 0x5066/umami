@@ -1,0 +1,32 @@
+<!-- pledit-normal.xml defines the layout of the normal Playlist Editor -->
+
+<include file="pledit-normal-group.xml"/>
+
+<layout id="normal" minimum_h="116" minimum_w="275" default_h="154" linkwidth="shade">
+
+  <Wasabi:StandardFrame:Status 
+    x="0" y="0" w="0" h="0" relatw="1" relath="1" 
+    content="pledit.content.group" 
+    padtitleright="18" 
+    shade="shade"
+  />
+   
+  <button
+    id="winshade" tooltip="Windowshade Mode"
+    action="SWITCH" param="shade"
+    x="-35" relatx="1" y="3"
+    image="wasabi.button.winshade.pressed"
+    downImage="wasabi.button.winshade"
+    activeAlpha="0"
+  />
+  
+  <button
+    id="winshade" tooltip="Windowshade Mode"
+    action="SWITCH" param="shade"
+    x="-35" relatx="1" y="3"
+    image="wasabi.button.winshade"
+    downImage="wasabi.button.winshade.pressed"
+    inactiveAlpha="0"
+  />
+  
+</layout>

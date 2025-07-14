@@ -1,0 +1,29 @@
+<include file="video-shade-group.xml" />
+
+<layout id="shade" minimum_h="232" minimum_w="275" default_x="320" default_y="240" linkwidth="normal" linkheight="normal" droptarget="pldr">
+
+  <Wasabi:StandardFrame:NoStatus 
+    x="0" y="0" w="0" h="0" relatw="1" relath="1" 
+    content="video.shade.content.group" 
+    padtitleright="18" 
+    shade="shade"
+  />
+  <button
+    id="winshade" tooltip="Toggle Windowshade mode"
+    action="SWITCH" param="normal"
+    x="-35" relatx="1" y="3"
+    image="wasabi.button.winshade.pressed"
+    downImage="wasabi.button.winshade"
+    activeAlpha="0"
+  />
+  
+  <button
+    id="winshade" tooltip="Toggle Windowshade mode"
+    action="SWITCH" param="normal"
+    x="-35" relatx="1" y="3"
+    image="wasabi.button.winshade"
+    downImage="wasabi.button.winshade.pressed"
+    inactiveAlpha="0"
+  />
+ 
+</layout>

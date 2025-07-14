@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<WinampAbstractionLayer version="0.7">
+
+  <skininfo>
+    <version>0.96</version>
+    <name>Winamp 3.0 Default skin</name>
+    <comment>Winamp 3.0 Default skin</comment>
+    <author gaybag="yes" >Steve Gedikian</author>
+    <email>steve@nullsoft.com</email>
+    <homepage>http://www.pixyland.org/peterpan/</homepage>
+    <screenshot>skinshot.png</screenshot>
+  </skininfo>
+
+  <include file="xml/skin-pieces.xml"/>
+
+</WinampAbstractionLayer>

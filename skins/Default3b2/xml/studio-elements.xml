@@ -1,0 +1,198 @@
+ <elements>
+
+  <!-- Fonts -->
+   <bitmapfont id="studio.component.title" file="studio/component-title-font.png" hspacing="-3" vspacing="0" charwidth="10" charheight="11" />
+   <bitmapfont id="studio.component.statusbar" file="player/font.png" charwidth="5" charheight="6" hspacing="0" vspacing="0"/>
+
+  <!-- Colors -->
+
+   <!-- Generic Trees -->
+   <color id="studio.tree.text" value="0,248,0"/> <!-- Item text color -->
+   <color id="studio.tree.selected" value="0,0,128"/> <!-- Select item text background color -->
+   <color id="studio.tree.hilited" value="0,255,255"/> <!-- Hilited item text background color -->
+   <color id="studio.tree.hiliteddrop" value="0,64,128"/> <!-- Drop marker color -->
+   <color id="studio.list.item.selected.fg" value="studio.list.text" /> <!-- selected item text foreground color -->
+
+   <!-- Generic Lists -->
+   <color id="studio.list.text" value="0,248,0"/> <!-- List item text color -->
+   <color id="studio.list.item.selected" value="0,0,128"/> <!-- Selected item text background color -->
+   <color id="studio.list.item.focused" value="0,0,128"/> <!-- Focused item text background color -->
+   <color id="studio.list.column.background" value="102,102,102"/> <!-- Columns background color -->
+   <color id="studio.list.column.text" value="255,255,255"/> <!-- Columns text color -->
+
+   <!-- Item Lists -->
+   <color id="common.itemlist.outline.current" value="255,255,0"/> <!-- Currently playing outline color -->
+   <color id="common.itemlist.outline.focus" value="0,128,128"/> <!-- Focused item dashed outline color -->
+
+   <!-- Media Library Results List -->
+   <color id="library.list.results.text" value="0,255,0"/> <!-- list item text color -->
+
+   <!-- playlist editor -->
+   <color id="pledit.text" value="0,255,0"/>	<!-- text color in editor -->
+   <color id="pledit.text.current" value="248,248,248"/> <!-- current playback file foreground -->
+   <color id="pledit.currentoutline" value="248,248,0"/> <!-- current playback file outline color -->
+   <color id="pledit.dir.plitem" value="0,248,0" /> <!-- playlist directory item foreground color -->
+   <color id="pledit.dir.working" value="230,230,230" /> <!-- playlist directory working playlist item foreground color -->
+   <color id="pledit.dir.workingbg" value="64,64,64" /> <!-- playlist directory working playlist item background color -->
+
+   <!-- Message box -->
+   <color id="studio.msgBox.background" value="32,32,32"/> <!-- Messagebox background color -->
+   <color id="studio.textBar.text" value="32,192,32"/> <!-- Text object & message box text color -->
+   <color id="studio.textBar.background" value="32,32,32"/> <!-- Text object & message box text background color -->
+
+   <!-- Buttons -->
+   <color id="studio.button.text" value="0,0,0"/> <!-- Buttons text color -->
+   <color id="studio.button.hiliteText" value="0,240,0"/> <!-- Buttons hilite text color, used by tab windows-->
+   <color id="studio.button.dimmedText" value="64,64,64"/> <!-- Buttons dimmed text color, when disabled -->
+
+   <!-- Popup menus -->
+   <color id="studio.popup.text" value="0,0,0"/> <!-- Menu items text color -->
+   <color id="studio.popup.hiliteText" value="0,128,240"/> <!-- Hilited item text color -->
+   <color id="studio.popup.dimmedText" value="64,64,64"/> <!-- Disabled item text color -->
+
+   <!-- Components -->
+   <color id="studio.status.text" value="248,248,248" /> <!-- Component status text color when using TTF -->
+   <color id="studio.component.title.foreground" value="255,255,255"/> <!-- Component title bar text color when using TTF -->
+   <color id="studio.component.title.border" value="1,1,1"/> <!-- Component title bar text outline when using TTF -->
+
+   <!-- labeled windows -->
+   <color id="common.labelwnd.foreground" value="220,220,220"/> <!-- Text foreground color -->
+   <color id="common.labelwnd.background" value="0,0,0"/> <!-- Text drop shadow color -->
+
+  <!-- Bitmaps -->
+
+   <bitmap id="studio.BaseTexture" file="studio/application-background.png"/> <!-- Application base texture -->
+
+   <!-- Frame windows -->
+   <bitmap id="studio.framewnd.verticaldivider" file="studio/window-elements.png" x="124" y="53" h="65" w="8"/> 
+   <bitmap id="studio.framewnd.verticalgrabber" file="studio/window-elements.png" x="115" y="53" h="65" w="8"/>
+   <bitmap id="studio.framewnd.horizontaldivider" file="studio/window-elements.png" x="40" y="97" h="8" w="65"/>
+   <bitmap id="studio.framewnd.horizontalgrabber" file="studio/window-elements.png" x="40" y="106" h="8" w="65"/>
+   <bitmap id="studio.framewnd.windowshade" file="studio/framewnd-windowshade.png"/>
+
+   <!-- Generic Lists and Trees -->
+   <bitmap id="studio.list.background" file="studio/listbackground.png"/>  <!-- List background bitmap (tile) -->
+   <bitmap id="studio.tree.background" file="studio/listbackground.png"/>  <!-- Tree background bitmap (tile) -->
+
+   <bitmap id="studio.tree.tab.closed" file="studio/tree-tab-closed.png"/>
+   <bitmap id="studio.tree.tab.open" file="studio/tree-tab-open.png"/>
+   <bitmap id="studio.tree.link.top.bottom" file="studio/tree-link-top-bottom.png"/>
+   <bitmap id="studio.tree.link.top.right" file="studio/tree-link-top-right.png"/>
+   <bitmap id="studio.tree.link.top.rightBottom" file="studio/tree-link-top-right-bottom.png"/>
+   <bitmap id="studio.tree.link.tab.top.bottom" file="studio/tree-link-tab-top-bottom.png"/>
+   <bitmap id="studio.tree.link.tab.top.right" file="studio/tree-link-tab-top-right.png"/>
+   <bitmap id="studio.tree.link.tab.top.rightBottom" file="studio/tree-link-tab-top-right-bottom.png"/>
+
+   <!-- List & Tree scrollbars -->
+   <bitmap id="studio.scrollbar.horizontal.left" file="studio/window-elements.png" x="40" y="13" h="13" w="17"/>
+   <bitmap id="studio.scrollbar.horizontal.left.hilite" file="studio/window-elements.png" x="40" y="26" h="13" w="17"/>
+   <bitmap id="studio.scrollbar.horizontal.left.pressed" file="studio/window-elements.png" x="40" y="39" h="13" w="17"/>
+   <bitmap id="studio.scrollbar.horizontal.right" file="studio/window-elements.png" x="98" y="13" h="13" w="17"/>
+   <bitmap id="studio.scrollbar.horizontal.right.hilite" file="studio/window-elements.png" x="98" y="26" h="13" w="17"/>
+   <bitmap id="studio.scrollbar.horizontal.right.pressed" file="studio/window-elements.png" x="98" y="39" h="13" w="17"/>
+   <bitmap id="studio.scrollbar.horizontal.button" file="studio/window-elements.png" x="57" y="13" h="13" w="41"/>
+   <bitmap id="studio.scrollbar.horizontal.button.hilite" file="studio/window-elements.png" x="57" y="26" h="13" w="41"/>
+   <bitmap id="studio.scrollbar.horizontal.button.pressed" file="studio/window-elements.png" x="57" y="39" h="13" w="41"/>
+   <bitmap id="studio.scrollbar.vertical.left" file="studio/window-elements.png" x="0" y="38" h="17" w="13"/>
+   <bitmap id="studio.scrollbar.vertical.left.hilite" file="studio/window-elements.png" x="13" y="38" h="17" w="13"/>
+   <bitmap id="studio.scrollbar.vertical.left.pressed" file="studio/window-elements.png" x="26" y="38" h="17" w="13"/>
+   <bitmap id="studio.scrollbar.vertical.right" file="studio/window-elements.png" x="0" y="96" h="17" w="13"/>
+   <bitmap id="studio.scrollbar.vertical.right.hilite" file="studio/window-elements.png" x="13" y="96" h="17" w="13"/>
+   <bitmap id="studio.scrollbar.vertical.right.pressed" file="studio/window-elements.png" x="26" y="96" h="17" w="13"/>
+   <bitmap id="studio.scrollbar.vertical.button" file="studio/window-elements.png" x="0" y="55" h="41" w="13"/>
+   <bitmap id="studio.scrollbar.vertical.button.hilite" file="studio/window-elements.png" x="13" y="55" h="41" w="13"/>
+   <bitmap id="studio.scrollbar.vertical.button.pressed" file="studio/window-elements.png" x="26" y="55" h="41" w="13"/>
+
+   <!-- Library Lists & Trees backgrounds (tiles) -->
+   <bitmap id="library.results.background" file="library/library-background.png"/>
+   <bitmap id="library.directory.background" file="library/directory-background.png"/>
+   <bitmap id="library.subtree.background" file="library/subtree-background.png"/>
+
+   <!-- Playlist editor -->
+   <bitmap id="pe.marker" file="pe/marker.png" />
+   <bitmap id="pe.dropind" file="pe/drop_indicator.png" /> <!-- Drop indicator bitmap -->
+
+   <!-- Generic seekers/sliders -->
+   <bitmap id="studio.seekbar.left" file="studio/seekbar-left.png"/>
+   <bitmap id="studio.seekbar.middle" file="studio/seekbar-middle.png"/>
+   <bitmap id="studio.seekbar.right" file="studio/seekbar-right.png"/>
+   <bitmap id="studio.seekbar.button.nonpressed" file="studio/seekbar-button.png"/>
+   <bitmap id="studio.seekbar.button.pressed" file="studio/seekbar-button-pressed.png"/>
+
+   <!-- labelwnd titles -->
+   <bitmap id="studio.label.upperLeft" file="studio/labelwnd.png" x="0" y="0" w="3" h="3" />
+   <bitmap id="studio.label.top" file="studio/labelwnd.png" x="3" y="0" w="8" h="3" />
+   <bitmap id="studio.label.upperRight" file="studio/labelwnd.png" x="11" y="0" w="3" h="3" />
+   <bitmap id="studio.label.left" file="studio/labelwnd.png" x="0" y="3" w="3" h="8" />
+   <bitmap id="studio.label.middle" file="studio/labelwnd.png" x="3" y="3" w="8" h="8" />
+   <bitmap id="studio.label.right" file="studio/labelwnd.png" x="11" y="3" w="3" h="8" />
+   <bitmap id="studio.label.lowerLeft" file="studio/labelwnd.png" x="0" y="11" w="3" h="3" />
+   <bitmap id="studio.label.bottom" file="studio/labelwnd.png" x="3" y="11" w="8" h="3" />
+   <bitmap id="studio.label.lowerRight" file="studio/labelwnd.png" x="11" y="11" w="3" h="3" />
+
+   <!-- default buttons -->
+   <bitmap id="studio.button.upperLeft" file="studio/window-elements.png" x="1" y="135" h="2" w="2"/>
+   <bitmap id="studio.button.top" file="studio/window-elements.png" x="5" y="135" h="2" w="25"/>
+   <bitmap id="studio.button.upperRight" file="studio/window-elements.png" x="32" y="135" h="2" w="2"/>
+   <bitmap id="studio.button.left" file="studio/window-elements.png" x="1" y="139" h="25" w="2"/>
+   <bitmap id="studio.button.middle" file="studio/window-elements.png" x="5" y="139" h="25" w="25"/>
+   <bitmap id="studio.button.right" file="studio/window-elements.png" x="32" y="139" h="25" w="2"/>
+   <bitmap id="studio.button.lowerLeft" file="studio/window-elements.png" x="1" y="166" h="2" w="2"/>
+   <bitmap id="studio.button.bottom" file="studio/window-elements.png" x="5" y="166" h="2" w="25"/>
+   <bitmap id="studio.button.lowerRight" file="studio/window-elements.png" x="32" y="166 " h="2" w="2"/>
+
+   <bitmap id="studio.button.pressed.upperLeft" file="studio/window-elements.png" x="71" y="135" h="2" w="2"/>
+   <bitmap id="studio.button.pressed.top" file="studio/window-elements.png" x="75" y="135" h="2" w="25"/>
+   <bitmap id="studio.button.pressed.upperRight" file="studio/window-elements.png" x="102" y="135" h="2" w="2"/>
+   <bitmap id="studio.button.pressed.left" file="studio/window-elements.png" x="71" y="139" h="25" w="2"/>
+   <bitmap id="studio.button.pressed.middle" file="studio/window-elements.png" x="75" y="139" h="25" w="25"/>
+   <bitmap id="studio.button.pressed.right" file="studio/window-elements.png" x="102" y="139" h="25" w="2"/>
+   <bitmap id="studio.button.pressed.lowerLeft" file="studio/window-elements.png" x="71" y="166" h="2" w="2"/>
+   <bitmap id="studio.button.pressed.bottom" file="studio/window-elements.png" x="75" y="166" h="2" w="25"/>
+   <bitmap id="studio.button.pressed.lowerRight" file="studio/window-elements.png" x="102" y="166 " h="2" w="2"/>
+
+   <!-- todo: move in studio-config.xml -->
+   <bitmap id="studio.config.textbg" file="studio/text_bg.png" />
+
+   <!-- Generic frame (ie: messagebox) -->
+   <bitmap id="studio.border.upperLeft" file="studio/application-border-upperleft.png"/>
+   <bitmap id="studio.border.top" file="studio/application-border-top.png"/>
+   <bitmap id="studio.border.upperRight" file="studio/application-border-upperright.png"/>
+   <bitmap id="studio.border.left" file="studio/application-border-left.png"/>
+   <bitmap id="studio.border.right" file="studio/application-border-right.png"/>
+   <bitmap id="studio.border.lowerLeft" file="studio/application-border-lowerleft.png"/>
+   <bitmap id="studio.border.bottom" file="studio/application-border-bottom.png"/>
+   <bitmap id="studio.border.lowerRight" file="studio/application-border-lowerright.png"/>
+
+   <!-- Component status bar -->
+   <bitmap id="studio.statusbar.left" file="studio/window-elements.png" x="94" y="0" h="12" w="12"/>
+   <bitmap id="studio.statusbar.middle" file="studio/window-elements.png" x="107" y="0" h="12" w="12"/>
+   <bitmap id="studio.statusbar.right" file="studio/window-elements.png" x="120" y="0" h="12" w="12"/>
+
+   <!-- Checkboxes -->
+   <bitmap id="studio.button.checkbox.checked" file="studio/window-elements.png" x="58" y="77" h="11" w="11"/>
+   <bitmap id="studio.button.checkbox.unchecked" file="studio/window-elements.png" x="58" y="66" h="11" w="11"/>
+
+   <!-- Popup menus -->
+   <bitmap id="studio.button.checkmark" file="menu/generic-menu-icon-check.png"/>
+   <bitmap id="studio.popup.seperator" file="menu/generic-menu-divider.png"/>
+   <bitmap id="studio.popup.background" file="menu/generic-menu-background.png"/>
+   <bitmap id="studio.popup.border.topLeft" file="menu/generic-menu-top-left.png"/>
+   <bitmap id="studio.popup.border.topRight" file="menu/generic-menu-top-right.png"/>
+   <bitmap id="studio.popup.border.bottomLeft" file="menu/generic-menu-bottom-left.png"/>
+   <bitmap id="studio.popup.border.bottomRight" file="menu/generic-menu-bottom-right.png"/>
+   <bitmap id="studio.popup.border.left" file="menu/generic-menu-left.png"/>
+   <bitmap id="studio.popup.border.right" file="menu/generic-menu-right.png"/>
+   <bitmap id="studio.popup.border.top" file="menu/generic-menu-top.png"/>
+   <bitmap id="studio.popup.border.bottom" file="menu/generic-menu-bottom.png"/>
+   <bitmap id="studio.popup.submenuIcon" file="menu/menu-submenu-icon.png"/>
+
+   <!-- Title objects -->
+   <bitmap id="studio.component.titlebar.left.active" file="player/player-buttons.png" x="341" y="26" h="7" w="7"/>
+   <bitmap id="studio.component.titlebar.center.active" file="player/player-buttons.png" x="349" y="26" h="7" w="7"/>
+   <bitmap id="studio.component.titlebar.right.active" file="player/player-buttons.png" x="357" y="26" h="7" w="7"/>
+   <bitmap id="studio.component.titlebar.left.inactive" file="player/player-buttons.png" x="341" y="34" h="7" w="7"/>
+   <bitmap id="studio.component.titlebar.center.inactive" file="player/player-buttons.png" x="349" y="34" h="7" w="7"/>
+   <bitmap id="studio.component.titlebar.right.inactive" file="player/player-buttons.png" x="357" y="34" h="7" w="7"/>
+
+ </elements>

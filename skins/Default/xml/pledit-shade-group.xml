@@ -1,0 +1,80 @@
+<!-- pledit-shade-group.xml defines the layout for the playlist editor windowshade mode group. -->  
+
+<groupdef id="pledit.shade.content.songdisplay">
+   <text
+    id="shadesongticker" ticker="0"
+    y="1"
+    relatw="1" w="-52"
+    relath="1" 
+    display="songname" default="" showlen="0"
+    font="wasabi.font.default" fontsize="12"
+    dblClickAction="SWITCH;normal" 
+    nograb="1"
+    color="96,240,96"
+    move="1"
+   />
+   <text x="-38" relatx="1" h="0" relath="1"
+    display="songlength" 
+    font="wasabi.font.default" fontsize="12"
+    dblClickAction="SWITCH;normal" 
+    nograb="1"
+    color="96,240,96"
+    move="1"
+   />
+</groupdef>
+
+<groupdef id="pledit.shade.content.group">
+
+  <layer id="highlight-left" x="0" y="0" image="pledit.winshade.highlight.left"/>
+  <layer id="highlight-center" x="3" y="0" w="-6" relatw="1" image="pledit.winshade.highlight.center"/>
+  <layer id="highlight-right" x="-3" relatx="1" y="0" image="pledit.winshade.highlight.right"/>
+  
+  <layer id="display" dblClickAction="SWITCH;shade" x="2" y="2" image="pledit.winshade.display.left"/>
+  <layer id="display" dblClickAction="SWITCH;shade" x="4" y="2" w="-54" relatw="1" image="pledit.winshade.display.center"/>
+  <layer id="display" dblClickAction="SWITCH;shade" x="-50" relatx="1" y="2" image="pledit.winshade.display.right"/>
+  
+  <layer id="sizer" x="-44" relatx="1" y="2" resize="right" image="pledit.winshade.sizer"/>
+  
+  
+  <!-- Song Name Ticker -->
+  <group id="pledit.shade.content.songdisplay" x="6" y="0" w="-42" h="0" relatw="1" relath="1" />
+
+  <button
+    id="winshade" tooltip="Windowshade Mode"
+    action="SWITCH" param="normal"
+    x="-35" relatx="1" y="3"
+    image="wasabi.button.winshade.pressed"
+    downImage="wasabi.button.winshade"
+    activeAlpha="0"
+  />
+  
+  <button
+    id="winshade" tooltip="Windowshade Mode"
+    action="SWITCH" param="normal"
+    x="-35" relatx="1" y="3"
+    image="wasabi.button.winshade"
+    downImage="wasabi.button.winshade.pressed"
+    inactiveAlpha="0"
+  />
+  
+   <button
+    id="Close" 
+    action="CLOSE"
+    x="-18" relatx="1" y="3"
+    image="wasabi.button.close.pressed"
+    downImage="wasabi.button.close"
+    activeAlpha="0"
+  />
+  
+  <button
+    id="Close"
+    action="CLOSE"
+    x="-18" relatx="1" y="3"
+    image="wasabi.button.close"
+    downImage="wasabi.button.close.pressed"
+    tooltip="Close Window"
+    inactiveAlpha="0"
+  />
+
+
+</groupdef>

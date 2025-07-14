@@ -1,4 +1,6 @@
 // skin.cpp
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "skin.h"
 #include "wasabiparser.h"
 
@@ -22,20 +24,16 @@ std::unordered_map<std::string, std::string> collectAttributes(const XMLElement*
 std::unique_ptr<UIElement> parseUIElement(const XMLElement* elem) {
     std::string tag = elem->Name();
 
-    if (tag == "group") {
-        const char* ref = elem->Attribute("id");
-        if (ref) {
-            std::cout << "Referenced group: " << ref << "\n";
-        }
-    }
-    if (tag == "elements") {
-        int count = 0;
-        const XMLElement* child = elem->FirstChildElement();
-        while (child) {
-            ++count;
-            child = child->NextSiblingElement();
-        }
-        std::cout << "Found <elements> container with " << count << " item(s)\n";
+    // Handle xuitag remapping
+    if (g_targetSkin && g_targetSkin->xuiTagMap.count(tag)) {
+        std::string groupId = g_targetSkin->xuiTagMap[tag];
+        std::cout << "xuitag matched: " << tag << " → group id: " << groupId << "\n";
+
+        auto ui = std::make_unique<UIElement>();
+        ui->tag = "group";
+        ui->attributes = collectAttributes(elem);
+        ui->attributes["id"] = groupId;
+        return ui;
     }
 
     auto ui = std::make_unique<UIElement>();
@@ -60,6 +58,20 @@ void tryRegisterBitmap(const XMLElement* elem) {
     elem->QueryIntAttribute("y", &bmp.y);
     elem->QueryIntAttribute("w", &bmp.w);
     elem->QueryIntAttribute("h", &bmp.h);
+
+    // Load actual image to fallback on dimensions if w/h not given
+    if ((bmp.w <= 0 || bmp.h <= 0) && !bmp.file.empty()) {
+        std::string fullPath = g_skinPath + bmp.file;
+        SDL_Surface* surface = IMG_Load(fullPath.c_str());
+        if (surface) {
+            if (bmp.w <= 0) bmp.w = surface->w;
+            if (bmp.h <= 0) bmp.h = surface->h;
+            SDL_FreeSurface(surface);
+        } else {
+            SDL_Log("Warning: could not load fallback bitmap: %s", fullPath.c_str());
+        }
+    }
+
     if (std::string(elem->Name()) == "bitmapfont") {
         bmp.isFont = true;
         elem->QueryIntAttribute("charwidth", &bmp.charWidth);
@@ -67,18 +79,27 @@ void tryRegisterBitmap(const XMLElement* elem) {
         elem->QueryIntAttribute("hspacing", &bmp.hspacing);
         elem->QueryIntAttribute("vspacing", &bmp.vspacing);
     }
+
     g_targetSkin->bitmaps[bmp.id] = std::move(bmp);
 }
+
 
 void tryRegisterGroupDef(const XMLElement* elem) {
     if (!g_targetSkin) return;
     GroupDef group;
     group.id = elem->Attribute("id") ? elem->Attribute("id") : "";
+
+    // Check and register xuitag
+    if (const char* xtag = elem->Attribute("xuitag")) {
+        g_targetSkin->xuiTagMap[xtag] = group.id;
+    }
+
     const XMLElement* child = elem->FirstChildElement();
     while (child) {
         group.elements.push_back(parseUIElement(child));
         child = child->NextSiblingElement();
     }
+
     g_targetSkin->groupDefs[group.id] = std::move(group);
 }
 

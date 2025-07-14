@@ -40,6 +40,12 @@ bin/
 obj/
 
 build/
-freeform/
+
+skins/DeClassified/
+skins/Default3b3/
+skins/Winamp Classic Modern
+skins/WinampXP
+skins/Pimeer_v2.4.1
+skins/wasabi.player-plague_edit
 
 *.code-workspace

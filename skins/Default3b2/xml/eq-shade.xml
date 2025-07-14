@@ -1,0 +1,108 @@
+<!-- Equalzier:Windowshade Mode -->
+
+   <layout id="shade" background="player.eq.winshade.bg">
+   <layer id="placeholder" x="0" y="0" image="player.eq.winshade.placeHolder"/>
+
+    <!-- Titlebar -->
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;eq"
+      x="22" y="4"
+      image="player.eq.titlebar.active.left"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;eq"
+      x="25" y="4" w="3"
+      image="player.eq.titlebar.active.center"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;eq"
+      x="29" y="4"
+      image="player.eq.titlebar.active.right"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;eq"
+      x="101" y="4"
+      image="player.eq.titlebar.active.left"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;eq"
+      x="105" y="4" w="9"
+      image="player.eq.titlebar.active.center"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;eq"
+      x="111" y="4"
+      image="player.eq.titlebar.active.right"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;eq"
+      x="225" y="4"
+      image="player.eq.titlebar.active.left"
+      inactiveAlpha="128"
+    />
+    <layer
+      id="blah"
+      dblClickAction="SWITCH;eq"
+      x="230" y="4"
+      image="player.eq.titlebar.active.right"
+      inactiveAlpha="128"
+    />
+
+    <!-- Sliderz -->
+    <slider
+      id="Volume"
+      action="VOLUME"
+      x="39" y="3"
+      w="59" h="9"
+      thumb="player.eq.winshade.button.volume"
+      downThumb="player.eq.winshade.button.volume.pressed"
+    />
+    <slider
+      id="Seeker"
+      action="SEEK"
+      x="121" y="3"
+      w="100" h="9"
+      thumb="player.eq.winshade.button.seek"
+      downThumb="player.eq.winshade.button.seek.pressed"
+    />
+
+    <!-- Titlebar buttons -->
+    <button
+      id="sysbutton"
+      action="SYSMENU"
+      x="5" y="3"
+      image="player.eq.button.menu"
+      downImage="player.eq.button.menu.pressed"
+      inactiveAlpha="128"
+    />
+    <button
+      id="winshade" tooltip="Toggle Windowshade mode"
+      action="SWITCH" param="open"
+      x="240" y="3"
+      image="player.eq.button.winshade"
+      downImage="player.eq.button.winshade.pressed"
+      inactiveAlpha="128"
+    />
+    <button
+      id="Close"
+      action="CLOSE"
+      x="257" y="3"
+      image="player.eq.button.close"
+      downImage="player.eq.button.close.pressed"
+      tooltip="Close Window"
+      inactiveAlpha="128"
+    />
+   </layout>

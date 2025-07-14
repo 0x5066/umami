@@ -1,0 +1,9 @@
+<include file="studio.xml"/>
+<include file="gamma-presets.xml"/>
+<include file="player.xml"/>
+<include file="eq.xml"/>
+<include file="pledit.xml"/>
+<include file="thinger.xml"/>
+<include file="minibrowser.xml"/>
+<include file="components.xml"/>
+<include file="scripts.xml"/>

@@ -1,0 +1,32 @@
+
+ <!-- Gamma sets -->
+ <gammaset id="Grey">
+   <gammagroup id="Backgrounds" value="0,0,0"/>
+   <gammagroup id="Buttons" value="0,0,0"/>
+   <gammagroup id="Thinger icons" value="-4095,620,-4095"/>
+ </gammaset>
+ <gammaset id="Blue">
+   <gammagroup id="Backgrounds" value="0,300,1700"/>
+   <gammagroup id="Buttons" value="0,0,0"/>
+   <gammagroup id="Thinger icons" value="0,300,1700"/>
+ </gammaset>
+ <gammaset id="Red">
+   <gammagroup id="Backgrounds" value="1700,300,0"/>
+   <gammagroup id="Buttons" value="0,0,0"/>
+   <gammagroup id="Thinger icons" value="1700,300,0"/>
+ </gammaset>
+ <gammaset id="Green">
+   <gammagroup id="Backgrounds" value="300,1700,0"/>
+   <gammagroup id="Buttons" value="0,0,0"/>
+   <gammagroup id="Thinger icons" value="300,1700,0"/>
+ </gammaset>
+ <gammaset id="Winamp 2.x style">
+   <gammagroup id="Backgrounds" value="-2606,-2407,-1762"/>
+   <gammagroup id="Buttons" value="400,400,400"/>
+   <gammagroup id="Thinger icons" value="-4095,620,-4095"/>
+ </gammaset>
+ <gammaset id="Winamp 2.x red style">
+   <gammagroup id="Backgrounds" value="-2606,-2407,-1762"/>
+   <gammagroup id="Buttons" value="900,400,0"/>
+   <gammagroup id="Thinger icons" value="-4095,620,-4095"/>
+ </gammaset>

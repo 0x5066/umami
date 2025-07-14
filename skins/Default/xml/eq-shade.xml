@@ -1,0 +1,12 @@
+<!-- eq-shade.xml defines the layout of the Equalizer Window Shade Window. -->  
+
+<include file="eq-shade-group.xml" />
+
+<layout id="shade" background="player.eq.winshade.bg" dblClickAtion="SWITCH:shade">
+  <group
+    id="eq.shade.content.group"
+    x="0" y="0"
+    w="0" h="0"
+    relatw="1" relath="1"
+  />
+</layout>

@@ -1,0 +1,178 @@
+<!-- player-shade-group.xml defines the layout of the Winamp Player Window while in Window Shade. -->  
+
+<groupdef id="player.shade" name="Winamp (Windowshade Mode)">
+
+<layer id="highlight.left" x="0" y="0" image="player.winshade.highlight.left"/>
+<layer id="highlight.center" x="3" y="0" w="269" image="player.winshade.highlight.center"/>
+<layer id="highlight.right" x="272" y="0" image="player.winshade.highlight.right"/>
+
+<layer id="placeholder" x="79" y="2" image="player.winshade.display.left"/>
+<layer id="placeholder" x="81" y="2" w="65" image="player.winshade.display.center"/>
+<layer id="placeholder" x="146" y="2" image="player.winshade.display.right"/>
+
+<!-- Playback buttons -->
+<button 
+  id="Previous"
+  action="PREV" 
+  x="151" y="3" 
+  image="player.winshade.button.previous" 
+  downImage="player.winshade.button.previous.pressed" 
+  tooltip="Previous"
+/>
+<button
+  id="Play"
+  action="PLAY"
+  x="164" y="3"
+  image="player.winshade.button.play"
+  downImage="player.winshade.button.play.pressed"
+  tooltip="Play"
+/>
+<button
+  id="Pause"
+  action="PAUSE"
+  x="174" y="3"
+  image="player.winshade.button.pause"
+  downImage="player.winshade.button.pause.pressed"
+  tooltip="Pause"
+/>
+<button
+  id="Stop"
+  action="STOP"
+  x="184" y="3"
+  image="player.winshade.button.stop"
+  downImage="player.winshade.button.stop.pressed"
+  tooltip="Stop"
+/>
+<button
+  id="Next"
+  action="NEXT"
+  x="194" y="3"
+  image="player.winshade.button.next"
+  downImage="player.winshade.button.next.pressed"
+  tooltip="Next"
+/>
+<button
+  id="Eject"
+  action="EJECT"
+  x="211" y="3"
+  image="player.winshade.button.eject"
+  downImage="player.winshade.button.eject.pressed"
+  tooltip="Open File"
+/>
+<!-- Timer -->
+<text
+  id="timer"
+  display="time"
+  x="118" y="2"
+  w="30" h="10"
+  font="wasabi.font.default" fontsize="13" align="right"
+/>
+
+<!-- Music Visualzation -->
+<vis
+  id="vis"
+  x="80" y="3"
+  w="36" h="8"
+/>
+
+
+<!-- Titlebar buttons -->
+<button
+  id="controlbutton"
+  action="CONTROLMENU"
+  x="5" y="3"
+  image="wasabi.button.sysmenu.pressed"
+  downImage="wasabi.button.sysmenu"
+  activeAlpha="0"
+  tooltip="Control Menu"
+/>
+<button
+  id="controlbutton"
+  action="CONTROLMENU"
+  x="5" y="3"
+  image="wasabi.button.sysmenu"
+  downImage="wasabi.button.sysmenu.pressed"
+  inactiveAlpha="0"
+  tooltip="Control Menu"
+/>
+<text
+ id="windowtitle"
+ x="32" y="2"
+ w="44" h="11"
+ dblClickAction="SWITCH;normal"
+ default="WINAMP"
+ font="studio.component.title"
+ inactiveAlpha="128"
+ move="1"
+/>
+<button
+  id="MainMenu"
+  action="SYSMENU"
+  x="21" y="3"
+  image="wasabi.button.appmenu.pressed"
+  downImage="wasabi.button.appmenu"
+  tooltip="Main Menu"
+  activeAlpha="0"
+/>
+<button
+  id="MainMenu"
+  action="SYSMENU"
+  x="21" y="3"
+  image="wasabi.button.appmenu"
+  downImage="wasabi.button.appmenu.pressed"
+  tooltip="Main Menu"
+  inactiveAlpha="0"
+/>
+<button
+  id="Minimize"
+  action="MINIMIZE"
+  x="230" y="3"
+  image="wasabi.button.minimize.pressed"
+  downImage="wasabi.button.minimize"
+  tooltip="Minimize Winamp"
+  activeAlpha="0"
+/>
+<button
+  id="Minimize"
+  action="MINIMIZE"
+  x="230" y="3"
+  image="wasabi.button.minimize"
+  downImage="wasabi.button.minimize.pressed"
+  tooltip="Minimize Winamp"
+  inactiveAlpha="0"
+/>
+<button
+  id="winshade" tooltip="Windowshade Mode"
+  action="SWITCH" param="normal"
+  x="244" y="3"
+  image="wasabi.button.winshade.pressed"
+  downImage="wasabi.button.winshade"
+  activeAlpha="0"
+/>
+<button
+  id="winshade" tooltip="Windowshade Mode"
+  action="SWITCH" param="normal"
+  x="244" y="3"
+  image="wasabi.button.winshade"
+  downImage="wasabi.button.winshade.pressed"
+  inactiveAlpha="0"
+/>
+<button
+  id="Close"
+  action="CLOSE"
+  x="261" y="3"
+  image="wasabi.button.exit.pressed"
+  downImage="wasabi.button.exit"
+  tooltip="Exit Winamp"
+  activeAlpha="0"
+/>
+<button
+  id="Close"
+  action="CLOSE"
+  x="261" y="3"
+  image="wasabi.button.exit"
+  downImage="wasabi.button.exit.pressed"
+  tooltip="Exit Winamp"
+  inactiveAlpha="0"
+/>
+</groupdef>

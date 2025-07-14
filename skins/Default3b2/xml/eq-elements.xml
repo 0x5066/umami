@@ -1,0 +1,43 @@
+   <elements>
+
+   <bitmap id="player.eq.bg" file="player/player-background.png" gammagroup="Backgrounds"/>
+   <bitmap id="player.eq.placeholder" file="equalizer/equalizer-placeholder.png"/>
+   <bitmap id="player.eq.titlebar.text" file="equalizer/equalizer-titlebar-text-active.png"/>
+
+   <bitmap id="player.eq.switch.on.disabled" file="equalizer/eq-buttons.png" x="8" y="0" h="11" w="23" gammagroup="Buttons"/>
+   <bitmap id="player.eq.switch.on.pressed" file="equalizer/eq-buttons.png" x="8" y="11" h="11" w="23"/>
+   <bitmap id="player.eq.switch.on.enabled" file="equalizer/eq-buttons.png" x="8" y="22" h="11" w="23"/>
+   <bitmap id="player.eq.switch.auto.disabled" file="equalizer/eq-buttons.png" x="32" y="0" h="11" w="31"/>
+   <bitmap id="player.eq.switch.auto.pressed" file="equalizer/eq-buttons.png" x="32" y="11" h="11" w="31"/>
+   <bitmap id="player.eq.switch.auto.enabled" file="equalizer/eq-buttons.png" x="32" y="22" h="11" w="31"/>
+   <bitmap id="player.eq.button.presets" file="equalizer/eq-buttons.png" x="63" y="0" h="11" w="41"/>
+   <bitmap id="player.eq.button.presets.pressed" file="equalizer/eq-buttons.png" x="63" y="11" h="11" w="41"/>
+   <bitmap id="player.eq.slider.bar" file="equalizer/eq-buttons.png" x="0" y="0" h="63" w="8"/>
+   <bitmap id="player.eq.slider.button" file="equalizer/eq-buttons.png" x="8" y="45" h="12" w="16"/>
+   <bitmap id="player.eq.slider.button.pressed" file="equalizer/eq-buttons.png" x="8" y="33" h="12" w="16"/>
+
+   <bitmap id="player.eq.button.menu" file="studio/window-elements.png" x="37" y="0" h="9" w="14" gammagroup="Buttons"/>
+   <bitmap id="player.eq.button.menu.pressed" file="studio/window-elements.png" x="51" y="0" h="9" w="14"/>
+   <bitmap id="player.eq.button.close.pressed" file="studio/window-elements.png" x="79" y="0" h="9" w="14"/>
+   <bitmap id="player.eq.button.close" file="studio/window-elements.png" x="65" y="0" h="9" w="14"/>
+
+   <bitmap id="player.eq.titlebar.active.left" file="player/player-buttons.png" x="341" y="26" h="7" w="7"/>
+   <bitmap id="player.eq.titlebar.active.center" file="player/player-buttons.png" x="349" y="26" h="7" w="7"/>
+   <bitmap id="player.eq.titlebar.active.right" file="player/player-buttons.png" x="357" y="26" h="7" w="7"/>
+   <bitmap id="player.eq.titlebar.inactive.left" file="player/player-buttons.png" x="341" y="34" h="7" w="7"/>
+   <bitmap id="player.eq.titlebar.inactive.center" file="player/player-buttons.png" x="349" y="34" h="7" w="7"/>
+   <bitmap id="player.eq.titlebar.inactive.right" file="player/player-buttons.png" x="357" y="34" h="7" w="7"/>
+   <bitmap id="player.eq.titlebar.active.text" file="player/player-titlebar-text-active.png"/>
+   <bitmap id="player.eq.titlebar.inactive.text" file="player/player-titlebar-text-inactive.png"/>
+   <bitmap id="player.eq.button.winshade" file="player/player-buttons.png" x="305" y="0" h="9" w="14"/>
+   <bitmap id="player.eq.button.winshade.pressed" file="player/player-buttons.png" x="305" y="9" h="9" w="14"/>
+   <bitmap id="player.eq.button.resize" file="player/player-buttons.png" x="376" y="26" h="16" w="16"/>
+
+   <bitmap id="player.eq.winshade.bg" file="equalizer-winshade/equalizer-winshade-background.png" gammagroup="Backgrounds"/>
+   <bitmap id="player.eq.winshade.placeHolder" file="equalizer-winshade/equalizer-winshade-placeholder.png"/>
+   <bitmap id="player.eq.winshade.button.volume" file="equalizer/eq-buttons.png" x="54" y="34" h="9" w="11"/>
+   <bitmap id="player.eq.winshade.button.volume.pressed" file="equalizer/eq-buttons.png" x="65" y="34" h="9" w="11"/>
+   <bitmap id="player.eq.winshade.button.seek" file="equalizer/eq-buttons.png" x="24" y="34" h="9" w="15"/>
+   <bitmap id="player.eq.winshade.button.seek.pressed" file="equalizer/eq-buttons.png" x="39" y="34" h="9" w="15"/>
+
+   </elements>

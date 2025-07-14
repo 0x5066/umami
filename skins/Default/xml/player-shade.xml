@@ -1,0 +1,7 @@
+<!-- player-shade.xml creates the layout of the Winamp Player Window while in Window Shade. -->  
+
+<include file="player-shade-group.xml" />
+
+<layout id="shade" background="player.winshade.bg" dblClickAtion="SWITCH:shade" droptarget="pldr">
+  <group id="player.shade" />
+</layout>

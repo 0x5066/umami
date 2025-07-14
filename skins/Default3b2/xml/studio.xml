@@ -1,0 +1,3 @@
+  <include file="studio-elements.xml"/>
+  <include file="studio-config.xml"/>
+  <include file="standardframe.xml"/>

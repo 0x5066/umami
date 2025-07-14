@@ -1,0 +1,31 @@
+  <Elements>
+
+   <bitmapfont id="thinger.SmallFixed" file="player/font.png" charwidth="5" charheight="6" hspacing="0" vspacing="0"/>
+
+   <bitmap id="thinger.background" file="thinger/thinger-background.png" gammagroup="Backgrounds" />
+   <bitmap id="thinger.placeholder" file="thinger/thinger-placeholder.png"/>
+   
+   <bitmap id="thinger.titlebar.text.active" file="thinger/thinger-titlebar-text-active.png"/>
+   <bitmap id="thinger.titlebar.text.inactive" file="thinger/thinger-titlebar-text-inactive.png"/>
+
+   <bitmap id="thinger.button.menu" file="player/player-buttons.png" x="291" y="0" h="9" w="14"/>
+   <bitmap id="thinger.button.menu.pressed" file="player/player-buttons.png" x="291" y="9" h="9" w="14"/>
+   <bitmap id="thinger.close.pressed" file="studio/window-elements.png" x="79" y="0" h="9" w="14"/>
+   <bitmap id="thinger.close.unpressed" file="studio/window-elements.png" x="65" y="0" h="9" w="14"/>
+   <bitmap id="thinger.winshade.unpressed" file="player/player-buttons.png" x="305" y="0" h="9" w="14"/>
+   <bitmap id="thinger.winshade.pressed" file="player/player-buttons.png" x="305" y="9" h="9" w="14"/>
+
+   <bitmap id="thinger.scroll.left" file="thinger/thinger-buttons.png" x="0" y="0" h="37" w="15" gammagroup="Buttons"/>
+   <bitmap id="thinger.scroll.left.pressed" file="thinger/thinger-buttons.png" x="15" y="0" h="37" w="15"/>
+   <bitmap id="thinger.scroll.right" file="thinger/thinger-buttons.png" x="30" y="0" h="37" w="15"/>
+   <bitmap id="thinger.scroll.right.pressed" file="thinger/thinger-buttons.png" x="45" y="0" h="37" w="15"/>
+
+   <bitmap id="thinger.titlebar.active.left" file="player/player-buttons.png" x="341" y="26" h="7" w="7"/>
+   <bitmap id="thinger.titlebar.active.center" file="player/player-buttons.png" x="349" y="26" h="7" w="7"/>
+   <bitmap id="thinger.titlebar.active.right" file="player/player-buttons.png" x="357" y="26" h="7" w="7"/>
+   <bitmap id="thinger.titlebar.inactive.left" file="player/player-buttons.png" x="341" y="34" h="7" w="7"/>
+   <bitmap id="thinger.titlebar.inactive.center" file="player/player-buttons.png" x="349" y="34" h="7" w="7"/>
+   <bitmap id="thinger.titlebar.inactive.right" file="player/player-buttons.png" x="357" y="34" h="7" w="7"/>
+   <bitmap id="thinger.titlebar.active.text" file="player/player-titlebar-text-active.png"/>
+
+  </Elements>

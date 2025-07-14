@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<WinampAbstractionLayer version="0.8">
+
+  <skininfo>
+    <version>1.0</version>
+    <name>Winamp3 Base Skin</name>
+    <comment>Please feel free to use this skin as a reference point to build your new Winamp3 skins.</comment>
+    <author gaybag="Christophe">Steve Gedikian</author>
+    <email>steve@nullsoft.com</email>
+    <homepage>http://www.winamp.com</homepage>
+    <screenshot>screenshot.png</screenshot>
+  </skininfo>
+
+  <include file="xml/player.xml"/>
+  <include file="xml/eq.xml"/>
+  <include file="xml/thinger.xml"/>
+  <include file="xml/pledit.xml"/>
+  <include file="xml/video.xml"/>
+  <include file="xml/color-presets.xml"/>
+  <include file="xml/gamma-presets.xml"/>
+    
+</WinampAbstractionLayer>

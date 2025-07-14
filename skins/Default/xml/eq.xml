@@ -1,0 +1,9 @@
+<include file="eq-elements.xml"/>
+
+<container id="eq" name="Equalizer" default_visible="0">
+
+  <include file="eq-normal.xml"/>
+  <include file="eq-advanced.xml"/>
+  <include file="eq-shade.xml"/>
+
+</container>
