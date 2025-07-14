@@ -49,3 +49,6 @@ skins/Pimeer_v2.4.1
 skins/wasabi.player-plague_edit
 
 *.code-workspace
+
+*.txt
+*.log
