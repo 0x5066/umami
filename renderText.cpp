@@ -58,7 +58,7 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
     int spacingY = font.vspacing;
     int charsPerRow = (font.w > 0) ? font.w / charW : 1;
 
-    #if defined(UNIX)
+    #if defined(__linux__)
         const wchar_t* charset = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ\"@   0123456789….:()-'!_+\\/[]^&%,=$#ÂÖÄ?* ";
 
     #else

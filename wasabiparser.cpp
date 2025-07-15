@@ -131,9 +131,9 @@ bool WALvalidator(const char* skinXML)
         finalver[1] = ver[2];
         finalver[2] = ver[3] ? ver[3] : '\0';
     } else {
-#if defined(WIN32) && !defined(UNIX)
+#if defined(WIN32) && !defined(__linux__)
         strncpy_s(finalver, ver, 4);
-#elif defined(UNIX) && !defined(WIN32)
+#elif defined(__linux__) && !defined(WIN32)
 
         strncpy(finalver, ver, 4);
 #endif

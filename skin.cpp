@@ -28,7 +28,7 @@ std::unique_ptr<UIElement> parseUIElement(const XMLElement* elem) {
     if (g_targetSkin && g_targetSkin->xuiTagMap.count(tag)) {
         std::string groupId = g_targetSkin->xuiTagMap[tag];
 
-#if defined(UNIX)
+#if defined(__linux__)
         std::cout << "xuitag matched: " << tag << " → group id: " << groupId << "\n";
 #else 
         std::cout << "xuitag matched: " << tag << " -> group id: " << groupId << "\n";         // the arrow is not rendered properly in windows so replace with something that looks like it
