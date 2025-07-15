@@ -9,8 +9,9 @@ bool renderSkinBitmaps(SDL_Renderer* renderer, Skin& skin, const std::string& ba
     int x = 10, y = 10, rowHeight = 0;
 
     for (const auto& [id, bmp] : skin.bitmaps) {
-        std::string fullPath = basePath + "/" + bmp.file;
 
+
+        std::string fullPath =  std::filesystem::absolute(basePath + "/" + bmp.file).string();
         SDL_Surface* surface = IMG_Load(fullPath.c_str());
         if (!surface) {
             SDL_Log("Failed to load: %s", fullPath.c_str());
