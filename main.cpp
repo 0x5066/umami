@@ -2,8 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "skin.h"
-
-std::string g_skinPath = "skins/Default3b2/";
+std::string g_skinPath;
 
 extern bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& containerId, const std::string& basePath);
 
@@ -30,6 +29,28 @@ void renderLoop(SDL_Renderer* renderer, Skin& skin, const std::string& container
 
 
 int main(int argc, char* argv[]) {
+    if (argc == 1){
+        std::cout << "No skin passed for render.\n";
+        std::cout << "Usage: " << argv[0] << " [path_to_skin_directory] [container (leave it blank to display 'main' as default fallback)]\n";
+        return 1;
+    }
+    g_skinPath = argv[1];
+
+
+#if defined(_WIN32)
+    g_skinPath += "\\";
+#endif // have i expressed my hate for windows?
+
+#if defined(__linux__)
+    char* container_name = "main";
+#else
+    const char* container_name = "main"; // i dont think so
+#endif
+
+    if (argv[2] != NULL){
+        container_name = argv[2];
+    }
+
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         SDL_Log("SDL_Init Error: %s", SDL_GetError());
         return 1;
@@ -69,7 +90,6 @@ int main(int argc, char* argv[]) {
 
     skin.loadFromXML(g_skinPath + "skin.xml");
 
-    const char* container_name = "main";
 
     std::cout << "Skin has " << skin.containers.size() << " container(s)\n";
 
