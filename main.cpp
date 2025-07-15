@@ -7,6 +7,28 @@ std::string g_skinPath = "skins/Default3b2/";
 
 extern bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& containerId, const std::string& basePath);
 
+void renderLoop(SDL_Renderer* renderer, Skin& skin, const std::string& containerName, const std::string& basePath, int renderIntervalMs = 200)
+{
+    bool running = true;
+    SDL_Event e;
+
+    while (running) {
+        while (SDL_PollEvent(&e)) {
+            if (e.type == SDL_QUIT) running = false;
+        }
+
+        SDL_SetRenderDrawColor(renderer, 58, 110, 165, 255);
+        SDL_RenderClear(renderer);
+
+        renderContainer(renderer, skin, containerName, basePath);
+
+        SDL_Delay(renderIntervalMs);
+
+        SDL_RenderPresent(renderer);
+    }
+}
+
+
 int main(int argc, char* argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         SDL_Log("SDL_Init Error: %s", SDL_GetError());
@@ -75,20 +97,9 @@ int main(int argc, char* argv[]) {
 
     bool running = true;
     SDL_Event e;
-    while (running) {
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) running = false;
-        }
+    renderLoop(renderer, skin, container_name, g_skinPath, 200);
 
-        SDL_SetRenderDrawColor(renderer, 58, 110, 165, 255);
-        SDL_RenderClear(renderer);
 
-        renderContainer(renderer, skin, container_name, g_skinPath);
-
-        SDL_Delay(200);
-
-        SDL_RenderPresent(renderer);
-    }
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
