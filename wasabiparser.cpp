@@ -58,7 +58,7 @@ void parseSkinXML(const std::string& filepath, bool recursive) {
         while (elem) {
             //std::cout << "Tag: " << elem->Name() << std::endl;
 
-            registerElementHook(elem);
+            registerElementHook(elem, filepath);
 
             if (std::string(elem->Name()) == "include" && elem->Attribute("file")) {
                 std::string dir = stripXMLFileName(filepath);

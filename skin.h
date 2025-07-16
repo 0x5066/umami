@@ -60,7 +60,7 @@ struct Container {
 };
 
 // Forward declaration for element hook
-void registerElementHook(const tinyxml2::XMLElement* elem);
+void registerElementHook(const tinyxml2::XMLElement* elem, const std::string& xmlPath);
 
 // Main skin object
 class Skin {
