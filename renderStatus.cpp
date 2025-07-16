@@ -24,7 +24,7 @@ bool renderStatus(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
     SDL_FreeSurface(surface);
     if (!texture) return false;
 
-    SDL_Rect dst = computeElementRect(elem, parentX, parentY, parentW, parentH);
+    SDL_Rect dst = computeElementRect(elem, parentX, parentY, bmp.w, bmp.h);
     SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
 
     SDL_RenderCopy(renderer, texture, &src, &dst);

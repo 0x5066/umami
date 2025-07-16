@@ -1,0 +1,54 @@
+<groupdef id="FadeDuration.titlebox.content" autoheightsource="fade.slider">
+  <Wasabi:HSlider id="fade.slider"
+    x="0" y="0"
+    w="0" h="15"
+    relatw="1"
+    high="20" cfgattrib="{F1239F09-8CC6-4081-8519-C2AE99FCB14C};Crossfade time"
+  />      
+</groupdef>
+
+<groupdef id="CrossfaderOptions.titlebox.content" autoheightsource="fadeduration">
+  <Wasabi:CheckBox x="0" y="0" text="Enabled"
+    cfgattrib="{FC3EAF78-C66E-4ED2-A0AA-1494DFCC13FF};Enable crossfading"
+  />
+  <Wasabi:CheckBox x="0" y="16" text="Crossfade on Next/Previous"
+    cfgattrib="{F1239F09-8CC6-4081-8519-C2AE99FCB14C};Crossfade on next/prev"
+  />
+  <Wasabi:TitleBox x="0" y="32" id="fadeduration" title="Fade Duration" content="FadeDuration.titlebox.content" />
+  <script file="scripts/titleboxslidercb.maki" param="fadeduration;slider.button; : ; second; seconds" />
+</groupdef>
+
+<groupdef id="CuttoffThreshold.titlebox.content" autoheightsource="cutoff.slider">
+  <Wasabi:HSlider id="cutoff.slider"
+    x="0" y="0"
+    w="0" h="15"
+    relatw="1"
+    high="200" cfgattrib="{F6FE7F49-B017-4BCC-842C-2FFA842FB033};Cutoff (in -dB)"
+  />      
+</groupdef>
+
+<groupdef id="DirectSound.titlebox.content" autoheightsource="cutoffthreshold">
+  <Wasabi:CheckBox x="0" y="0" text="Enable DirectSound output"
+    cfgattrib="{FC3EAF78-C66E-4ED2-A0AA-1494DFCC13FF};DirectSound output"
+  />
+  <Wasabi:CheckBox x="0" y="16" text="Remove silence"
+    cfgattrib="{F6FE7F49-B017-4BCC-842C-2FFA842FB033};Kill silence"
+  />
+  <Wasabi:CheckBox x="0" y="32" text="Enable fades between playlist items"
+    cfgattrib="{4D981DA3-F75D-431A-B617-46F3E45D2A1F};Use fades"
+  />
+
+  <Wasabi:TitleBox x="0" y="48" id="cutoffthreshold" title="Cutoff Threshold" content="CuttoffThreshold.titlebox.content" />
+  <script file="scripts/titleboxslidercb.maki" param="cutoffthreshold;slider.button; : -;dB" />
+</groupdef>
+
+
+<groupdef id="winamp.preferences.audio.content" name="Audio Settings" >
+  <Wasabi:TitleBox x="3" y="0" w="-6" relatw="1" title="Crossfader" content="CrossfaderOptions.titlebox.content" />
+  <Wasabi:TitleBox x="3" y="100" w="-6" relatw="1" title="DirectSound" content="DirectSound.titlebox.content" />
+</groupdef>
+
+<groupdef id="winamp.preferences.audio" name="Audio Options" >
+  <Wasabi:TitleBox x="0" y="0" w="0" h="0" relatw="1" relath="1" title="Audio Settings" content="winamp.preferences.audio.content" />
+</groupdef>
+

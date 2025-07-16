@@ -1,0 +1,27 @@
+<groupdef id="Transparency.titlebox.content" autoheightsource="wasabi.slider.horizontal" w="370">
+  <Wasabi:CheckBox x="0" y="0" text="Enabled"
+  />
+  <Wasabi:HSlider id="transparency.slider"
+    x="0" y="16"
+    w="0" h="15"
+    relatw="1"
+  />
+</groupdef>
+
+<groupdef id="Scaling.titlebox.content" autoheightsource="wasabi.slider.horizontal" w="370">
+  <Wasabi:CheckBox x="0" y="0" text="Enabled"/>
+  <Wasabi:HSlider id="scale.slider"
+    x="0" y="16"
+    w="0" h="15"
+    relatw="1"
+  />      
+</groupdef>
+
+<groupdef id="winamp.preferences.visual.content">
+  <Wasabi:TitleBox x="3" y="3" title="Transparency" content="Transparency.titlebox.content" />
+  <Wasabi:TitleBox x="10" y="75" title="Scaling" content="Scaling.titlebox.content" />
+</groupdef>
+
+<groupdef id="winamp.preferences.visual" name="Visual Options" >
+  <Wasabi:TitleBox x="0" y="0" h="0" w="0" relatw="1" relath="1" title="Visual Options" content="winamp.preferences.visual.content" />
+</groupdef>

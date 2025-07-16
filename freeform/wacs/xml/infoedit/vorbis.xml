@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WinampAbstractionLayer version="0.7">
+
+<groupdef id="infoedit.vorbis" w="215">
+
+  <text x="142"  y="4" align="right" default="Track #" fontsize="14" color="white" shadowcolor="black" shadowx="1" shadowy="1"/>
+  <group id="wasabi.edit" instanceid="track" x="185" y="2" w="-185" relatw="1" h="19"/>
+  <sendparams group="track" target="wasabi.edit.box" id="track #"/>
+
+  <text x="0" y="26" w="46" align="right" default="Title" fontsize="14" color="white" shadowcolor="black" shadowx="1" shadowy="1"/>
+  <group id="wasabi.edit" instanceid="title" x="50" y="24" w="-50" relatw="1" h="19"/>
+  <sendparams group="title" target="wasabi.edit.box" id="title"/>
+
+  <text x="0" y="50" w="46" align="right" default="Artist" fontsize="14" color="white" shadowcolor="black" shadowx="1" shadowy="1"/>
+  <group id="wasabi.edit" instanceid="artist" x="50" y="48" w="-50" relatw="1" h="19"/>
+  <sendparams group="artist" target="wasabi.edit.box" id="artist"/>
+  
+  <text x="0" y="74" w="46" align="right" default="Album" fontsize="14" color="white" shadowcolor="black" shadowx="1" shadowy="1"/>
+  <group id="wasabi.edit" instanceid="album" x="50" y="72" w="-50" relatw="1" h="19"/>
+  <sendparams group="album" target="wasabi.edit.box" id="album"/>
+
+  <text x="0" y="98" w="46" align="right" default="Year" fontsize="14" color="white" shadowcolor="black" shadowx="1" shadowy="1"/>
+  <group id="wasabi.edit" instanceid="year" x="50" y="96" w="30" h="19"/>
+  <sendparams group="year" target="wasabi.edit.box" id="year"/>
+  
+  <text x="90" y="98" default="Genre" fontsize="14" color="white" shadowcolor="black" shadowx="1" shadowy="1"/>
+  <dropdownlist id="genre" x="125" y="96" w="-125" relatw="1" h="19" />
+
+  <text x="0" y="122" w="46" align="right" default="Comment" fontsize="14" color="white" shadowcolor="black" shadowx="1" shadowy="1"/>
+  <group id="wasabi.edit" instanceid="comment" x="50" y="120" w="-50" relatw="1" h="19"/>
+  <sendparams group="comment" target="wasabi.edit.box" id="comment"/>
+
+</groupdef>
+
+</WinampAbstractionLayer>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WinampAbstractionLayer version="0.7">
+
+<groupdef id="msgbox.custom.group" > 
+
+  <!-- The MessageBox (c++) class creates this group in the current skin's target container 
+       (defaults to layout id="modal" but uses the first one if "modal" is not found) 
+       then gets a handle to the CustomMessageBox object (by id="custom.message.box") and sends it two params:
+       content="msgbox.text.group" and autosizefrom="msgbox.text.content" -->
+
+  <CustomMessageBox id="custom.message.box" x="0" y="0" w="0" relatw="1" h="0" relath="1" />
+
+</groupdef>
+
+
+<groupdef id="msgbox.text.group"> 
+
+  <!-- This object takes its text content from a text="sometext" param, then create one group
+       (by id="msgbox.text.entry.group") per individual line in that text (separated by carriage returns). 
+       For each group, the text object with id="msgbox.text.entry" then receives the line of text to display. -->
+
+  <MessageBoxTextContent id="msgbox.text.content" x="0" y="0" w="0" relatw="1" h="0" relath="1" />
+
+</groupdef>
+
+
+<groupdef id="msgbox.text.entry.group" h="24">
+  <text id="msgbox.text.entry" x="2" y="2" w="-4" relatw="1" />
+</groupdef>
+
+
+</WinampAbstractionLayer>

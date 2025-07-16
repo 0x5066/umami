@@ -1,0 +1,33 @@
+<elements>
+  <bitmap id="config.desktopalpha.enabled" file="prefs/images/desktopalpha.png" x="0" y="0" w="100" h="100"/>
+  <bitmap id="config.desktopalpha.disabled" file="prefs/images/desktopalpha.png" x="100" y="0" w="100" h="100"/>
+</elements>
+
+<groupdef id="winamp.preferences.prefs.content">
+
+  <layer id="desktopalpha.enabled" image="config.desktopalpha.enabled" x="25" y="0"/>
+  <layer id="desktopalpha.disabled" image="config.desktopalpha.disabled" x="-150" y="0" relatx="1"/>
+  
+  <Wasabi:RadioGroup id="enableddisabled" />
+  <Wasabi:CheckBox x="50" y="110" text="Enabled" radioid="enableddisabled"
+    cfgattrib="{9149C445-3C30-4E04-8433-5A518ED0FDDE};Enable desktop alpha"
+    radioval="1"
+  />
+  <Wasabi:CheckBox x="-125" y="110" relatx="1" text="Disabled" radioid="enableddisabled"
+    cfgattrib="{9149C445-3C30-4E04-8433-5A518ED0FDDE};Enable desktop alpha"
+    radioval="0"
+  />
+
+  <Wasabi:Text
+    id="disclaimer.label" 
+    text="Desktop Alpha smooths the edges of graphically intensive skins, this requires high-end hardware and may cause CPU usage to dramatically increase.\n\nNote that you may not see any change after your turn this option on, because some skins do not use this feature (ie: the default skin). In these cases, leaving Desktop Alpha on will not use any more processor resources than usual." 
+    x="0" y="130"
+    w="0" h="100"
+    relatw="1"
+  />   
+
+</groupdef>
+
+<groupdef id="winamp.preferences.advanced" name="Desktop Alpha" >
+  <Wasabi:TitleBox x="0" y="0" h="0" w="0" relatw="1" relath="1" title="Desktop Alpha Setting" content="winamp.preferences.prefs.content" />
+</groupdef>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WinampAbstractionLayer version="0.7">
+
+<groupdef id="winamp.preferences.midi.device.content" h="22">
+
+  <Wasabi:Dropdownlist id="device.list" feed="MIDI:DEVICES" x="0" y="0" w="0" relatw="1" h="20" cfgattrib="{28FDCD38-26A2-482c-A691-55901A355D9E};Device" />
+
+</groupdef>
+
+<groupdef id="winamp.preferences.info.content" autoheight_source="device.info">
+  <Wasabi:text id="device.info" display="MIDI:DEVICEINFO" default="No information available for this device"
+    x="0" y="0"
+    w="0" h="0"
+    relatw="1" relath="1"
+  />
+</groupdef>
+
+<groupdef id="winamp.preferences.midi.content" name="midi" >
+
+  <Wasabi:TitleBox x="3" y="0" w="-6" relatw="1" id="winamp.preferences.midi.device" title="MIDI Device Settings" content="winamp.preferences.midi.device.content" />
+  <Wasabi:TitleBox x="3" y="50" w="-6" h="-55" relatw="1" relath="1" id="winamp.preferences.midi.info" title="MIDI Device Information" content="winamp.preferences.info.content" />
+
+</groupdef>
+
+<groupdef id="winamp.preferences.midi" name="midi" >
+  <Wasabi:TitleBox x="0" y="0" w="0" h="0" relatw="1" relath="1" title="MIDI Settings" content="winamp.preferences.midi.content" />
+</groupdef>
+
+</WinampAbstractionLayer>

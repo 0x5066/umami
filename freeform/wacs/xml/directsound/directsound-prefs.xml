@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WinampAbstractionLayer version="0.7">
+
+<groupdef id="winamp.preferences.directsound.buffersize.content" autoheightsource="bufsize.slider">
+  <Wasabi:HSlider id="bufsize.slider"
+    x="0" y="0"
+    w="0" h="15"
+    relatw="1"
+    low="100" high="10000" cfgattrib="{F6FE7F49-B017-4BCC-842C-2FFA842FB033};Buffer length (ms)"
+  />      
+</groupdef>
+
+<groupdef id="winamp.preferences.directsound.prebuffer.content" autoheightsource="bufsize.slider">
+  <Wasabi:HSlider id="bufsize.slider"
+    x="0" y="0"
+    w="0" h="15"
+    relatw="1"
+    low="100" high="10000" cfgattrib="{F6FE7F49-B017-4BCC-842C-2FFA842FB033};Prebuffer (ms)"
+  />      
+</groupdef>
+
+<groupdef id="winamp.preferences.directsound.device.content" h="24">
+
+  <Wasabi:Dropdownlist id="winamp.preferences.directsound.device.list" feed="DirectSound:DEVICES" x="0" y="0" w="0" relatw="1" h="20" cfgattrib="{F6FE7F49-B017-4bcc-842C-2FFA842FB033};Device" />
+  <Parameters:Devices target="winamp.preferences.directsound.device.list"/>
+
+</groupdef>
+
+
+<groupdef id="winamp.preferences.directsound.content" name="DirectSound" >
+  <Wasabi:CheckBox x="3" y="0" text="Enable DirectSound Output"
+    cfgattrib="{FC3EAF78-C66E-4ED2-A0AA-1494DFCC13FF};DirectSound output"
+  />
+
+  <Wasabi:TitleBox x="3" y="16" w="-6" relatw="1" id="device" title="Output Device" content="winamp.preferences.directsound.device.content" />
+
+  <Wasabi:TitleBox x="3" y="68" w="-6" relatw="1" id="buffersize" title="Buffer Size" content="winamp.preferences.directsound.buffersize.content" />
+  <script file="../winamp/scripts/titleboxslidercb.maki" param="buffersize;slider.button; : ;ms" />
+
+  <Wasabi:TitleBox x="3" y="112" w="-6" relatw="1" id="prebuffer" title="Prebuffer Size" content="winamp.preferences.directsound.prebuffer.content" />
+  <script file="../winamp/scripts/titleboxslidercb.maki" param="prebuffer;slider.button; : ;ms" />
+
+  <Wasabi:CheckBox x="3" y="160" text="Create primary buffer (allows DirectSound to work on older sound cards)"
+    cfgattrib="{CBDF55F4-6EB6-45c1-B1DF-7A9F95C33758};Create primary buffer"
+  />
+
+  <Wasabi:CheckBox x="3" y="176" text="Enable audio fades on play, pause, stop, next and previous."
+    cfgattrib="{4D981DA3-F75D-431A-B617-46F3E45D2A1F};Use fades"
+  />
+
+
+</groupdef>
+
+<groupdef id="winamp.preferences.directsound" name="DirectSound" >
+  <Wasabi:TitleBox x="0" y="0" w="0" h="0" relatw="1" relath="1" title="DirectSound" content="winamp.preferences.directsound.content" />
+</groupdef>
+
+</WinampAbstractionLayer>

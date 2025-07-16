@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WinampAbstractionLayer version="0.7">
+
+<groupdef id="wasabi.addons.bottom.group">
+  <Wasabi:Button id="Add" action="addons_add" action_target="main.addons.list" x="4" y="0" w="48" h="21" text="Add" />
+  <Wasabi:Button id="Remove" action="addons_remove" action_target="main.addons.list" x="57" y="0" w="48" h="21" text="Remove" />
+  <Wasabi:Button id="About" action="addons_about" action_target="main.addons.list" x="-54" relatx="1" y="0" w="48" h="21" text="About" />
+</groupdef>
+
+<groupdef id="wasabi.addons.top.group.global">
+  <group id="wasabi.window.embedded" x="6" y="6" w="-12" relatw="1" h="-12" relath="1" />
+  <AddOns:List id="main.addons.list" x="8" y="8" w="-16" relatw="1" h="-16" relath="1" modstype="global"/>
+</groupdef>
+
+<groupdef id="wasabi.addons.top.group.perskin">
+  <group id="wasabi.window.embedded" x="6" y="6" w="-12" relatw="1" h="-12" relath="1" />
+  <AddOns:List id="main.addons.list" x="8" y="8" w="-16" relatw="1" h="-16" relath="1" modstype="perskin"/>
+</groupdef>
+
+<groupdef id="wasabi.addons.global" name="For All Skins">
+  <Wasabi:Frame orientation="horizontal" height="29" from="bottom" resizable="0" top="wasabi.addons.top.group.global" bottom="wasabi.addons.bottom.group" x="0" y="0" w="0" h="0" relatw="1" relath="1" />
+</groupdef>
+
+<groupdef id="wasabi.addons.perskin" name="For This Skin">
+  <Wasabi:Frame orientation="horizontal" height="29" from="bottom" resizable="0" top="wasabi.addons.top.group.perskin" bottom="wasabi.addons.bottom.group" x="0" y="0" w="0" h="0" relatw="1" relath="1" />
+</groupdef>
+
+<groupdef id="wasabi.config.addons">
+  <Wasabi:TabSheet x="0" y="0" w="0" relatw="1" h="0" relath="1" children="wasabi.addons.global;wasabi.addons.perskin" windowtype="addons" />
+</groupdef>
+
+</WinampAbstractionLayer>

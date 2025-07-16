@@ -1,0 +1,143 @@
+<!-- =======================================================================================================
+
+  Background for config groups base template
+
+======================================================================================================== -->
+
+<groupdef id="studio.configgroup.bg">
+  <grid
+    id="config.item.grid"
+    x="0" y="0"
+    w="0" h="0"
+    relatw="1" relath="1"
+    topleft="wasabi.label.top.left"
+    top="wasabi.label.top"
+    topright="wasabi.label.top.right"
+    left="wasabi.label.left"
+    middle="wasabi.label.middle"
+    right="wasabi.label.right"
+    bottomleft="wasabi.label.bottom.left"
+    bottom="wasabi.label.bottom"
+    bottomright="wasabi.label.bottom.right"
+  />
+</groupdef>
+
+
+<!-- =======================================================================================================
+
+  Base template for all config groups 
+
+======================================================================================================== -->
+
+<groupdef id="studio.configgroup.std" default_h="16">
+
+ <group id="studio.configgroup.bg" 
+  x="0" y="0" w="0" h="0" relatw="1" relath="1" 
+ />
+
+ <text
+  id="cfg.txt"
+  x="0" y="0"
+  w="-45" h="16" relatw="1"
+  fontsize="14"
+  color="248,248,248"
+  shadowx="1" shadowy="1"
+ />
+
+</groupdef>
+
+
+<!-- =======================================================================================================
+
+  Integer config attribute group
+
+======================================================================================================== -->
+
+<groupdef id="studio.configgroup.int" inherit_group="studio.configgroup.std">
+
+ <edit 
+  id="cfg.edit"
+  x="-45" y="0"
+  w="45" h="16" 
+  relatx="1"
+ />
+
+ <button id="cfg.toggle2" x="0" y="0"
+  w="0" relatw="1" h="0" relath="1"
+ />
+
+ <script id="cfg.int" file="scripts/cfgint.maki"/>
+
+</groupdef>
+
+
+<!-- =======================================================================================================
+
+  Boolean config attribute group
+
+======================================================================================================== -->
+
+<groupdef id="studio.configgroup.bool" inherit_group="studio.configgroup.std">
+
+ <group
+   id="wasabi.objectframe.group"
+   x="-16" y="3" relatx="1"
+   w="11" h="11" ghost="1"
+ />
+ <togglebutton
+  id="cfg.toggle"
+  x="-14" y="5" relatx="1"
+  image="wasabi.button.checkbox"
+  activeImage="wasabi.button.checkbox.pressed"
+ />
+
+ <button id="cfg.toggle2" x="0" y="0"
+  w="0" relatw="1" h="0" relath="1"
+ />
+ <script id="cfg.bool" file="scripts/cfgbool.maki"/>
+
+</groupdef>
+
+
+<!-- =======================================================================================================
+
+  String config attribute group
+
+======================================================================================================== -->
+
+<groupdef id="studio.configgroup.string" default_h="16" inherit_group="studio.configgroup.std">
+
+ <edit
+  id="cfg.edit"
+  x="-150" y="0" relatx="1"
+  w="150" h="16"
+ />
+ <script id="cfg.string" file="scripts/cfgstring.maki"/>
+
+ <button id="cfg.toggle2" x="0" y="0"
+  w="0" relatw="1" h="0" relath="1"
+ />
+
+</groupdef>
+
+
+<!-- =======================================================================================================
+
+  Float config attribute group
+
+======================================================================================================== -->
+
+<groupdef id="studio.configgroup.float" default_h="16" inherit_group="studio.configgroup.std">
+
+ <edit
+  id="cfg.edit"
+  x="-150" y="0" relatx="1"
+  w="150" h="16"
+ />
+
+ <button id="cfg.toggle2" x="0" y="0"
+  w="0" relatw="1" h="0" relath="1"
+ />
+ <script id="cfg.float" file="scripts/cfgfloat.maki"/>
+
+</groupdef>

@@ -1,0 +1,45 @@
+<elements>
+  <bitmap id="gracenote.logo" file="prefs/images/gracenote.png"/>
+</elements>
+
+<groupdef id="cdaudioextraction.titlebox.content" h="60">
+  <Wasabi:CheckBox x="2" y="2" text="Enable CD audio extraction" cfgattrib="{86B40069-126F-4E11-A87F-558FFA3DFFA8};Use digital extraction"/>
+  <Wasabi:Text
+    x="0" y="20"
+    w="-10" h="-20"
+    relatw="1" relath="1"
+    text="This option allows for crossfading and visualizations based on CD tracks. This feature is not compatible with all CD-ROM drives. Note: This option will only take effect after restarting Winamp3."
+  />
+  <layer id="lastitem" x="4" y="20" w="-10" h="48" relatw="1"/>
+</groupdef>
+
+<groupdef id="cdlookup.titlebox.content" autoheightsource="lastitem">
+  <Wasabi:CheckBox x="2" y="2" text="Enable audio CD recognition" cfgattrib="{5DAADB6F-F9DE-49f9-A5BC-F8805EF8029A};Use CDDB2 for CD lookups"/>
+  <Wasabi:CheckBox x="2" y="18" text="Enable audio file recognition" cfgattrib="{5DAADB6F-F9DE-49F9-A5BC-F8805EF8029A};Lookup files through CDDB2" />
+
+  <group
+    id="wasabi.window.embedded"
+    x="-85" y="0"
+    w="82" h="82"
+    relatx="1"
+  />
+  <layer id="cddb.logo" x="-84" y="1" w="80" h="80" relatx="1" image="gracenote.logo"/>
+  <Wasabi:Text
+    x="0" y="35"
+    w="-88"
+    relatw="1" 
+    h="60"
+    id="lastitem" 
+    text="These options allow you to access the Gracenote Music Recognition Service, which gives you detailed information about the music you're listening to. Once enabled, access it by opening the Winamp Browser."
+  />
+</groupdef>
+
+<groupdef id="winamp.preferences.cd.content">
+  <Wasabi:TitleBox x="3" y="0" w="-6" relatw="1" title="CD Audio Extraction" content="cdaudioextraction.titlebox.content" />
+  <Wasabi:TitleBox x="3" y="88" w="-6" relatw="1" id="lastitem" title="Gracenote CDDB" content="cdlookup.titlebox.content" />
+</groupdef>
+
+<groupdef id="winamp.preferences.cd" name="CD Playback" >
+  <Wasabi:TitleBox x="0" y="0" h="0" w="0" relatw="1" relath="1" title="Audio CD Settings" content="winamp.preferences.cd.content" />
+</groupdef>
+

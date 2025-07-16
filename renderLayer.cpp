@@ -40,12 +40,25 @@ bool renderLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
     auto bmpIt = skin.bitmaps.find(imageId);
     if (bmpIt == skin.bitmaps.end()) return false;
     const SkinBitmap& bmp = bmpIt->second;
-
+    std::cout << "DEBUG: " << bmp.file  << "with id: " << imageId << std::endl;
     std::string fullPath = g_skinPath + bmp.file;
-    SDL_Surface* surface = IMG_Load(fullPath.c_str());
-    if (!surface){
-        SDL_Log("Could not find file %s", fullPath.c_str());
-        return false;
+    SDL_Surface* surface;
+    
+    surface = IMG_Load(fullPath.c_str());
+    std::cout << "DEBUG: " << "!: " << fullPath << "" << std::endl;
+
+    if (!surface){ // try redirecting to freeform
+        SDL_Log("Could not find file %s - using fallback", fullPath.c_str());
+        std::string wasabiPath = "freeform/xml/wasabi/" + bmp.file;
+        std::cout << "DEBUG: new fallback: " << wasabiPath << std::endl;
+        surface = IMG_Load(wasabiPath.c_str());
+        if (!surface) {
+			SDL_Log("Could not find file in fallback %s", wasabiPath.c_str());
+			return false;
+        }
+        if (!surface) {
+            SDL_Log("FUCK ERROR: Could not find bitmap file: %s", bmp.file.c_str());
+        }
     }
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);

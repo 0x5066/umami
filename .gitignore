@@ -47,8 +47,16 @@ skins/Winamp Classic Modern
 skins/WinampXP
 skins/Pimeer_v2.4.1
 skins/wasabi.player-plague_edit
-
+skins/Winamp100
 *.code-workspace
 
 *.txt
 *.log
+
+
+
+
+.vs
+Debug
+x64
+Release

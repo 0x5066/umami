@@ -34,7 +34,7 @@ bool renderElement(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, in
         initializeRenderRegistry();
         initialized = true;
     }
-    if (elem.tag == "script") return false; // or false based on your logic
+    if (elem.tag == "script") return false;
     /* std::cout << "Rendering element: " << elem.tag << " id: " << getAttr(elem, "id", "none") 
               << " at (" << x << ", " << y << ") with size (" << w << "x" << h << ")\n"; */
     auto it = renderRegistry.find(elem.tag);

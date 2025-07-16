@@ -1,0 +1,37 @@
+<groupdef id="ApplicationOptions.titlebox.content" autoheightsource="lastitem">
+  <Wasabi:CheckBox x="0" y="0" text="Allow multiple instances of Winamp to start"
+    cfgattrib="{280876CF-48C0-40BC-8E86-73CE6BB462E5};Allow multiple instances"
+  />
+  <Wasabi:CheckBox x="0" y="16" text="Auto-play at startup"
+    cfgattrib="{280876CF-48C0-40BC-8E86-73CE6BB462E5};Auto-play at startup"
+  />
+  <Wasabi:CheckBox x="0" y="32" id="lastitem" text="Show splash screen at startup"
+    cfgattrib="{00000003-0001-0001-0606-060402000609};Show splash screen at startup"
+  />
+</groupdef>
+
+<groupdef id="Locale.titlebox.content" h="70">
+  <Wasabi:Text
+    id="language.label" 
+    text="Language" 
+    x="0" y="0"
+    w="100" h="15"
+  />
+  <Wasabi:Dropdownlist id="langlist" feed="Preferences:LANGUAGES" x="0" y="16" w="0" relatw="1" h="20" cfgattrib="{280876CF-48C0-40BC-8E86-73CE6BB462E5};Language" />
+  <Parameters:Languages target="langlist"/>
+  <button id="lastitem" x="0" y="42" w="0" h="22" relatw="1" text="Download More Languages" borders="1" action="Winamp:DOWNLOAD_LANGUAGES"/>
+</groupdef>
+
+<groupdef id="WindowsIntegration.titlebox.content" autoheightsource="lastitem">
+  <Wasabi:CheckBox x="0" y="0" text="Enqueue to Playlist as default action"/>
+  <Wasabi:CheckBox x="0" y="16" id="lastitem" text="Add Winamp options to folder context menus"/>
+</groupdef>
+
+<groupdef id="winamp.preferences.general.content">
+  <Wasabi:TitleBox x="3" y="0" w="-6" relatw="1" title="Application Options" content="ApplicationOptions.titlebox.content" />
+  <Wasabi:TitleBox x="3" y="80" w="-6" relatw="1" title="Language Settings" content="Locale.titlebox.content" />
+</groupdef>
+
+<groupdef id="winamp.preferences.general" name="General" >
+  <Wasabi:TitleBox x="0" y="0" w="0" h="0" relatw="1" relath="1" title="System Settings" content="winamp.preferences.general.content" />
+</groupdef>

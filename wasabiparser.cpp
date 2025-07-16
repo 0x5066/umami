@@ -1,6 +1,8 @@
 #include "wasabiparser.h"
 #include "skin.h"
-
+#include <stdlib.h>
+#include <filesystem>
+#include <sstream>
 std::string stripXMLFileName(const std::string& filepath) {
     size_t pos = filepath.find_last_of("/\\"); // Find last '/' or '\'
     if (pos != std::string::npos) {
@@ -16,7 +18,6 @@ void parseSkinXML(const std::string& filepath, bool recursive) {
         std::cerr << "Failed to open file: " << filepath << std::endl;
         return;
     }
-
     std::stringstream buffer;
     buffer << file.rdbuf();
     std::string rawXml = buffer.str();
@@ -57,7 +58,7 @@ void parseSkinXML(const std::string& filepath, bool recursive) {
         while (elem) {
             //std::cout << "Tag: " << elem->Name() << std::endl;
 
-            registerElementHook(elem);
+            registerElementHook(elem, filepath);
 
             if (std::string(elem->Name()) == "include" && elem->Attribute("file")) {
                 std::string dir = stripXMLFileName(filepath);
@@ -130,7 +131,12 @@ bool WALvalidator(const char* skinXML)
         finalver[1] = ver[2];
         finalver[2] = ver[3] ? ver[3] : '\0';
     } else {
+#if defined(_WIN32) && !defined(__linux__)
+        strncpy_s(finalver, ver, 4);
+#elif defined(__linux__) && !defined(_WIN32)
+
         strncpy(finalver, ver, 4);
+#endif
     }
     for (int i = 0; i < 3 && finalver[i] != '\0'; i++) {
         std::cout << finalver[i] << '\n';

@@ -1,0 +1,21 @@
+<groupdef id="VideoSettings.titlebox.content" autoheightsource="lastitem">
+  <Wasabi:CheckBox x="0" y="0" text="Maintain video aspect ratio on window resize" cfgattrib="{1EAEB2AD-DF73-4285-941B-E0639F3F7AF1};Maintain aspect ratio"/>
+  <Wasabi:CheckBox x="0" y="16" text="Sync video to video card refresh rate" cfgattrib="{1EAEB2AD-DF73-4285-941B-E0639F3F7AF1};Sync to refresh"/>
+  <Wasabi:CheckBox x="0" y="32" text="Auto resize video window to video dimensions" cfgattrib="{1EAEB2AD-DF73-4285-941B-E0639F3F7AF1};Auto window resize"/>
+  <Wasabi:CheckBox x="0" y="48" text="Crop 4:3 video to 16:9 aspect ratio" cfgattrib="{1EAEB2AD-DF73-4285-941B-E0639F3F7AF1};Crop 4:3 to 16:9"/>
+  <Wasabi:CheckBox id="lastitem" x="0" y="64" text="Allow video overlay" cfgattrib="{1EAEB2AD-DF73-4285-941B-E0639F3F7AF1};Allow overlays"/>
+</groupdef>
+
+<groupdef id="VideoPlaybackSettings.titlebox.content" autoheightsource="lastitem">
+  <Wasabi:CheckBox x="0" y="0" text="Play/Pause with left mouse click on video display" cfgattrib="{1EAEB2AD-DF73-4285-941B-E0639F3F7AF1};Stop and start video on left click"/>
+  <Wasabi:CheckBox id="lastitem" x="0" y="16" text="Stop playing video when video window is closed" cfgattrib="{1EAEB2AD-DF73-4285-941B-E0639F3F7AF1};Stop playback on window close"/>
+</groupdef>
+
+<groupdef id="winamp.preferences.video.content">
+  <Wasabi:TitleBox x="3" y="0" w="-6" relatw="1" title="Video Display Settings" content="VideoSettings.titlebox.content" />
+  <Wasabi:TitleBox x="3" y="112" w="-6" relatw="1" title="Video Playback Settings" content="VideoPlaybackSettings.titlebox.content" />
+</groupdef>
+
+<groupdef id="winamp.preferences.video" name="Video" >
+  <Wasabi:TitleBox x="0" y="0" h="0" w="0" relatw="1" relath="1" title="Video Settings" content="winamp.preferences.video.content" />
+</groupdef>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WinampAbstractionLayer version="0.7">
+	
+<include file="prefs/prefs-system.xml"/>
+<include file="prefs/prefs-media.xml"/>
+<include file="prefs/prefs-display.xml"/>
+<include file="prefs/prefs-visual.xml"/>
+<include file="prefs/prefs-playlists.xml"/>
+<include file="prefs/prefs-usage.xml"/>
+<include file="prefs/prefs-browser.xml"/>
+<include file="prefs/prefs-internet.xml"/>
+<include file="prefs/prefs-httpreader.xml"/>
+<include file="prefs/prefs-audio.xml"/>
+<include file="prefs/prefs-video.xml"/>
+<include file="prefs/prefs-vis.xml"/>
+<include file="prefs/prefs-cdaudio.xml"/>
+<include file="prefs/prefs-desktopalpha.xml"/>
+<include file="prefs/prefs-fades.xml"/>
+
+</WinampAbstractionLayer>

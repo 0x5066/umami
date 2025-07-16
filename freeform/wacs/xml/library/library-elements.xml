@@ -1,0 +1,34 @@
+<elements>
+  <bitmap id="library.results.background" file="system/window/window-elements.png" x="5" y="119" h="9" w="9"/>
+  <bitmap id="library.directory.background" file="system/window/window-elements.png" x="5" y="119" h="9" w="9"/>
+  <bitmap id="library.subtree.background" file="system/window/window-elements.png" x="5" y="119" h="9" w="9"/>
+  <bitmap id="library.drag.icon" file="drag_icon.png" />
+
+  <bitmap id="library.top.left.corner" file="system/window/window-elements.png" x="0" y="0" h="2" w="2"/>
+  <bitmap id="library.top.right.corner" file="system/window/window-elements.png" x="34" y="0" h="2" w="2"/>
+  <bitmap id="library.bottom.left.corner" file="system/window/window-elements.png" x="0" y="34" h="2" w="2"/>
+  <bitmap id="library.bottom.right.corner" file="system/window/window-elements.png" x="34" y="34" h="2" w="2"/>
+  <bitmap id="library.top.stretch" file="system/window/window-elements.png" x="3" y="0" h="2" w="30"/>
+  <bitmap id="library.left.stretch" file="system/window/window-elements.png" x="0" y="3" h="30" w="2"/>
+  <bitmap id="library.bottom.stretch" file="system/window/window-elements.png" x="3" y="34" h="2" w="30"/>
+  <bitmap id="library.right.stretch" file="system/window/window-elements.png" x="34" y="3" h="30" w="2"/>
+  <bitmap id="library.bottom.right.resize" file="system/window/window-elements.png" x="93" y="84" h="12" w="12"/>
+
+  <bitmap id="library.inner.top.left.corner" file="system/window/window-elements.png" x="3" y="3" h="13" w="3"/>
+  <bitmap id="library.inner.top.right.corner" file="system/window/window-elements.png" x="30" y="3" h="13" w="3"/>
+  <bitmap id="library.inner.bottom.left.corner" file="system/window/window-elements.png" x="3" y="30" h="3" w="3"/>
+  <bitmap id="library.inner.bottom.right.corner" file="system/window/window-elements.png" x="30" y="30" h="3" w="3"/>
+  <bitmap id="library.inner.top.stretch" file="system/window/window-elements.png" x="7" y="3" h="13" w="22"/>
+  <bitmap id="library.inner.left.stretch" file="system/window/window-elements.png" x="3" y="17" h="3" w="12"/>
+  <bitmap id="library.inner.bottom.stretch" file="system/window/window-elements.png" x="7" y="30" h="3" w="22"/>
+  <bitmap id="library.inner.right.stretch" file="system/window/window-elements.png" x="30" y="17" h="3" w="12"/>
+  
+  <bitmap id="library.minimize.pressed" file="system/window/window-elements.png" x="79" y="0" h="9" w="14"/>
+  <bitmap id="library.minimize.unpressed" file="system/window/window-elements.png" x="65" y="0" h="9" w="14"/>
+  <bitmap id="library.sysmenu.unpressed" file="system/window/window-elements.png" x="37" y="0" h="9" w="14"/>
+  <bitmap id="library.sysmenu.pressed" file="system/window/window-elements.png" x="51" y="0" h="9" w="14"/>
+
+  <bitmap id="library.basetexture" file="system/window/background.png"/>
+
+</elements>
+

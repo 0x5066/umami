@@ -1,0 +1,123 @@
+<!-- main.xml defines the layout of the Media Library -->
+
+<groupdef id="library.pane.source">
+  <!-- This defines the Source pane of the Media Library -->
+  <objdirview id="list1" x="0" y="0"
+    w="0" relatw="1" h="0" relath="1"
+    dir="querydir" target="library.query.objdir" />
+  <queryline id="library.query.objdir" querylist="library.query.list" auto="1" order="0" />
+</groupdef>
+
+<groupdef id="library.pane.filterlist.1">
+<!-- This defines the first filter list, which defaults to Artist -->
+  <group id="wasabi.panel" x="0" y="-3" w="8" h="6" relath="1"/>
+  <filterlist 
+    id="list2"
+    x="8" y="0" 
+    w="-8" h="0"
+    relatw="1" relath="1"
+    querylist="library.query.list" field="Artist" all="All" order="1"
+    querydirection="0"
+  /> 
+</groupdef>
+
+<groupdef id="library.pane.filterlist.2">
+<!-- This defines the second filter list, which defaults to Album -->
+  <group id="wasabi.panel" x="0" y="-3" w="8" h="6" relath="1"/>
+  <filterlist 
+    id="list3"
+    x="8" y="0" 
+    w="-6" h="0"
+    relatw="1" relath="1"
+    querylist="library.query.list" field="Album" all="All" order="2"
+    querydirection="0"
+  /> 
+</groupdef>
+
+<groupdef id="library.pane.filterlists">
+  <!-- This defines how the filter lists are laid out in the window -->
+  <group id="library.pane.filterlist.1"
+    x="0" y="0"
+    w="50" h="0"
+    relatw="%" relath="1"
+  />
+  <group id="library.pane.filterlist.2"
+    x="50" y="0"
+    w="50" h="0"
+    relatx="%" relatw="%" relath="1"
+  />  
+</groupdef>
+
+<!-- library.top defines the top portion of the Media Library window, meaning, the top window panes -->
+<groupdef id="library.top">
+  <group id="library.pane.source"
+    x="0" y="0"
+    w="20" h="0"
+    relatw="%" relath="1"
+  />
+  <group id="library.pane.filterlists"
+    x="20" y="0"
+    w="80" h="0"
+    relatx="%" relatw="%" relath="1"
+  />
+</groupdef>
+
+<!-- This defines the actualy drop-down combobox that serves as the search for the media library -->
+<groupdef id="library.query.box">
+  <Wasabi:HistoryEditBox id="library.query.edit" autoenter="1"
+   x="0" y="0" w="0" h="0" relatw="1" relath="1"
+   />
+  <queryline id="library.query.line"
+   querylist="library.query.list" auto="1" order="3"
+  />
+</groupdef>
+
+<!-- library.bottom defines everything below the filter panes, this includes the search box as well as the results pane -->
+
+<groupdef id="library.bottom">
+  <!-- This is where the actual search box is above the results pane -->  
+  <group id="wasabi.panel" x="0" y="0" w="0" relatw="1" h="24" />
+
+  <querydrag x="4" y="4" image="library.drag.icon" tooltip="Click and drag this this icon into your Playlist Editor to enqueue and play the items below"/>
+  
+  <Wasabi:Text id="Search for" text="Search For:" x="23" y="5" w="60" align="right"/>
+  <button id="library.togglesearch" x="23" y="0" w="65" h="24" />
+
+  <group id="library.query.box" x="87" y="3" w="-189" relatw="1" h="18"/>
+
+  <button x="-100" y="3" w="97" h="17" relatx="1" action_target="library.pledit" action="SENDTOPL" borders="1" text="Send Results To..."/>
+
+  <!-- Here is where the all of the results are displayed within the Media Library -->
+  <queryresults id="library.query.list" /> 
+  <PlaylistEditor id="library.pledit" x="0" y="24" w="0" relatw="1" h="-24" relath="1" showmodified="0" showlocked="0" bidermanr0x="1" />
+
+  <script file="queryedit.maki" param="library.query.edit;library.query.line" />
+</groupdef>
+
+<!-- This defines the layout of the libary window. -->
+<groupdef id="library.content.left" w="0" relatw="1">
+
+  <MediaLibrary:AddMusic querylist="library.query.list" />
+  <Shoutcast:Add />
+ 
+  <group id="library.top" x="0" y="0" w="0" relatw="1" h="45" relath="%" />
+  <group id="library.bottom" x="0" y="45" w="0" h="55" relaty="%" relatw="1" relath="%"/>
+
+  <addparams target="standardframe.layoutstatus" exclude=";Add;Del;Playlist" />
+
+</groupdef>
+
+<!-- Here is where the library sidecar is defined -->
+
+<groupdef id="library.content.right">
+  <Wasabi:TabSheet id="library.sidecar" windowtype="mlsc" type="2"
+    x="0" y="0" w="0" h="0" relatw="1" relath="1"
+   />
+</groupdef>
+
+<!-- library.content.group actually defines the layout of the Media Library, whatever is placed within here is what displays within the ml -->
+<groupdef id="library.content.group" name="Media Library" default_w="540" minimum_w="540" default_h="314" minimum_h="268">
+  <group id="library.content.left" 
+    x="0" y="0" w="0" h="0" relatw="1" relath="1"
+  />
+</groupdef>

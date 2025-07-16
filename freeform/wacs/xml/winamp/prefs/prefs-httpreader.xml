@@ -1,0 +1,100 @@
+<groupdef id="prebuffer.titlebox.content" h="90">
+  <Wasabi:RadioGroup id="prebuffer"/>
+  <Wasabi:CheckBox x="2" y="0" text="Automatic" radioid="prebuffer" cfgattrib="{BC10FA00-53F5-4032-A009-022B87EC3404};Automatic prebuffer size" radioval="1" />
+  <Wasabi:CheckBox x="100" y="0" text="Manual"  radioid="prebuffer" cfgattrib="{BC10FA00-53F5-4032-A009-022B87EC3404};Automatic prebuffer size" radioval="0" />
+  <Wasabi:Text
+    x="2" y="20"
+    w="-4" h="14"
+    relatw="1" id="buffersize.text"
+    text="Buffer Size : "
+  />    
+  <Wasabi:HSlider id="wasabi.slider.buffer"
+    x="2" y="38"
+    w="-4" h="10"
+    relatw="1"
+    high="256" cfgattrib="{BC10FA00-53F5-4032-A009-022B87EC3404};Buffer size (in Kb)"
+  />
+  <script file="scripts/textslidercb.maki" param="buffersize.text;wasabi.slider.buffer;slider.button;Buffer Size : ; Kb" />
+  <Wasabi:Text
+    x="2" y="52"
+    w="-4" h="14"
+    relatw="1" id="prebuffersize.text"
+    text="Prebuffer Size : "
+  />    
+  <Wasabi:HSlider 
+    id="wasabi.slider.prebuffer"
+    x="2" y="70"
+    w="-4" h="10"
+    relatw="1"
+    high="256" cfgattrib="{BC10FA00-53F5-4032-A009-022B87EC3404};Prebuffer size (in Kb)"
+  />
+  <script file="scripts/textslidercb.maki" param="prebuffersize.text;wasabi.slider.prebuffer;slider.button;Prebuffer Size : ; Kb" />
+</groupdef>
+
+<groupdef id="buffer.titlebox.content" h="90">
+  <Wasabi:EditBox
+    id="wasabi.edit"
+    x="0" y="0"
+    w="40" h="18"
+    cfgattrib="{BC10FA00-53F5-4032-A009-022B87EC3404};Buffer underrun limit (in Kb)"
+  />          
+
+  <Wasabi:Text
+    x="45" y="3"
+    w="30" h="14"
+    relatw="1" 
+    text="KB"
+  />
+  <Wasabi:Text
+    x="0" y="20"
+    w="0" h="-20"
+    relatw="1" 
+    relath="1"
+    text="Increase this value to provide better skip protection on slower connections"
+  />
+</groupdef>
+
+<groupdef id="httpseeking.titlebox.content" autoheightsource="wasabi.edit">
+  <Wasabi:CheckBox x="2" y="2" text="Allow seeking on files over HTTP" cfgattrib="{BC10FA00-53F5-4032-A009-022B87EC3404};Allow seeking on HTTP files" />
+
+  <Wasabi:Text
+    x="0" y="24"
+    w="100" h="16" 
+    relath="1"
+    text="Seeking Prebuffer:"
+  />
+  
+  <Wasabi:EditBox
+    id="wasabi.edit"
+    x="95" y="22"
+    w="40" h="18"
+    cfgattrib="{BC10FA00-53F5-4032-A009-022B87EC3404};Allow seeking on HTTP files"
+  />          
+  <Wasabi:Text
+    x="138" y="24"
+    w="30" h="14"
+    relatw="1" 
+    text="KB"
+  />
+  
+</groupdef>
+
+<groupdef id="winamp.preferences.httpreader.content" h="225" w="370">      
+  <Wasabi:Text
+    x="2" y="2"
+    w="-4" h="32"
+    relatw="1" 
+    text="HTTP Reader allows you to modify the way Winamp buffers files over the Internet."
+  />
+  
+  <Wasabi:TitleBox x="3" y="35" w="228" title="Prebuffer Settings" content="prebuffer.titlebox.content" />
+
+  <Wasabi:TitleBox x="240" y="35" w="-243" relatw="1" title="Buffer Underrun Limit" content="buffer.titlebox.content" />
+
+  <Wasabi:TitleBox x="3" y="155" w="-6" relatw="1" id="lastitem" title="HTTP Seeking Settings" content="httpseeking.titlebox.content" />
+</groupdef>
+
+<groupdef id="winamp.preferences.httpreader" name="HTTP Reader" >
+  <Wasabi:TitleBox x="0" y="0" w="0" h="0" relatw="1" relath="1" title="HTTP Reader Settings" content="winamp.preferences.httpreader.content" />
+</groupdef>
+

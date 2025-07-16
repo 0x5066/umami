@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WinampAbstractionLayer version="0.7">
+
+<groupdef id="wasabi.preferences.tree.embedded" inherit_group="wasabi.window.embedded">
+  <Preferences:Tree id="wasabi.preferences.tree"  
+    x="1" y="1" w="-2" h="-2" relatw="1" relath="1"
+    target="wasabi.preferences.configpane"
+  />
+</groupdef>
+
+<groupdef id="wasabi.preferences.group" name="Preferences" inherit_group="wasabi.panel"  default_w="540" maximum_w="540" minimum_w="540" default_h="282" minimum_h="282" maximum_h="282">
+  <group id="wasabi.preferences.tree.embedded"  
+    x="5" y="5" w="130" h="-10"
+    relath="1" 
+  />
+  <CustomObject id="wasabi.preferences.configpane"
+    x="143" y="8"
+    w="-152" h="-16"
+    relatw="1" relath="1"
+  />
+</groupdef>
+
+</WinampAbstractionLayer>
