@@ -74,6 +74,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    TTF_Init();
+
     Skin skin;
     skin.loadFromXML("freeform/xml/winamp/cover/cover.xml");
     skin.loadFromXML("freeform/xml/winamp/thinger/thinger.xml");
@@ -89,6 +91,7 @@ int main(int argc, char* argv[]) {
     skin.loadFromXML("freeform/xml/tooltips/tooltips.xml");
 
     skin.loadFromXML(g_skinPath + "skin.xml");
+    std::cout << "Loaded skin from: " << g_skinPath << "skin.xml\n";
 
 
     std::cout << "Skin has " << skin.containers.size() << " container(s)\n";
@@ -125,5 +128,6 @@ int main(int argc, char* argv[]) {
     SDL_DestroyWindow(window);
     IMG_Quit();
     SDL_Quit();
+    TTF_Quit();
     return 0;
 }

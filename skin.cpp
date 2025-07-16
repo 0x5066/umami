@@ -28,16 +28,22 @@ std::unique_ptr<UIElement> parseUIElement(const XMLElement* elem) {
     if (g_targetSkin && g_targetSkin->xuiTagMap.count(tag)) {
         std::string groupId = g_targetSkin->xuiTagMap[tag];
 
-#if defined(__linux__)
+    #if defined(__linux__)
         std::cout << "xuitag matched: " << tag << " → group id: " << groupId << "\n";
-#else 
-        std::cout << "xuitag matched: " << tag << " -> group id: " << groupId << "\n";         // the arrow is not rendered properly in windows so replace with something that looks like it
-#endif
+    #else 
+        std::cout << "xuitag matched: " << tag << " -> group id: " << groupId << "\n";
+    #endif
 
         auto ui = std::make_unique<UIElement>();
         ui->tag = "group";
         ui->attributes = collectAttributes(elem);
-        ui->attributes["id"] = groupId;
+
+        // Only inject "id" if the XML did not specify one
+        if (ui->attributes.count("id") == 0) {
+            ui->attributes["id"] = groupId;
+            ui->syntheticId = true;
+        }
+
         return ui;
     }
 
@@ -66,7 +72,8 @@ void tryRegisterBitmap(const XMLElement* elem, const std::string& xmlPath) {
     elem->QueryIntAttribute("h", &bmp.h);
 
     // Load actual image to fallback on dimensions if w/h not given
-    if ((bmp.w <= 0 || bmp.h <= 0) && !bmp.file.empty()) {
+    if (elem->Name() == std::string("truetypefont")) {
+    } else if ((bmp.w <= 0 || bmp.h <= 0) && !bmp.file.empty()) {
         std::string fullPath = g_skinPath + bmp.file;
         SDL_Surface* surface = IMG_Load(fullPath.c_str());
 
@@ -109,6 +116,11 @@ void tryRegisterBitmap(const XMLElement* elem, const std::string& xmlPath) {
         elem->QueryIntAttribute("vspacing", &bmp.vspacing);
     }
 
+    if (std::string(elem->Name()) == "truetypefont") {
+        std::cout << "Info: Registering TTF font: " << bmp.id << " from file: " << bmp.file << std::endl;
+        bmp.isFont = false; // TTF fonts are not bitmap fonts
+    }
+
     g_targetSkin->bitmaps[bmp.id] = std::move(bmp);
 }
 
@@ -117,6 +129,7 @@ void tryRegisterGroupDef(const XMLElement* elem) {
     if (!g_targetSkin) return;
     GroupDef group;
     group.id = elem->Attribute("id") ? elem->Attribute("id") : "";
+    group.attributes = collectAttributes(elem);
 
     // Check and register xuitag
     if (const char* xtag = elem->Attribute("xuitag")) {
@@ -197,7 +210,7 @@ bool Skin::loadFromXML(const std::string& skinXmlPath) {
 void registerElementHook(const XMLElement* elem, const std::string& xmlPath) {
     if (!elem || !g_targetSkin) return;
     std::string tag = elem->Name();
-    if (tag == "bitmap" || tag == "bitmapfont") {
+    if (tag == "bitmap" || tag == "bitmapfont" || tag == "truetypefont") {
         tryRegisterBitmap(elem, xmlPath);
     } else if (tag == "groupdef") {
         tryRegisterGroupDef(elem);

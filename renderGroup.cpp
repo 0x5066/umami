@@ -4,16 +4,74 @@
 // Renders a group of children at the given offset
 bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     SDL_Rect rect = computeElementRect(elem, parentX, parentY, parentW, parentH);
-    if (!elem.attributes.count("id")) return false;
-    const std::string& groupId = elem.attributes.at("id");
 
-    auto it = skin.groupDefs.find(groupId);
-    if (it == skin.groupDefs.end()) return false;
-
-    const GroupDef& def = it->second;
-    for (const auto& child : def.elements) {
-        renderElement(renderer, skin, *child, rect.x, rect.y, rect.w, rect.h);
+    // Try to render background bitmap if group has one
+    std::string groupId = elem.attributes.count("id") ? elem.attributes.at("id") : "";
+    if (!groupId.empty()) {
+        auto it = skin.groupDefs.find(groupId);
+        if (it != skin.groupDefs.end()) {
+            const GroupDef& def = it->second;
+            if (skin.groupDefs[groupId].attributes.count("background")) {
+                const std::string& bgId = skin.groupDefs[groupId].attributes.at("background");
+                auto bmpIt = skin.bitmaps.find(bgId);
+                if (bmpIt != skin.bitmaps.end()) {
+                    SDL_Surface* surface = nullptr;
+                    const SkinBitmap& bmp = bmpIt->second;
+                    std::string fullPath = g_skinPath + bmp.file;
+                    surface = IMG_Load(fullPath.c_str());
+                    if (!surface){ // try redirecting to freeform
+                        SDL_Log("Could not find file %s - using fallback", fullPath.c_str());
+                        std::string wasabiPath = "freeform/xml/wasabi/" + bmp.file;
+                        std::cout << "DEBUG: new fallback: " << wasabiPath << std::endl;
+                        surface = IMG_Load(wasabiPath.c_str());
+                        SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+                        SDL_FreeSurface(surface);
+                        if (texture) {
+                            SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
+                            SDL_Rect dst = { rect.x, rect.y, rect.w, rect.h };
+                            SDL_RenderCopy(renderer, texture, &src, &dst);
+                            SDL_DestroyTexture(texture);
+                        }
+                        if (!surface) {
+                            SDL_Log("Could not find file in fallback %s", wasabiPath.c_str());
+                            return false;
+                        }
+                        if (!surface) {
+                            SDL_Log("FUCK ERROR: Could not find bitmap file: %s", bmp.file.c_str());
+                        }
+                    }
+                }
+            }
+        }
     }
+
+    // Render "id" group (main group)
+    if (!groupId.empty()) {
+        auto it = skin.groupDefs.find(groupId);
+        if (it != skin.groupDefs.end()) {
+            const GroupDef& def = it->second;
+            for (const auto& child : def.elements) {
+                renderElement(renderer, skin, *child, rect.x, rect.y, rect.w, rect.h);
+            }
+        } else {
+            SDL_Log("renderGroup: group id='%s' not found", groupId.c_str());
+        }
+    }
+
+    // Render optional "content" group if defined
+    if (elem.attributes.count("content")) {
+        std::string contentId = elem.attributes.at("content");
+        auto it = skin.groupDefs.find(contentId);
+        if (it != skin.groupDefs.end()) {
+            const GroupDef& def = it->second;
+            for (const auto& child : def.elements) {
+                renderElement(renderer, skin, *child, rect.x, rect.y, rect.w, rect.h);
+            }
+        } else {
+            SDL_Log("renderGroup: content group id='%s' not found", contentId.c_str());
+        }
+    }
+
     return true;
 }
 

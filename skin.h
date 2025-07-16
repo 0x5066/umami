@@ -11,6 +11,7 @@
 #include "tinyxml2/tinyxml2.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 using namespace tinyxml2;
 
@@ -34,6 +35,8 @@ struct UIElement {
     std::string tag; // element name
     std::unordered_map<std::string, std::string> attributes; // all XML attributes
     std::vector<std::unique_ptr<UIElement>> children; // for nested elements
+
+    bool syntheticId = false;
 };
 
 // Represents a <layout> block
@@ -46,6 +49,7 @@ struct Layout {
 // Represents a reusable groupdef definition
 struct GroupDef {
     std::string id;
+    std::unordered_map<std::string, std::string> attributes;
     std::vector<std::unique_ptr<UIElement>> elements;
 };
 

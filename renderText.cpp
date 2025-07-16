@@ -4,10 +4,10 @@
 
 // doesnt do TTFs for now
 bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
-    // Resolve display content (new addition)
     std::string content;
     std::string display = getAttr(elem, "display", "");
     std::string defaultText = getAttr(elem, "default", getAttr(elem, "text", ""));
+    std::transform(display.begin(), display.end(), display.begin(), ::tolower);
 
     if (display == "songname")        content = "1. DJ Mike Llama - Llama Whippin' Intro (0:05)";
     else if (display == "songinfo")   content = "56kbps Stereo 22.0khz";
@@ -38,16 +38,87 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
 
     bool forceUpcase = getAttr(elem, "forceupcase", "0") == "1" || getAttr(elem, "forceuppercase", "0") == "1";
     bool forceLocase = getAttr(elem, "forcelocase", "0") == "1" || getAttr(elem, "forcelowercase", "0") == "1";
+    int fontSize = std::stoi(getAttr(elem, "fontsize", "12"));
 
     auto it = skin.bitmaps.find(fontId);
-    if (it == skin.bitmaps.end()) return false;
-
+    if (it == skin.bitmaps.end()){
+        SDL_Log("Font with id '%s' not found in skin", fontId.c_str());
+        SDL_Log("Should not happen, here we are though.");
+        return false;
+    }
     const SkinBitmap& font = it->second;
+    std::string path = g_skinPath + font.file;
     bool isBitmapFont = font.isFont;
 
-    std::string path = g_skinPath + font.file;
-    SDL_Surface* surface = IMG_Load(path.c_str());
-    if (!surface) return false;
+    SDL_Log("DEBUG: Rendering text '%s' with font '%s' at (%d, %d) size (%d x %d)", 
+            text.c_str(), fontId.c_str(), x, y, w, h);
+
+    // TrueType font handling
+    std::cout << "DEBUG: Font file: " << font.file << " " << path << std::endl;
+    std::cout << "DEBUG: Font path: " << g_skinPath + font.file << std::endl;
+
+    if (!font.isFont && font.file.find(".ttf") != std::string::npos) {
+        std::string path = g_skinPath + font.file;
+        TTF_Font* ttfFont = TTF_OpenFont(path.c_str(), fontSize);
+        SDL_Log("DEBUG: TTF font path: %s", path.c_str());
+        if (!ttfFont) {
+            SDL_Log("Failed to load TTF font %s: %s", path.c_str(), TTF_GetError());
+            return false;
+        }
+
+        SDL_Color color = {255, 255, 255, 255}; // white text
+        SDL_Surface* surface = TTF_RenderUTF8_Blended(ttfFont, text.c_str(), color);
+        if (!surface) {
+            SDL_Log("Failed to render text: %s", TTF_GetError());
+            TTF_CloseFont(ttfFont);
+            return false;
+        }
+
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_FreeSurface(surface);
+        if (!texture) {
+            TTF_CloseFont(ttfFont);
+            return false;
+        }
+
+        int tw, th;
+        SDL_QueryTexture(texture, nullptr, nullptr, &tw, &th);
+
+        int offsetX = 0;
+        if (align == "center") offsetX = x + (w - tw) / 2;
+        else if (align == "right") offsetX = x + w - tw;
+        else offsetX = x; // left
+
+        int offsetY = 0;
+        if (valign == "center") offsetY = y + (h - th) / 2;
+        else if (valign == "bottom") offsetY = y + h - th;
+        else offsetY = y; // top
+
+        SDL_Rect dst = { parentX + offsetX, parentY + offsetY, tw, th };
+        SDL_RenderCopy(renderer, texture, nullptr, &dst);
+        SDL_DestroyTexture(texture);
+        TTF_CloseFont(ttfFont);
+        return true;
+    }
+
+    SDL_Surface* surface;
+    
+    surface = IMG_Load(path.c_str());
+    std::cout << "DEBUG: " << "!: " << path << "" << std::endl;
+
+    if (!surface){ // try redirecting to freeform
+        SDL_Log("Could not find file %s - using fallback", path.c_str());
+        std::string wasabiPath = "freeform/xml/wasabi/" + font.file;
+        std::cout << "DEBUG: new fallback: " << wasabiPath << std::endl;
+        surface = IMG_Load(wasabiPath.c_str());
+        if (!surface) {
+			SDL_Log("Could not find file in fallback %s", wasabiPath.c_str());
+			return false;
+        }
+        if (!surface) {
+            SDL_Log("FUCK ERROR: Could not find bitmap file: %s", font.file.c_str());
+        }
+    }
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
     if (!texture) return false;
