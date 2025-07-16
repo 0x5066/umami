@@ -1,0 +1,13 @@
+<groupdef id="winamp.preferences.usage.content">
+  <Wasabi:CheckBox x="3" y="3" text="Allow Winamp to report anonymous usage statistics" cfgattrib="{680D8317-5302-4962-8D9F-A092D215FE49};Allow anonymous usage statistics report"/>
+  <Wasabi:Text 
+    x="3" y="23" 
+    w="-6" h="-23" 
+    relatw="1" relath="1" 
+    text="This option allows Winamp to occasionally report anonymous usage statistics to Winamp.com.\n\nWinamp tracks how long each component is open, visible, open and playing, and visible and playing. These statistics help us better understand how users interact with Winamp."
+  />
+</groupdef>
+
+<groupdef id="winamp.preferences.usage" name="Usage Reporting">
+  <Wasabi:TitleBox x="0" y="0" w="0" h="0" relatw="1" relath="1" title="Usage Reporting Settings" content="winamp.preferences.usage.content" />
+</groupdef>

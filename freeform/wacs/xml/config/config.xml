@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WinampAbstractionLayer version="0.7">
+
+<include file="config-groups.xml" />
+
+<groupdef id="config.components">
+
+  <text x="0" y="40" w="300" h="16" default="my what a big component list you have" fontsize="20" />
+
+</groupdef>
+
+<groupdef id="config.setup">
+
+  <text x="0" y="40" w="300" h="16" default="Set us up la super bomba" fontsize="20" shadowx="1" shadowy="1" />
+
+</groupdef>
+
+</WinampAbstractionLayer>

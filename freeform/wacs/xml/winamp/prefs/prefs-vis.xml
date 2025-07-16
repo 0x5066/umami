@@ -1,0 +1,66 @@
+<groupdef id="visualization.titlebox.content" autoheightsource="wasabi.slider.horizontal" w="370">
+  <vis id="vis" x="0" y="0" w="72" h="16" />
+  <Wasabi:RadioGroup id="visualizationmode"/>
+  <Wasabi:CheckBox x="0" y="0" text="Spectrum Analyzer" radioid="visualizationmode"/>
+  <Wasabi:CheckBox x="145" y="0" text="Oscilliscope" radioid="visualizationmode"/>
+  <Wasabi:CheckBox x="260" y="0" text="None" radioid="visualizationmode"/>
+  <Wasabi:Text text="Refresh Rate" x="0" y="22" />
+  <Wasabi:HSlider id="fps.slider"
+    x="70" y="24" 
+    w="-115" h="10"
+    relatw="1"
+   />
+  <Wasabi:Text id="visualization.fps" text="35fps" x="-40" relatx="1" y="22" />
+</groupdef>
+
+<groupdef id="peaks.falloff.titlebox.content" autoheightsource="wasabi.slider.horizontal" w="225">
+  <Wasabi:CheckBox x="0" y="0" text="Enabled"/>
+  <Wasabi:HSlider
+    id="peaks.falloff.slider"
+    x="2" y="20" 
+    w="-4" h="10"
+    relatw="1"
+   />
+</groupdef>
+
+<groupdef id="Analyzer.falloff.titlebox.content" autoheightsource="wasabi.slider.horizontal" w="225">
+  <Wasabi:CheckBox x="0" y="0" text="Enabled"/>
+  <Wasabi:HSlider
+    id="analyzer.falloff.slider"
+    x="2" y="20" 
+    w="-4" h="10"
+    relatw="1"
+   />
+</groupdef>
+
+<groupdef id="spectrumanalyzer.titlebox.content" autoheightsource="lastitem" w="245">
+  <Wasabi:RadioGroup id="style" />
+  <Wasabi:CheckBox x="0" y="0" text="Normal Style" radioid="style"/>
+  <Wasabi:CheckBox x="100" y="0" text="Fire Style" radioid="style"/>
+  <Wasabi:CheckBox x="180" y="0" text="Line Style" radioid="style"/>
+
+  <Wasabi:RadioGroup id="bands"/>
+  <Wasabi:CheckBox x="0" y="23" text="Thick Bands" radioid="bands"/>
+  <Wasabi:CheckBox x="100" y="23" text="Thin Bands" radioid="bands"/>
+
+  <Wasabi:TitleBox x="2" y="47" title="Peaks Falloff" content="peaks.falloff.titlebox.content" />
+
+  <Wasabi:TitleBox x="2" y="107" id="lastitem" title="Analyzer Falloff" content="analyzer.falloff.titlebox.content" />
+</groupdef>
+
+<groupdef id="oscilliscope.titlebox.content" autoheightsource="lastitem" w="90">
+  <Wasabi:RadioGroup id="visualizationmode"/>
+  <Wasabi:CheckBox x="0" y="0" text="Dot Scope" radioid="visualizationmode"/>
+  <Wasabi:CheckBox x="0" y="16" text="Line Scope" radioid="visualizationmode"/>
+  <Wasabi:CheckBox id="lastitem" x="0" y="32" text="Solid Scope" radioid="visualizationmode"/>
+</groupdef>
+
+<groupdef id="winamp.preferences.vis.content" h="225" w="370">
+  <Wasabi:TitleBox x="3" y="3" title="Visualization Mode" content="Visualization.titlebox.content" />
+  <Wasabi:TitleBox x="3" y="67" title="Spectrum Analyzer" content="spectrumanalyzer.titlebox.content" />
+  <Wasabi:TitleBox x="272" y="67" title="Oscilliscope" content="oscilliscope.titlebox.content" />
+</groupdef>
+
+<groupdef id="winamp.preferences.vis" name="Visualization" >
+  <Wasabi:TitleBox x="3" y="3" title="Visualization Settings" content="winamp.preferences.vis.content" />
+</groupdef>

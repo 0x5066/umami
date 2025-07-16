@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WinampAbstractionLayer version="0.7">
+
+<groupdef id="wasabi.skinswitch.bottom.group">
+<!--  <Wasabi:Button id="Remove" action="remove" action_target="main.skin.list" x="4" y="0" w="48" h="21" text="Remove"  /> -->
+  <Wasabi:Button id="Switch" action="switch" action_target="main.skin.list" x="-54" relatx="1" y="0" w="48" h="21" text="Switch" />
+</groupdef>
+
+<groupdef id="wasabi.skinswitch.screenshot.titlebox.content">
+  <SkinSwitch:Preview id="main.skin.preview" x="3" y="3" w="-6" relatw="1" h="-6" relath="1"/>
+</groupdef>
+
+<groupdef id="wasabi.skinswitch.top.group.current">
+
+  <group id="wasabi.window.embedded" x="8" y="14" w="67" h="-19" relath="1" />
+  <SkinSwitch:List id="main.skin.list" target="main.skin.preview" infotarget="wasabi.skinswitch.skininfo.text" x="9" y="15" w="65" h="-21" relath="1" />
+
+  <Wasabi:Titlebox x="80" y="8" w="-88" relatw="1" h="-13" relath="1" title="Skin Screenshot" content="wasabi.skinswitch.screenshot.titlebox.content"/>
+
+</groupdef>
+
+
+<groupdef id="wasabi.skinswitch.info.titlebox.content">
+  <Wasabi:Text
+    id="wasabi.skinswitch.skininfo.text"
+    text="No info" 
+    x="0" y="0" w="0" h="0" relatw="1" relath="1"
+  />   
+</groupdef>
+
+<groupdef id="wasabi.skinswitch.top.group.about">
+  <Wasabi:TitleBox x="8" y="8" w="-17" relatw="1" h="-13" relath="1" id="wasabi.skinswitch.info.titlebox" title="Skin Info" content="wasabi.skinswitch.info.titlebox.content" />
+</groupdef>
+
+<groupdef id="wasabi.skinswitch.current" name="Current Skin">
+  <Wasabi:Frame orientation="horizontal" height="29" from="bottom" resizable="0" top="wasabi.skinswitch.top.group.current" bottom="wasabi.skinswitch.bottom.group" x="0" y="0" w="0" h="0" relatw="1" relath="1" />
+</groupdef>
+
+<groupdef id="wasabi.skinswitch.about" name="Detailed Info">
+  <Wasabi:Frame orientation="horizontal" height="29" from="bottom" resizable="0" top="wasabi.skinswitch.top.group.about" bottom="wasabi.skinswitch.bottom.group" x="0" y="0" w="0" h="0" relatw="1" relath="1" />
+</groupdef>
+
+<groupdef id="config.skins">
+  <Wasabi:TabSheet x="0" y="0" w="0" relatw="1" h="0" relath="1" children="wasabi.skinswitch.current;wasabi.skinswitch.about" windowtype="adon" />
+</groupdef>
+
+</WinampAbstractionLayer>

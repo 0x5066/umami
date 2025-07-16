@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<WinampAbstractionLayer version="0.7">
+
+<groupdef id="infoedit.mp3.id3v1.titlebox.content">
+  <Wasabi:Checkbox x="2" y="2" text="ID3v1 Tag" id="id3v1"/>
+
+  <Wasabi:Text x="142" y="4" w="40" h="14" align="right" text="Track #" />
+  <Wasabi:EditBox id="id3v1 track #" x="185" y="2" w="-185" relatw="1" h="19"/>
+
+  <Wasabi:Text x="0" y="26" w="46" h="14" align="right" text="Title" />
+  <Wasabi:EditBox id="id3v1 title" x="50" y="24" w="-50" relatw="1" h="19"/>
+
+  <Wasabi:Text x="0" y="50" w="46" h="14" align="right" text="Artist" />
+  <Wasabi:EditBox id="id3v1 artist" x="50" y="48" w="-50" relatw="1" h="19"/>
+  
+  <Wasabi:Text x="0" y="74" w="46" h="14" align="right" text="Album" />
+  <Wasabi:EditBox id="id3v1 album" x="50" y="72" w="-50" relatw="1" h="19"/>
+
+  <Wasabi:Text x="0" y="98" w="46" h="14" align="right" text="Year" />
+  <Wasabi:EditBox id="id3v1 year" x="50" y="96" w="30" h="19"/>
+  
+  <Wasabi:Text x="90" y="98" h="14" text="Genre" />
+  <Wasabi:DropDownList id="id3v1 genre" x="125" y="96" w="-125" relatw="1" h="19" />
+
+  <Wasabi:Text x="0" y="122" w="46" h="14" align="right" text="Comment" />
+  <Wasabi:EditBox id="id3v1 comment" x="50" y="120" w="-50" relatw="1" h="19"/>
+
+  <Wasabi:Button id="v1tov2" action="mp3_v1tov2" action_target="" x="2" y="145" w="88" h="21" text="ID3v1 to ID3v2" />
+
+</groupdef>
+
+<groupdef id="infoedit.mp3.id3v2.titlebox.content">
+  <Wasabi:Checkbox x="2" y="2" text="ID3v2 Tag" id="id3v2"/>
+
+  <Wasabi:Text x="142" y="4" w="40" h="14" align="right" text="Track #" />
+  <Wasabi:EditBox id="id3v2 track #" x="185" y="2" w="-185" relatw="1" h="19"/>
+
+  <Wasabi:Text x="0" y="26" w="46" h="14" align="right" text="Title" />
+  <Wasabi:EditBox id="id3v2 title" x="50" y="24" w="-50" relatw="1" h="19"/>
+
+  <Wasabi:Text x="0" y="50" w="46" h="14" align="right" text="Artist" />
+  <Wasabi:EditBox id="id3v2 artist" x="50" y="48" w="-50" relatw="1" h="19"/>
+  
+  <Wasabi:Text x="0" y="74" w="46" h="14" align="right" text="Album" />
+  <Wasabi:EditBox id="id3v2 album" x="50" y="72" w="-50" relatw="1" h="19"/>
+
+  <Wasabi:Text x="0" y="98" w="46" h="14" align="right" text="Year" />
+  <Wasabi:EditBox id="id3v2 year" x="50" y="96" w="30" h="19"/>
+  
+  <Wasabi:Text x="90" y="98" h="14" text="Genre" />
+  <Wasabi:EditBox id="id3v2 genre" x="125" y="96" w="-125" relatw="1" h="19"/>
+
+  <Wasabi:Text x="0" y="122" w="46" h="14" align="right" text="Comment" />
+  <Wasabi:EditBox id="id3v2 comment" multiline="1" vscroll="1" autohscroll="0" x="50" y="120" w="-50" relatw="1" h="57"/>
+
+  <Wasabi:Text x="0" y="189" w="61" h="14" align="right" text="Composer" />
+  <Wasabi:EditBox id="id3v2 composer" x="65" y="187" w="-65" relatw="1" h="19"/>
+
+  <Wasabi:Text x="0" y="213" w="61" h="14" align="right" text="Orig. Artist" />
+  <Wasabi:EditBox id="id3v2 orig. artist" x="65" y="211" w="-65" relatw="1" h="19"/>
+
+  <Wasabi:Text x="0" y="237" w="61" h="14" align="right" text="Copyright" />
+  <Wasabi:EditBox id="id3v2 copyright" x="65" y="235" w="-65" relatw="1" h="19"/>
+
+  <Wasabi:Text x="0" y="261" w="61" h="14" align="right" text="URL" />
+  <Wasabi:EditBox id="id3v2 url" x="65" y="259" w="-65" relatw="1" h="19"/>
+
+  <Wasabi:Text x="0" y="285" w="61" h="14" align="right" text="Encoded By" />
+  <Wasabi:EditBox id="id3v2 encoded by" x="65" y="283" w="-65" relatw="1" h="19"/>
+
+  <Wasabi:Button id="v2tov1" action="mp3_v2tov1" action_target="" x="2" y="-21" relaty="1" w="88" h="21" text="ID3v2 to ID3v1" />
+
+</groupdef>
+
+<groupdef id="infoedit.mp3.details.titlebox.content">
+  <Wasabi:Text x="0"  y="0" w="200" h="150" id="mpeg info" align="left" text="" />
+</groupdef>
+
+<groupdef id="infoedit.mp3.id3v1.tab" name="ID3v1">
+  <Wasabi:TitleBox x="5" y="2" w="-10" h="-7" relatw="1" relath="1" title="ID3v1 Information" content="infoedit.mp3.id3v1.titlebox.content" />
+</groupdef>
+<groupdef id="infoedit.mp3.id3v2.tab" name="ID3v2">
+  <Wasabi:TitleBox x="5" y="2" w="-10" h="-7" relatw="1" relath="1" title="ID3v2 Information" content="infoedit.mp3.id3v2.titlebox.content" />
+</groupdef>
+<groupdef id="infoedit.mp3.details.tab" name="MPEG Details">
+  <Wasabi:TitleBox x="5" y="2" w="-10" h="-7" relatw="1" relath="1" title="MPEG Details" content="infoedit.mp3.details.titlebox.content" />
+</groupdef>
+
+<groupdef id="infoedit.mp3" inherit_group="wasabi.panel" default_h="430" default_w="265" minimum_h="430" minimum_w="265" maximum_h="430" maximum_w="265">
+  <Wasabi:tabsheet x="7" y="7" w="-14" relatw="1" h="-14" relath="1" children="infoedit.mp3.id3v1.tab;infoedit.mp3.id3v2.tab;infoedit.mp3.details.tab"/>
+</groupdef>
+
+</WinampAbstractionLayer>
