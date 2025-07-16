@@ -26,4 +26,4 @@ add_executable(umami
     main.cpp
 )
 
-target_link_libraries(umami SDL2 SDL2_image )
+target_link_libraries(umami SDL2 SDL2_image SDL2_ttf)

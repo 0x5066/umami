@@ -29,7 +29,7 @@ if [ "$1" == "linux" ]; then
     cp -r freeform/ build/freeform/ -v
     cp -r skins/ build/skins/ -v
 
-    build/umami #&> log.txt &
+    build/umami "$2" "$3" #&> log.txt &
 elif [ "$1" == "mingw" ]; then
     export WINEPREFIX=$HOME/.wineumami
     i686-w64-mingw32-cmake -B build -G Ninja

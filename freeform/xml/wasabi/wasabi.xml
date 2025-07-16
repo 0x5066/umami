@@ -2,8 +2,8 @@
 <WinampAbstractionLayer version="0.7">
 
 <elements>
-  <bitmap id="wasabi.bitmapnotfound" file="wacs/xml/guiobjects/wasabi/window/error.png" />
-  <bitmap id="wasabi.transparent" file="wacs/xml/guiobjects/wasabi/window/transparent.png" />
+  <bitmap id="wasabi.bitmapnotfound" file="window/error.png" />
+  <bitmap id="wasabi.transparent" file="window/transparent.png" />
 </elements>
 
 <include file="xml/system-colors.xml"/>

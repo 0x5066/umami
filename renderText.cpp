@@ -9,7 +9,7 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
     std::string defaultText = getAttr(elem, "default", getAttr(elem, "text", ""));
     std::transform(display.begin(), display.end(), display.begin(), ::tolower);
 
-    if (display == "songname")        content = "1. DJ Mike Llama - Llama Whippin' Intro (0:05)";
+    if (display == "songname")        content = "DJ Mike Llama - Llama Whippin' Intro (0:05)";
     else if (display == "songinfo")   content = "56kbps Stereo 22.0khz";
     else if (display == "songartist") content = "DJ Mike Llama";
     else if (display == "songtitle")  content = "My Song";
