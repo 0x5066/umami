@@ -25,6 +25,7 @@ static void initializeRenderRegistry() {
     renderRegistry["progressgrid"] = renderProgressGrid;
     renderRegistry["status"] = renderStatus;
     renderRegistry["text"] = renderText;
+    renderRegistry["vis"] = renderVis; 
 }
 
 static bool initialized = false;

@@ -20,6 +20,7 @@
                 "renderStatus.cpp",
                 "renderGrid.cpp",
                 "render_shared.cpp",
+                "renderVis.cpp",
                 "tinyxml2/tinyxml2.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",

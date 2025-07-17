@@ -4,8 +4,8 @@ if(MSVC)
     set(CMAKE_CXX_FLAGS_DEBUG "/Zi /Od")
     set(CMAKE_CXX_FLAGS_RELEASE "/O2 /DNDEBUG")
 else()
-    set(CMAKE_CXX_FLAGS_DEBUG "-g3")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g3 -DDEBUG")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 endif()
 
 project(umami)
@@ -23,6 +23,7 @@ add_executable(umami
     renderStatus.cpp
     renderGrid.cpp
     render_shared.cpp
+    renderVis.cpp
     main.cpp
 )
 

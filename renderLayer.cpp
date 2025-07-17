@@ -10,12 +10,12 @@ bool renderLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
         elem.attributes.count("id") ? elem.attributes.at("id").c_str() : "(none)",
         parentX, parentY, parentW, parentH); */
 
-    // Extract and log all relevant attributes
+    /* Extract and log all relevant attributes
     auto get = [&](const char* key) -> const char* {
         auto it = elem.attributes.find(key);
         return it != elem.attributes.end() ? it->second.c_str() : "(none)";
     };
-    /* SDL_Log("[renderLayer] attrs: x=%s y=%s w=%s h=%s relatx=%s relaty=%s relatw=%s relath=%s fitparent=%s image=%s",
+    SDL_Log("[renderLayer] attrs: x=%s y=%s w=%s h=%s relatx=%s relaty=%s relatw=%s relath=%s fitparent=%s image=%s",
         get("x"), get("y"), get("w"), get("h"),
         get("relatx"), get("relaty"), get("relatw"), get("relath"),
         get("fitparent"), get("image")); */
@@ -40,31 +40,44 @@ bool renderLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
     auto bmpIt = skin.bitmaps.find(imageId);
     if (bmpIt == skin.bitmaps.end()) return false;
     const SkinBitmap& bmp = bmpIt->second;
+#ifdef DEBUG
     std::cout << "DEBUG: " << bmp.file  << "with id: " << imageId << std::endl;
+#endif // DEBUG
     std::string fullPath = g_skinPath + bmp.file;
     SDL_Surface* surface;
     
     surface = IMG_Load(fullPath.c_str());
+#ifdef DEBUG
     std::cout << "DEBUG: " << "!: " << fullPath << "" << std::endl;
-
+#endif // DEBUG
     if (!surface){ // try redirecting to freeform
+#ifdef DEBUG
         SDL_Log("Could not find file %s - using fallback", fullPath.c_str());
+#endif // DEBUG
         std::string wasabiPath = "freeform/xml/wasabi/" + bmp.file;
+#ifdef DEBUG
         std::cout << "DEBUG: new fallback: " << wasabiPath << std::endl;
+#endif // DEBUG
         surface = IMG_Load(wasabiPath.c_str());
         if (!surface) {
+#ifdef DEBUG
 			SDL_Log("Could not find file in fallback %s", wasabiPath.c_str());
+#endif // DEBUG
 			return false;
         }
         if (!surface) {
+#ifdef DEBUG
             SDL_Log("FUCK ERROR: Could not find bitmap file: %s", bmp.file.c_str());
+#endif // DEBUG
         }
     }
 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
     if (!texture){
+#ifdef DEBUG
         SDL_Log("Something failed here, but I'm not sure what.");
+#endif // DEBUG
         return false;
     }
 

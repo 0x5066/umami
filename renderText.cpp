@@ -6,7 +6,7 @@
 bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     std::string content;
     std::string display = getAttr(elem, "display", "");
-    std::string defaultText = getAttr(elem, "default", getAttr(elem, "text", ""));
+    std::string defaultText = getAttr(elem, "default", getAttr(elem, "text", "This is a test string"));
     std::transform(display.begin(), display.end(), display.begin(), ::tolower);
 
     if (display == "songname")        content = "DJ Mike Llama - Llama Whippin' Intro (0:05)";
@@ -42,25 +42,29 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
 
     auto it = skin.bitmaps.find(fontId);
     if (it == skin.bitmaps.end()){
+#ifdef DEBUG
         SDL_Log("Font with id '%s' not found in skin", fontId.c_str());
         SDL_Log("Should not happen, here we are though.");
+        SDL_Log("What's the fallback here?");
+#endif // DEBUG
         return false;
     }
     const SkinBitmap& font = it->second;
     std::string path = g_skinPath + font.file;
     bool isBitmapFont = font.isFont;
-
+#ifdef DEBUG
     SDL_Log("DEBUG: Rendering text '%s' with font '%s' at (%d, %d) size (%d x %d)", 
             text.c_str(), fontId.c_str(), x, y, w, h);
-
     // TrueType font handling
     std::cout << "DEBUG: Font file: " << font.file << " " << path << std::endl;
     std::cout << "DEBUG: Font path: " << g_skinPath + font.file << std::endl;
-
+#endif // DEBUG
     if (!font.isFont && font.file.find(".ttf") != std::string::npos) {
         std::string path = g_skinPath + font.file;
         TTF_Font* ttfFont = TTF_OpenFont(path.c_str(), fontSize);
+#ifdef DEBUG
         SDL_Log("DEBUG: TTF font path: %s", path.c_str());
+#endif // DEBUG
         if (!ttfFont) {
             SDL_Log("Failed to load TTF font %s: %s", path.c_str(), TTF_GetError());
             return false;
@@ -69,7 +73,9 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
         SDL_Color color = {255, 255, 255, 255}; // white text
         SDL_Surface* surface = TTF_RenderUTF8_Blended(ttfFont, text.c_str(), color);
         if (!surface) {
+#ifdef DEBUG
             SDL_Log("Failed to render text: %s", TTF_GetError());
+#endif // DEBUG
             TTF_CloseFont(ttfFont);
             return false;
         }
@@ -104,19 +110,29 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
     SDL_Surface* surface;
     
     surface = IMG_Load(path.c_str());
+#ifdef DEBUG
     std::cout << "DEBUG: " << "!: " << path << "" << std::endl;
+#endif // DEBUG
 
     if (!surface){ // try redirecting to freeform
+#ifdef DEBUG
         SDL_Log("Could not find file %s - using fallback", path.c_str());
+#endif // DEBUG
         std::string wasabiPath = "freeform/xml/wasabi/" + font.file;
+#ifdef DEBUG
         std::cout << "DEBUG: new fallback: " << wasabiPath << std::endl;
+#endif // DEBUG
         surface = IMG_Load(wasabiPath.c_str());
         if (!surface) {
+#ifdef DEBUG
 			SDL_Log("Could not find file in fallback %s", wasabiPath.c_str());
+#endif // DEBUG
 			return false;
         }
         if (!surface) {
+#ifdef DEBUG
             SDL_Log("FUCK ERROR: Could not find bitmap file: %s", font.file.c_str());
+#endif // DEBUG
         }
     }
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);

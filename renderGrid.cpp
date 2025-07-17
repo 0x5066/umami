@@ -56,8 +56,10 @@ bool renderGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
     int totalMinH = hT + hB;
 
     if (rect.w < totalMinW || rect.h < totalMinH) {
+        #ifdef DEBUG
         SDL_Log("[renderGrid] area too small: (%d x %d), need at least %d x %d",
                 rect.w, rect.h, totalMinW, totalMinH);
+        #endif // DEBUG
         return false;
     }
 
@@ -82,14 +84,18 @@ bool renderGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
     // Render and log
     for (int i = 0; i < 9; ++i) {
         if (textures[i]) {
+            #ifdef DEBUG
             SDL_Log("grid part %s from bitmap '%s' with grid ID '%s': src=(%d,%d,%d,%d) dst=(%d,%d,%d,%d)",
                     parts[i].c_str(), bitmapIds[i].c_str(), gridId.c_str(),
                     src[i].x, src[i].y, src[i].w, src[i].h,
                     dst[i].x, dst[i].y, dst[i].w, dst[i].h);
+            #endif // DEBUG
             SDL_RenderCopy(renderer, textures[i], &src[i], &dst[i]);
             SDL_DestroyTexture(textures[i]);
         } else {
+            #ifdef DEBUG
             SDL_Log("grid part %s: MISSING TEXTURE", parts[i].c_str());
+            #endif // DEBUG
         }
     }
 

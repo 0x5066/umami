@@ -20,9 +20,13 @@ bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
                     std::string fullPath = g_skinPath + bmp.file;
                     surface = IMG_Load(fullPath.c_str());
                     if (!surface){ // try redirecting to freeform
+                        #ifdef DEBUG
                         SDL_Log("Could not find file %s - using fallback", fullPath.c_str());
+                        #endif // DEBUG
                         std::string wasabiPath = "freeform/xml/wasabi/" + bmp.file;
+                        #ifdef DEBUG
                         std::cout << "DEBUG: new fallback: " << wasabiPath << std::endl;
+                        #endif // DEBUG
                         surface = IMG_Load(wasabiPath.c_str());
                         SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
                         SDL_FreeSurface(surface);
@@ -33,11 +37,15 @@ bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
                             SDL_DestroyTexture(texture);
                         }
                         if (!surface) {
+                            #ifdef DEBUG
                             SDL_Log("Could not find file in fallback %s", wasabiPath.c_str());
+                            #endif // DEBUG
                             return false;
                         }
                         if (!surface) {
+                            #ifdef DEBUG
                             SDL_Log("FUCK ERROR: Could not find bitmap file: %s", bmp.file.c_str());
+                            #endif // DEBUG
                         }
                     }
                 }
@@ -54,7 +62,9 @@ bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
                 renderElement(renderer, skin, *child, rect.x, rect.y, rect.w, rect.h);
             }
         } else {
+            #ifdef DEBUG
             SDL_Log("renderGroup: group id='%s' not found", groupId.c_str());
+            #endif // DEBUG
         }
     }
 
@@ -68,7 +78,9 @@ bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
                 renderElement(renderer, skin, *child, rect.x, rect.y, rect.w, rect.h);
             }
         } else {
+            #ifdef DEBUG
             SDL_Log("renderGroup: content group id='%s' not found", contentId.c_str());
+            #endif // DEBUG
         }
     }
 

@@ -17,7 +17,7 @@ check_build_status() {
 }
 
 if [ "$1" == "linux" ]; then
-    cmake -B build -G Ninja
+    cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
     check_build_status
 
     cmake --build build

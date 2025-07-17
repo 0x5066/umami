@@ -16,6 +16,7 @@
 using namespace tinyxml2;
 
 extern std::string g_skinPath;
+extern std::vector<double> sample; // temp
 
 // Represents a bitmap or bitmapfont resource
 struct SkinBitmap {

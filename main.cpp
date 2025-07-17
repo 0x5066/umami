@@ -6,7 +6,7 @@ std::string g_skinPath;
 
 extern bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& containerId, const std::string& basePath);
 
-void renderLoop(SDL_Renderer* renderer, Skin& skin, const std::string& containerName, const std::string& basePath, int renderIntervalMs = 200)
+void renderLoop(SDL_Renderer* renderer, Skin& skin, const std::string& containerName, const std::string& basePath, int renderIntervalMs = 0)
 {
     bool running = true;
     SDL_Event e;
@@ -27,11 +27,11 @@ void renderLoop(SDL_Renderer* renderer, Skin& skin, const std::string& container
     }
 }
 
-
+std::vector<double> sample(75, 0.0);
 int main(int argc, char* argv[]) {
     if (argc == 1){
-        std::cout << "No skin passed for render.\n";
-        std::cout << "Usage: " << argv[0] << " [path_to_skin_directory] [container (leave it blank to display 'main' as default fallback)]\n";
+        std::cout << "No skin to render.\n";
+        std::cout << "Usage: " << argv[0] << " path/to/skin container (e.g. 'main', leave empty to display main container)\n";
         return 1;
     }
     g_skinPath = argv[1];
@@ -75,6 +75,8 @@ int main(int argc, char* argv[]) {
     }
 
     TTF_Init();
+    
+    sample[0] = 15.0; // Set the first element to 15.0
 
     Skin skin;
     skin.loadFromXML("freeform/xml/winamp/cover/cover.xml");
@@ -120,9 +122,7 @@ int main(int argc, char* argv[]) {
 
     bool running = true;
     SDL_Event e;
-    renderLoop(renderer, skin, container_name, g_skinPath, 200);
-
-
+    renderLoop(renderer, skin, container_name, g_skinPath, 16);
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
