@@ -1,7 +1,7 @@
 #include "skin.h"
 #include "render_shared.h"
 
-// Renders a group of children at the given offset
+// renders groups and groups of groups (doesnt clip correctly)
 bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     SDL_Rect rect = computeElementRect(elem, parentX, parentY, parentW, parentH);
 
@@ -87,7 +87,7 @@ bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
     return true;
 }
 
-// Frame rendering, splits parent's rect and passes correct offsets to children
+// wasabi:frame rendering, a bit wonky and i'm not sure what's at fault right now
 bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     SDL_Rect frameRect = computeElementRect(elem, parentX, parentY, parentW, parentH);
 
@@ -97,6 +97,9 @@ bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
     int width     = std::stoi(getAttr(elem, "width", "100"));
     int minwidth  = std::stoi(getAttr(elem, "minwidth", "0"));
     int maxwidth  = std::stoi(getAttr(elem, "maxwidth", "9999"));
+
+    std::string vbitmapId   = getAttr(elem, "vbitmap", "");
+    std::string vgrabberId  = getAttr(elem, "vgrabber", "");
 
     std::string firstId, secondId;
     if (orientation == "v") {
@@ -129,7 +132,54 @@ bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
     renderGroupById(firstId, firstRect);
     renderGroupById(secondId, secondRect);
 
-    // TODO: vgrabber / vbitmap rendering here
+    // --- Draw divider bitmaps if defined ---
+    SkinBitmap* vbitmap = nullptr;
+    SkinBitmap* vgrabber = nullptr;
+
+    if (!vbitmapId.empty()) {
+        auto it = skin.bitmaps.find(vbitmapId);
+        if (it != skin.bitmaps.end()) {
+            vbitmap = &it->second;
+        }
+    }
+    if (!vgrabberId.empty()) {
+        auto it = skin.bitmaps.find(vgrabberId);
+        if (it != skin.bitmaps.end()) {
+            vgrabber = &it->second;
+        }
+    }
+
+    if (vbitmap) {
+        SDL_Texture* tex = getOrLoadTexture(renderer, skin, *vbitmap);
+        if (tex) {
+            if (orientation == "v") {
+                SDL_Rect src = { vbitmap->x, vbitmap->y, vbitmap->w, vbitmap->h };
+                SDL_Rect dst = { frameRect.x + split, frameRect.y, vbitmap->w, frameRect.h };
+                SDL_RenderCopy(renderer, tex, &src, &dst);
+            } else {
+                SDL_Rect src = { vbitmap->x, vbitmap->y, vbitmap->w, vbitmap->h };
+                SDL_Rect dst = { frameRect.x, frameRect.y + split, frameRect.w, vbitmap->h };
+                SDL_RenderCopy(renderer, tex, &src, &dst);
+            }
+        }
+    }
+
+    if (vgrabber) {
+        SDL_Texture* tex = getOrLoadTexture(renderer, skin, *vgrabber);
+        if (tex) {
+            if (orientation == "v") {
+                int centerY = frameRect.y + (frameRect.h - vgrabber->h) / 2;
+                SDL_Rect src = { vgrabber->x, vgrabber->y, vgrabber->w, vgrabber->h };
+                SDL_Rect dst = { frameRect.x + split, centerY, vgrabber->w, vgrabber->h };
+                SDL_RenderCopy(renderer, tex, &src, &dst);
+            } else {
+                int centerX = frameRect.x + (frameRect.w - vgrabber->w) / 2;
+                SDL_Rect src = { vgrabber->x, vgrabber->y, vgrabber->w, vgrabber->h };
+                SDL_Rect dst = { centerX, frameRect.y + split, vgrabber->w, vgrabber->h };
+                SDL_RenderCopy(renderer, tex, &src, &dst);
+            }
+        }
+    }
 
     return true;
 }

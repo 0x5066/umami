@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+#include <algorithm>
 #include <unordered_map>
 #include <vector>
 #include <memory>
@@ -29,6 +30,8 @@ struct SkinBitmap {
     bool isFont = false;
     int charWidth = 0, charHeight = 0;
     int hspacing = 0, vspacing = 0;
+
+    SDL_Texture* texture = nullptr;
 };
 
 // Generic UI element, e.g., <button>, <sendparams>, etc.

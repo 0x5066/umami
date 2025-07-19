@@ -1,8 +1,10 @@
 // Render function declarations for registry
 #pragma once
 #include "skin.h"
-#include <string>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+#include <string>
 
 // Utility to get attribute with fallback
 template<typename ElemType>
@@ -10,6 +12,9 @@ std::string getAttr(const ElemType& elem, const std::string& key, const std::str
     auto it = elem.attributes.find(key);
     return it != elem.attributes.end() ? it->second : fallback;
 }
+
+// texture management
+SDL_Texture* getOrLoadTexture(SDL_Renderer* renderer, Skin& skin, SkinBitmap& bmp);
 
 // Explicit instantiation for UIElement
 extern template std::string getAttr<UIElement>(const UIElement&, const std::string&, const std::string&);

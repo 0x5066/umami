@@ -1,6 +1,5 @@
 // renderer.cpp
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include "render_shared.h"
 #include "skin.h"
 
 extern bool renderElement(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int x, int y, int w, int h);
@@ -66,31 +65,14 @@ bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& cont
             const std::string& bgId = layout->attributes.at("background");
             //std::cout << "Trying to render background: " << bgId << std::endl;
             auto bmpIt = skin.bitmaps.find(bgId);
-            if (bmpIt != skin.bitmaps.end()) {
-                const SkinBitmap& bmp = bmpIt->second;
-                std::string fullPath = basePath + "/" + bmp.file;
-                //std::cout << "Background file: " << fullPath << std::endl;
-                SDL_Surface* surface = IMG_Load(fullPath.c_str());
-                if (!surface) {
-                    SDL_Log("Failed to load: %s", fullPath.c_str());
-                } else {
-                    int srcW = bmp.w > 0 ? bmp.w : surface->w;
-                    int srcH = bmp.h > 0 ? bmp.h : surface->h;
-                    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-                    SDL_FreeSurface(surface);
-                    if (texture) {
-                        SDL_Rect src = { bmp.x, bmp.y, srcW, srcH };
-                        SDL_Rect dst = { 0, 0, parentWidth, parentHeight };
-                        //std::cout << "Rendering background src: " << bmp.x << "," << bmp.y << "," << srcW << "," << srcH << std::endl;
-                        //std::cout << "Rendering background dst: 0,0," << parentWidth << "," << parentHeight << std::endl;
-                        SDL_RenderCopy(renderer, texture, &src, &dst);
-                        SDL_DestroyTexture(texture);
-                    } else {
-                        std::cout << "Failed to create texture from surface" << std::endl;
-                    }
+                if (bmpIt != skin.bitmaps.end()) {
+                    SkinBitmap& bmp = bmpIt->second;
+                    SDL_Texture* texture = getOrLoadTexture(renderer, skin, bmp);
+                if (texture){
+                    SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
+                    SDL_Rect dst = { 0, 0, parentWidth, parentHeight };
+                    SDL_RenderCopy(renderer, texture, &src, &dst);
                 }
-            } else {
-                std::cout << "Background bitmap id not found: " << bgId << std::endl;
             }
         }
         // --- End background ---

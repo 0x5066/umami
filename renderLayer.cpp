@@ -39,47 +39,9 @@ bool renderLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
 
     auto bmpIt = skin.bitmaps.find(imageId);
     if (bmpIt == skin.bitmaps.end()) return false;
-    const SkinBitmap& bmp = bmpIt->second;
-#ifdef DEBUG
-    std::cout << "DEBUG: " << bmp.file  << "with id: " << imageId << std::endl;
-#endif // DEBUG
-    std::string fullPath = g_skinPath + bmp.file;
-    SDL_Surface* surface;
-    
-    surface = IMG_Load(fullPath.c_str());
-#ifdef DEBUG
-    std::cout << "DEBUG: " << "!: " << fullPath << "" << std::endl;
-#endif // DEBUG
-    if (!surface){ // try redirecting to freeform
-#ifdef DEBUG
-        SDL_Log("Could not find file %s - using fallback", fullPath.c_str());
-#endif // DEBUG
-        std::string wasabiPath = "freeform/xml/wasabi/" + bmp.file;
-#ifdef DEBUG
-        std::cout << "DEBUG: new fallback: " << wasabiPath << std::endl;
-#endif // DEBUG
-        surface = IMG_Load(wasabiPath.c_str());
-        if (!surface) {
-#ifdef DEBUG
-			SDL_Log("Could not find file in fallback %s", wasabiPath.c_str());
-#endif // DEBUG
-			return false;
-        }
-        if (!surface) {
-#ifdef DEBUG
-            SDL_Log("FUCK ERROR: Could not find bitmap file: %s", bmp.file.c_str());
-#endif // DEBUG
-        }
-    }
-
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-    if (!texture){
-#ifdef DEBUG
-        SDL_Log("Something failed here, but I'm not sure what.");
-#endif // DEBUG
-        return false;
-    }
+    SkinBitmap& bmp = bmpIt->second;
+    //std::string fullPath = g_skinPath + bmp.file;
+    SDL_Texture* texture = getOrLoadTexture(renderer, skin, bmp);
 
     int relatx = elem.attributes.count("relatx") ? std::stoi(elem.attributes.at("relatx")) : 0;
     int relaty = elem.attributes.count("relaty") ? std::stoi(elem.attributes.at("relaty")) : 0;
@@ -106,7 +68,7 @@ bool renderLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
     SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
     SDL_Rect dst = { parentX + x, parentY + y, w, h }; // <<--- add parent offset!
     SDL_RenderCopy(renderer, texture, &src, &dst);
-    SDL_DestroyTexture(texture);
+    //SDL_DestroyTexture(texture);
 
     return true;
 }

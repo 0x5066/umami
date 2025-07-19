@@ -15,14 +15,8 @@ bool renderStatus(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
 
     auto bmpIt = skin.bitmaps.find(bitmapKey);
     if (bmpIt == skin.bitmaps.end()) return false;
-    const SkinBitmap& bmp = bmpIt->second;
-
-    std::string path = g_skinPath + bmp.file;
-    SDL_Surface* surface = IMG_Load(path.c_str());
-    if (!surface) return false;
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-    if (!texture) return false;
+    SkinBitmap& bmp = bmpIt->second;
+    SDL_Texture* texture = getOrLoadTexture(renderer, skin, bmp);
 
     SDL_Rect dst = computeElementRect(elem, parentX, parentY, bmp.w, bmp.h);
     SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };

@@ -1,6 +1,4 @@
 // main.cpp
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include "skin.h"
 std::string g_skinPath;
 
@@ -55,6 +53,9 @@ int main(int argc, char* argv[]) {
         SDL_Log("SDL_Init Error: %s", SDL_GetError());
         return 1;
     }
+
+    // doesnt fix the weird artifacting happening in accelerated mode
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
     if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
         SDL_Log("IMG_Init Error: %s", IMG_GetError());

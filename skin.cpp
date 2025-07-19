@@ -1,6 +1,4 @@
 // skin.cpp
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include "skin.h"
 #include "wasabiparser.h"
 
@@ -15,7 +13,9 @@ std::unordered_map<std::string, std::string> collectAttributes(const XMLElement*
     std::unordered_map<std::string, std::string> result;
     const XMLAttribute* attr = elem->FirstAttribute();
     while (attr) {
-        result[attr->Name()] = attr->Value();
+        std::string key = attr->Name();
+        std::transform(key.begin(), key.end(), key.begin(), ::tolower);
+        result[key] = attr->Value();
         attr = attr->Next();
     }
     return result;
@@ -71,41 +71,40 @@ void tryRegisterBitmap(const XMLElement* elem, const std::string& xmlPath) {
     elem->QueryIntAttribute("w", &bmp.w);
     elem->QueryIntAttribute("h", &bmp.h);
 
-    // Load actual image to fallback on dimensions if w/h not given
-    if (elem->Name() == std::string("truetypefont")) {
-    } else if ((bmp.w <= 0 || bmp.h <= 0) && !bmp.file.empty()) {
-        std::string fullPath = g_skinPath + bmp.file;
-        SDL_Surface* surface = IMG_Load(fullPath.c_str());
+    // Set up the fallback paths
+    std::vector<std::string> searchPaths;
 
-        if (!surface) {
-            SDL_Log("Could not find bitmap %s", fullPath.c_str());
+    if (!bmp.file.empty()) {
+        searchPaths.push_back(g_skinPath + bmp.file);
 
-            std::filesystem::path xmlDir = std::filesystem::path(xmlPath).parent_path();
-            std::filesystem::path fallbackPath = xmlDir / bmp.file;
+        std::filesystem::path xmlDir = std::filesystem::path(xmlPath).parent_path();
+        searchPaths.push_back((xmlDir / bmp.file).string());
 
-            std::cout << "DEBUG: Trying fallback in XML dir: " << fallbackPath << std::endl;
-            surface = IMG_Load(fallbackPath.string().c_str());
+        searchPaths.push_back("freeform/xml/wasabi/" + bmp.file);
+        searchPaths.push_back("freeform/" + bmp.file);
+    }
 
-            if (!surface) {
-                std::string wasabiPath = std::filesystem::relative("freeform/xml/wasabi/" + bmp.file).string();
-                SDL_Log("Trying fallback in freeform/xml/wasabi: %s", wasabiPath.c_str());
-                surface = IMG_Load(wasabiPath.c_str());
-            }
-            if (!surface) {
-                std::string wasabiPath = std::filesystem::relative("freeform/" + bmp.file).string();
-                SDL_Log("Trying fallback in freeform: %s", wasabiPath.c_str());
-                surface = IMG_Load(wasabiPath.c_str());
-            }
-            if (!surface) {
-                SDL_Log("Fatal: Could not find bitmap file: %s", bmp.file.c_str());
-            }
-        }
-
+    SDL_Surface* surface = nullptr;
+    for (const auto& path : searchPaths) {
+        surface = IMG_Load(path.c_str());
         if (surface) {
-            if (bmp.w <= 0) bmp.w = surface->w;
-            if (bmp.h <= 0) bmp.h = surface->h;
-            SDL_FreeSurface(surface);
+#ifdef DEBUG
+            std::cout << "Loaded bitmap for '" << bmp.id << "' from: " << path << std::endl;
+#endif
+            break;
+        } else {
+#ifdef DEBUG
+            std::cout << "Failed to load '" << bmp.file << "' from: " << path << std::endl;
+#endif
         }
+    }
+
+    if (surface) {
+        if (bmp.w <= 0) bmp.w = surface->w;
+        if (bmp.h <= 0) bmp.h = surface->h;
+        SDL_FreeSurface(surface);
+    } else {
+        SDL_Log("Fatal: Could not find bitmap file: %s", bmp.file.c_str());
     }
 
     if (std::string(elem->Name()) == "bitmapfont") {
@@ -123,7 +122,6 @@ void tryRegisterBitmap(const XMLElement* elem, const std::string& xmlPath) {
 
     g_targetSkin->bitmaps[bmp.id] = std::move(bmp);
 }
-
 
 void tryRegisterGroupDef(const XMLElement* elem) {
     if (!g_targetSkin) return;

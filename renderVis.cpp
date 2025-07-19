@@ -13,25 +13,28 @@ typedef struct {
     Uint8 r, g, b;
 } Color;
 
+static Color osc_colors[16];
+
 Color colors[] = {
-    {0, 0, 0},        // color 0 = black
-    {24, 33, 41},     // color 1 = grey for dots
-    {239, 49, 16},    // color 2 = top of spec
-    {206, 41, 16},    // 3
-    {214, 90, 0},     // 4
-    {214, 102, 0},    // 5
-    {214, 115, 0},    // 6
-    {198, 123, 8},    // 7
-    {222, 165, 24},   // 8
+    {255, 255, 255},  // colorallbands
+    // dunno why but its swapped around
+    {24, 132, 8},     // 1 = bottom of spec
+    {41, 148, 0},     // 2
+    {49, 156, 8},     // 3
+    {57, 181, 16},    // 4
+    {50, 190, 16},    // 5
+    {41, 206, 16},    // 6
+    {148, 222, 33},   // 7
+    {189, 222, 41},   // 8
     {214, 181, 33},   // 9
-    {189, 222, 41},   // 10
-    {148, 222, 33},   // 11
-    {41, 206, 16},    // 12
-    {50, 190, 16},    // 13
-    {57, 181, 16},    // 14
-    {49, 156, 8},     // 15
-    {41, 148, 0},     // 16
-    {24, 132, 8},     // 17 = bottom of spec
+    {222, 165, 24},   // 10
+    {198, 123, 8},    // 11
+    {214, 115, 0},    // 12
+    {214, 102, 0},    // 13
+    {214, 90, 0},     // 14
+    {206, 41, 16},    // 15
+    {239, 49, 16},    // color 16 = top of spec
+    {255, 255, 255},  // colorallosc
     {255, 255, 255},  // 18 = osc 1
     {214, 214, 222},  // 19 = osc 2 (slightly dimmer)
     {181, 189, 189},  // 20 = osc 3
@@ -41,7 +44,6 @@ Color colors[] = {
 };
 
 Color* osccolors(const Color* colors) {
-    static Color osc_colors[16];
 
     osc_colors[0] = colors[22];
     osc_colors[1] = colors[22];
@@ -119,14 +121,21 @@ SDL_RendererFlip setSDLFlip(SDL_Renderer* renderer, bool flipv, bool fliph) {
 bool sa_thick = true;
 
 int last_y = 0;
-int top = 0, bottom = 0;
+int top = 0, bottom = 0, color_index = 0;
 //unsigned char sample[150] = {15}; 
-static int sapeaks[75];
-static char safalloff[75];
+static float sapeaks[75];
+static float safalloff[75];
 int sadata2[75];
 static float sadata3[75];
 
-int VisMode = 0;
+int VisMode;
+
+int bar_falloff[5] = {3, 6, 12, 16, 32};
+float peak_falloff[5] = {1.05f, 1.1f, 1.2f, 1.4f, 1.6f};
+
+wchar_t* oscstyle = L"lines"; // lines, dots, solid
+wchar_t* bandwidth = L"thick"; // thin, thick
+wchar_t* coloring = L"normal"; // normal, lines, fire
 
 Color visColors[COLOR_TOTAL]; // Holds all parsed visual colors
 
@@ -150,7 +159,7 @@ void loadVisColors(const UIElement& elem) {
 
     // fallback defaults from original static `colors` array
     const int fallback_indices[COLOR_TOTAL] = {
-        1,  // all bands = dots gray
+        1,  // all bands
         2, 3, 4, 5, 6, 7, 8, 9,
         10, 11, 12, 13, 14, 15, 16, 17,  // band colors
         23,  // peak
@@ -164,10 +173,31 @@ void loadVisColors(const UIElement& elem) {
             visColors[i] = parseRGB(it->second);
         } else {
             visColors[i] = colors[fallback_indices[i]];
+            #ifdef DEBUG
+            std::cout << "DEBUG: visColors[" << i << "] fallback to " 
+                      << static_cast<int>(visColors[i].r) << ", "
+                      << static_cast<int>(visColors[i].g) << ", "
+                      << static_cast<int>(visColors[i].b) << std::endl;
+            #endif // DEBUG
         }
     }
 }
 
+// draw a pixel on the surface at (x, y) with a given color
+void putPixel(SDL_Surface *surface, int x, int y, Uint32 color) {
+    // bounds check
+    if (x < 0 || x >= surface->w || y < 0 || y >= surface->h) return;
+
+    // lock surface if needed
+    if (SDL_MUSTLOCK(surface)) SDL_LockSurface(surface);
+
+    // get pointer to the pixel buffer
+    Uint8 *pixels = (Uint8 *)surface->pixels;
+    Uint32 *pixelPtr = (Uint32 *)(pixels + y * surface->pitch + x * sizeof(Uint32));
+    *pixelPtr = color;
+
+    if (SDL_MUSTLOCK(surface)) SDL_UnlockSurface(surface);
+}
 
 // Renders a "layer" (image) at x, y, width, height relative to parent
 // stub for button, togglebutton, NStatesbutton, AnimatedLayer
@@ -235,14 +265,13 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
     SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(
     0, VISWIDTH, VISHEIGHT, 32, SDL_PIXELFORMAT_RGBA32);
 
-    SDL_Renderer* surfaceRenderer = SDL_CreateSoftwareRenderer(surface);
-
     // Shift sample data
     shift_vector_to_right(sample);
 
         for (int vx = 0; vx < 75; vx++) {
 
-        int vy = sample[vx]; // not right since it uses the same data as the spectrum analyzer
+        //int vy = sample[vx]; // not right since it uses the same data as the spectrum analyzer
+        int vy = sample[vx];
 
             vy = vy < 0 ? 0 : (vy > 16 - 1 ? 16 - 1 : vy);
 
@@ -254,22 +283,40 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
             bottom = last_y;
             last_y = vy;
 
-            if (bottom < top) {
-                int temp = bottom;
-                bottom = top;
-                top = temp + 1;
+            if (wcscmp(oscstyle, L"lines") == 0 ) {
+                if (bottom < top) {
+                    int temp = bottom;
+                    bottom = top;
+                    top = temp + 1;
+                }
+            } else if (wcscmp(oscstyle, L"solid") == 0 ) {
+                if (vy >= 8) {
+                    top = 8;
+                    bottom = vy;
+                } else {
+                    top = vy;
+                    bottom = 7;
+                }
+            } else if (wcscmp(oscstyle, L"dots") == 0 ) {
+                top = vy;
+                bottom = vy;
             }
 
-            int color_index = (top) % 16;
-            Color scope_color = osc_colors[color_index];
 
             if (VisMode == 2){
                 for (int dy = top; dy <= bottom; dy++) {
-                    SDL_SetRenderDrawColor(surfaceRenderer, scope_color.r, scope_color.g, scope_color.b, alpha);
-                    SDL_RenderDrawPoint(surfaceRenderer, vx, dy);
+                    int color_index = vy;
+                    Color scope_color = osc_colors[color_index];
+                    //SDL_SetRenderDrawColor(surfaceRenderer, scope_color.r, scope_color.g, scope_color.b, alpha);
+                    //SDL_RenderDrawPoint(surfaceRenderer, vx, dy);
+                    putPixel(surface, vx, dy, SDL_MapRGB(surface->format, scope_color.r, scope_color.g, scope_color.b));
                 }
             }
         
+        // i hate this so much, for some reason it doesnt draw accurately
+        // i need to go back into the decompilation mines (ghidra) and maybe
+        // copy shit verbatim
+
         // WHY?! WHY DO I HAVE TO DO THIS?! NOWHERE IS THIS IN THE DECOMPILE
         int i = ((i = vx & 0xfffffffc) < 72) ? i : 71; // Limiting i to prevent out of bounds access
             if (sa_thick == true) {
@@ -288,7 +335,7 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
                 sadata2[vx] = (int)sample[vx];
             }
 
-        safalloff[vx] = safalloff[vx] - 32 / 16.0f;
+        safalloff[vx] = safalloff[vx] - (bar_falloff[2] / 16.0f);
 
         // okay this is really funny
         // somehow the internal vis data for winamp/wacup can just, wrap around
@@ -314,7 +361,7 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
     int intValue2 = (sapeaks[vx]/256);
 
     sapeaks[vx] -= (int)sadata3[vx];
-    sadata3[vx] *= 1.05f;
+    sadata3[vx] *= (peak_falloff[1]);
     
     if (sapeaks[vx] < 0) 
     {
@@ -325,10 +372,22 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
             // skip rendering
             } else {
                 for (int dy = 0; dy < safalloff[vx]; ++dy) {
-                    int color_index = dy+1; // Assuming dy starts from 0
+                    switch (coloring[0]) {
+                    case 'n': // normal
+                        color_index = dy + 1;
+                        break;
+                    case 'f': // fire
+                        color_index = (-safalloff[vx]+16) + dy + 1;
+                        break;
+                    case 'l': // line
+                        color_index = safalloff[vx] + 1;
+                        break;
+                    default:
+                        color_index = dy + 1; // default to normal
+                        break;
+                    }
                     Color scope_color = visColors[color_index];
-                    SDL_SetRenderDrawColor(surfaceRenderer, scope_color.r, scope_color.g, scope_color.b, alpha);
-                    SDL_RenderDrawPoint(surfaceRenderer, vx, dy);
+                    putPixel(surface, vx, dy, SDL_MapRGBA(surface->format, scope_color.r, scope_color.g, scope_color.b, alpha));
                 }            
             }
 
@@ -336,8 +395,7 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
             // skip rendering
             } else {
                 Color peaksColor = visColors[17];
-                SDL_SetRenderDrawColor(surfaceRenderer, peaksColor.r, peaksColor.g, peaksColor.b, alpha);
-                SDL_RenderDrawPoint(surfaceRenderer, vx, intValue2);
+                putPixel(surface, vx, intValue2, SDL_MapRGBA(surface->format, peaksColor.r, peaksColor.g, peaksColor.b, alpha));
             }
         }
     }
@@ -347,8 +405,6 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
     //std::cout << "DEBUG: Rendering vis at (" << parentX + x << ", " << parentY + y << ") with size (" << w << ", " << h << ")" << std::endl;
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_RenderCopyEx(renderer, texture, &src, &dst, 0, 0, setSDLFlip(renderer, flipv, fliph));
-    SDL_DestroyTexture(texture);
-    SDL_DestroyRenderer(surfaceRenderer);
     SDL_FreeSurface(surface);
 
     return true;
