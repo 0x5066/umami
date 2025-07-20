@@ -9,7 +9,7 @@ bool renderStatus(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
         case PlayerState::Stopped: bitmapKey = getAttr(elem, "stopBitmap", ""); break;
     }*/
 
-    bitmapKey = getAttr(elem, "playBitmap", "");
+    bitmapKey = getAttr(elem, "playbitmap", "");
 
     if (bitmapKey.empty()) return false;
 
@@ -22,6 +22,6 @@ bool renderStatus(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
     SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
 
     SDL_RenderCopy(renderer, texture, &src, &dst);
-    SDL_DestroyTexture(texture);
+    //SDL_DestroyTexture(texture);
     return true;
 }
