@@ -2,7 +2,7 @@
 #include "render_shared.h"
 #include <algorithm>
 
-// doesnt do TTFs for now
+// does TTFs now
 bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     std::string content;
     std::string display = getAttr(elem, "display", "");
@@ -39,6 +39,9 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
     bool forceUpcase = getAttr(elem, "forceupcase", "0") == "1" || getAttr(elem, "forceuppercase", "0") == "1";
     bool forceLocase = getAttr(elem, "forcelocase", "0") == "1" || getAttr(elem, "forcelowercase", "0") == "1";
     int fontSize = std::stoi(getAttr(elem, "fontsize", "12"));
+    // Convert pixel size to point size for TTF fonts
+    const int screenDPI = 96; 
+    int fontPtSize = int(fontSize * 72.0f / screenDPI);
 
     auto it = skin.bitmaps.find(fontId);
     if (it == skin.bitmaps.end()){
@@ -61,7 +64,7 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
 #endif // DEBUG
     if (!font.isFont && font.file.find(".ttf") != std::string::npos) {
         std::string path = g_skinPath + font.file;
-        TTF_Font* ttfFont = TTF_OpenFont(path.c_str(), fontSize);
+        TTF_Font* ttfFont = TTF_OpenFont(path.c_str(), fontPtSize);
 #ifdef DEBUG
         SDL_Log("DEBUG: TTF font path: %s", path.c_str());
 #endif // DEBUG

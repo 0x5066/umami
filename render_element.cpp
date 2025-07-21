@@ -26,6 +26,7 @@ static void initializeRenderRegistry() {
     renderRegistry["status"] = renderStatus;
     renderRegistry["text"] = renderText;
     renderRegistry["vis"] = renderVis; 
+    renderRegistry["slider"] = renderSlider; 
 }
 
 static bool initialized = false;

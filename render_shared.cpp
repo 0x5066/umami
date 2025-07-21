@@ -47,12 +47,17 @@ SDL_Texture* loadSkinTexture(SDL_Renderer* renderer, const std::string& imageFil
 }
 
 SDL_Texture* getOrLoadTexture(SDL_Renderer* renderer, Skin& skin, SkinBitmap& bmp) {
+    // Bail early if we've already tried and failed
+    if (bmp.triedLoading && bmp.loadFailed) return nullptr;
     if (bmp.texture) return bmp.texture;
 
+    bmp.triedLoading = true;
     bmp.texture = loadSkinTexture(renderer, bmp.file);
     if (!bmp.texture) {
         SDL_Log("Failed to load texture for SkinBitmap id: %s, and file: %s", bmp.id.c_str(), bmp.file.c_str());
+        bmp.loadFailed = true;
+        return nullptr;
     }
-
+    bmp.loadFailed = false;
     return bmp.texture;
 }

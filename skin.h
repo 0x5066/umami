@@ -31,6 +31,9 @@ struct SkinBitmap {
     int charWidth = 0, charHeight = 0;
     int hspacing = 0, vspacing = 0;
 
+    bool triedLoading = false;
+    bool loadFailed = false;
+
     SDL_Texture* texture = nullptr;
 };
 

@@ -24,6 +24,7 @@ add_executable(umami
     renderGrid.cpp
     render_shared.cpp
     renderVis.cpp
+    renderSlider.cpp
     main.cpp
 )
 
