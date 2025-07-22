@@ -20,7 +20,7 @@ static void initializeRenderRegistry() {
     renderRegistry["togglebutton"] = renderLayer;
     renderRegistry["NStatesbutton"] = renderLayer;
     renderRegistry["Wasabi:Frame"] = renderFrame;
-    renderRegistry["AnimatedLayer"] = renderLayer; 
+    renderRegistry["AnimatedLayer"] = renderAnimatedLayer; 
     renderRegistry["grid"] = renderGrid;
     renderRegistry["progressgrid"] = renderProgressGrid;
     renderRegistry["status"] = renderStatus;

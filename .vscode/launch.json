@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "args": ["skins/Default/", "main"], 
+            "args": ["skins/Default3b2/", "main"], 
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

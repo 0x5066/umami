@@ -19,6 +19,8 @@ using namespace tinyxml2;
 extern std::string g_skinPath;
 extern std::vector<double> sample; // temp
 
+extern void shift_vector_to_right(std::vector<double>& vec);
+
 // Represents a bitmap or bitmapfont resource
 struct SkinBitmap {
     std::string id; // unique id, e.g., "player.button.play"

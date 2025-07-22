@@ -4,6 +4,12 @@
 // renders groups and groups of groups (doesnt clip correctly)
 bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     SDL_Rect rect = computeElementRect(elem, parentX, parentY, parentW, parentH);
+#ifdef DEBUG
+    SDL_Log("renderGroup: elem id='%s' parent=(%d,%d,%d,%d) rect=(%d,%d,%d,%d)",
+        elem.attributes.count("id") ? elem.attributes.at("id").c_str() : "",
+        parentX, parentY, parentW, parentH,
+        rect.x, rect.y, rect.w, rect.h);
+#endif
 
     // Try to render background bitmap if group has one
     std::string groupId = elem.attributes.count("id") ? elem.attributes.at("id") : "";
@@ -98,6 +104,16 @@ bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
     int minwidth  = std::stoi(getAttr(elem, "minwidth", "0"));
     int maxwidth  = std::stoi(getAttr(elem, "maxwidth", "9999"));
 
+    // Clamp width to frame bounds, handle negative values
+    int frameW = frameRect.w;
+    int frameH = frameRect.h;
+    if (width < 0) width = frameW + width;
+    if (maxwidth < 0) maxwidth = frameW + maxwidth;
+    if (minwidth < 0) minwidth = frameW + minwidth;
+
+    int split = std::min(std::max(width, minwidth), maxwidth);
+    split = std::max(0, std::min(split, orientation == "v" ? frameW : frameH));
+
     std::string vbitmapId   = getAttr(elem, "vbitmap", "");
     std::string vgrabberId  = getAttr(elem, "vgrabber", "");
 
@@ -109,8 +125,6 @@ bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
         firstId  = getAttr(elem, "top", "");
         secondId = getAttr(elem, "bottom", "");
     }
-
-    int split = std::min(std::max(width, std::min(minwidth, maxwidth)), std::max(minwidth, maxwidth));
 
     SDL_Rect firstRect, secondRect;
     if (orientation == "v") {

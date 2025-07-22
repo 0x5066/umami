@@ -39,10 +39,8 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
     bool forceUpcase = getAttr(elem, "forceupcase", "0") == "1" || getAttr(elem, "forceuppercase", "0") == "1";
     bool forceLocase = getAttr(elem, "forcelocase", "0") == "1" || getAttr(elem, "forcelowercase", "0") == "1";
     int fontSize = std::stoi(getAttr(elem, "fontsize", "12"));
-    // Convert pixel size to point size for TTF fonts
-    const int screenDPI = 96; 
-    int fontPtSize = int(fontSize * 72.0f / screenDPI);
 
+    // Resolve font bitmap, supporting file attribute as bitmap ID
     auto it = skin.bitmaps.find(fontId);
     if (it == skin.bitmaps.end()){
 #ifdef DEBUG
@@ -52,17 +50,32 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
 #endif // DEBUG
         return false;
     }
-    const SkinBitmap& font = it->second;
-    std::string path = g_skinPath + font.file;
+    SkinBitmap& font = it->second;
+
+    // If font.file is an ID of another bitmap, copy file and coordinates only
+    auto fileIt = skin.bitmaps.find(font.file);
+    if (fileIt != skin.bitmaps.end()) {
+        const SkinBitmap& srcBmp = fileIt->second;
+        font.file = srcBmp.file;
+        font.x = srcBmp.x;
+        font.y = srcBmp.y;
+        font.w = srcBmp.w;
+        font.h = srcBmp.h;
+        // Do NOT overwrite charWidth, charHeight, hspacing, vspacing, isFont, etc.
+    }
+
     bool isBitmapFont = font.isFont;
 #ifdef DEBUG
     SDL_Log("DEBUG: Rendering text '%s' with font '%s' at (%d, %d) size (%d x %d)", 
             text.c_str(), fontId.c_str(), x, y, w, h);
     // TrueType font handling
-    std::cout << "DEBUG: Font file: " << font.file << " " << path << std::endl;
+    //std::cout << "DEBUG: Font file: " << font.file << " " << path << std::endl;
     std::cout << "DEBUG: Font path: " << g_skinPath + font.file << std::endl;
 #endif // DEBUG
     if (!font.isFont && font.file.find(".ttf") != std::string::npos) {
+        // Convert pixel size to point size for TTF fonts
+        const int screenDPI = 96; 
+        int fontPtSize = int(fontSize * 72.0f / screenDPI);
         std::string path = g_skinPath + font.file;
         TTF_Font* ttfFont = TTF_OpenFont(path.c_str(), fontPtSize);
 #ifdef DEBUG
@@ -110,42 +123,13 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
         return true;
     }
 
-    SDL_Surface* surface;
-    
-    surface = IMG_Load(path.c_str());
-#ifdef DEBUG
-    std::cout << "DEBUG: " << "!: " << path << "" << std::endl;
-#endif // DEBUG
-
-    if (!surface){ // try redirecting to freeform
-#ifdef DEBUG
-        SDL_Log("Could not find file %s - using fallback", path.c_str());
-#endif // DEBUG
-        std::string wasabiPath = "freeform/xml/wasabi/" + font.file;
-#ifdef DEBUG
-        std::cout << "DEBUG: new fallback: " << wasabiPath << std::endl;
-#endif // DEBUG
-        surface = IMG_Load(wasabiPath.c_str());
-        if (!surface) {
-#ifdef DEBUG
-			SDL_Log("Could not find file in fallback %s", wasabiPath.c_str());
-#endif // DEBUG
-			return false;
-        }
-        if (!surface) {
-#ifdef DEBUG
-            SDL_Log("FUCK ERROR: Could not find bitmap file: %s", font.file.c_str());
-#endif // DEBUG
-        }
-    }
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_FreeSurface(surface);
-    if (!texture) return false;
+    SDL_Texture* texture = getOrLoadTexture(renderer, skin, font);
 
     int charW = font.charWidth;
     int charH = font.charHeight;
     int spacingX = font.hspacing;
     int spacingY = font.vspacing;
+
     int charsPerRow = (font.w > 0) ? font.w / charW : 1;
 
     #if defined(__linux__)
@@ -259,16 +243,16 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
         };
 
         SDL_Rect dst = {
-            x + offsetX + (int)i * (charW + spacingX),
-            y + offsetY,
+            parentX + x + offsetX + (int)i * (charW + spacingX),
+            parentY + y + offsetY,
             charW,
             charH
         };
-        if (dst.x + charW > x + w || dst.y + charH > y + h) continue;
+        if (dst.x + charW > parentX + x + w || dst.y + charH > parentY + y + h) continue;
 
         SDL_RenderCopy(renderer, texture, &src, &dst);
     }
 
-    SDL_DestroyTexture(texture);
+    //SDL_DestroyTexture(texture);
     return true;
 }

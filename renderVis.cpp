@@ -199,25 +199,10 @@ void putPixel(SDL_Surface *surface, int x, int y, Uint32 color) {
     if (SDL_MUSTLOCK(surface)) SDL_UnlockSurface(surface);
 }
 
-// Renders a "layer" (image) at x, y, width, height relative to parent
-// stub for button, togglebutton, NStatesbutton, AnimatedLayer
+// whenever there is more than one vis object in a skin, the calculations inside "speed up"
+// need to find a way to prevent it from happening
 bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
-    // Log input parameters
-    /* SDL_Log("[renderLayer] tag=%s id=%s parent=(%d,%d,%d,%d)", 
-        elem.tag.c_str(),
-        elem.attributes.count("id") ? elem.attributes.at("id").c_str() : "(none)",
-        parentX, parentY, parentW, parentH); */
-
-    /* Extract and log all relevant attributes
-    auto get = [&](const char* key) -> const char* {
-        auto it = elem.attributes.find(key);
-        return it != elem.attributes.end() ? it->second.c_str() : "(none)";
-    };
-    SDL_Log("[renderLayer] attrs: x=%s y=%s w=%s h=%s relatx=%s relaty=%s relatw=%s relath=%s fitparent=%s image=%s",
-        get("x"), get("y"), get("w"), get("h"),
-        get("relatx"), get("relaty"), get("relatw"), get("relath"),
-        get("fitparent"), get("image")); */
-
+    
     loadVisColors(elem);
     Color* osc_colors = osccolors(visColors);
 
@@ -264,9 +249,6 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
 
     SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(
     0, VISWIDTH, VISHEIGHT, 32, SDL_PIXELFORMAT_RGBA32);
-
-    // Shift sample data
-    shift_vector_to_right(sample);
 
         for (int vx = 0; vx < 75; vx++) {
 

@@ -21,6 +21,7 @@
                 "renderGrid.cpp",
                 "render_shared.cpp",
                 "renderVis.cpp",
+                "renderSlider.cpp",
                 "tinyxml2/tinyxml2.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",

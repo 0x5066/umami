@@ -1,7 +1,9 @@
 #include "skin.h"
 #include "render_shared.h"
-int value = 0;
+
 // Render a slider element (horizontal or vertical)
+// whenever there is more than one slider object in a skin (as is usually the case), the calculations inside "speed up"
+// need to find a way to prevent it from happening
 bool renderSlider(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     // Determine orientation
     std::string orientation = getAttr(elem, "orientation", "h");

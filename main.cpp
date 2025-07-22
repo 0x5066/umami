@@ -4,7 +4,7 @@ std::string g_skinPath;
 
 extern bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& containerId, const std::string& basePath);
 
-void renderLoop(SDL_Renderer* renderer, Skin& skin, const std::string& containerName, const std::string& basePath, int renderIntervalMs = 0)
+void renderLoop(SDL_Renderer* renderer, Skin& skin, const std::string& containerName, const std::string& basePath, int renderIntervalMs = 16)
 {
     bool running = true;
     SDL_Event e;
@@ -18,6 +18,9 @@ void renderLoop(SDL_Renderer* renderer, Skin& skin, const std::string& container
         SDL_RenderClear(renderer);
 
         renderContainer(renderer, skin, containerName, basePath);
+
+        // Shift sample data
+        shift_vector_to_right(sample);
 
         SDL_Delay(renderIntervalMs);
 

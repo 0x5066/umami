@@ -27,13 +27,9 @@ bool renderGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
         auto bmpIt = skin.bitmaps.find(bmpId);
         if (bmpIt == skin.bitmaps.end()) continue;
 
-        const SkinBitmap& bmp = bmpIt->second;
-        std::string path = g_skinPath + bmp.file;
-        SDL_Surface* surface = IMG_Load(path.c_str());
-        if (!surface) continue;
+        SkinBitmap& bmp = bmpIt->second;
 
-        textures[i] = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_FreeSurface(surface);
+        textures[i] = getOrLoadTexture(renderer, skin, bmp);
 
         src[i] = { bmp.x, bmp.y, bmp.w, bmp.h };
 
@@ -91,7 +87,7 @@ bool renderGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
                     dst[i].x, dst[i].y, dst[i].w, dst[i].h);
             #endif // DEBUG
             SDL_RenderCopy(renderer, textures[i], &src[i], &dst[i]);
-            SDL_DestroyTexture(textures[i]);
+            //SDL_DestroyTexture(textures[i]);
         } else {
             #ifdef DEBUG
             SDL_Log("grid part %s: MISSING TEXTURE", parts[i].c_str());

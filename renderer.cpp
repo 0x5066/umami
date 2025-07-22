@@ -45,19 +45,28 @@ bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& cont
     for (const auto& layout : container.layouts) {
         parentWidth = 800; parentHeight = 600;
 
+        // Check and apply minimum width
         if (layout->attributes.count("minimum_w")) {
-            parentWidth = std::stoi(layout->attributes.at("minimum_w"));
-        }
-        if (layout->attributes.count("minimum_h")) {
-            parentHeight = std::stoi(layout->attributes.at("minimum_h"));
+            int minW = std::stoi(layout->attributes.at("minimum_w"));
+            if (parentWidth < minW) parentWidth = minW;
         }
 
-        // fallback to the image's actual size instead of hard coding this
-        if (!(layout->attributes.count("minimum_w"))){
-            parentWidth = 275;
+        // Check and apply minimum height
+        if (layout->attributes.count("minimum_h")) {
+            int minH = std::stoi(layout->attributes.at("minimum_h"));
+            if (parentHeight < minH) parentHeight = minH;
         }
-        if (!(layout->attributes.count("minimum_h"))){
-            parentHeight = 116;
+
+        // Check and apply minimum width
+        if (layout->attributes.count("maximum_w")) {
+            int maxW = std::stoi(layout->attributes.at("maximum_w"));
+            if (parentWidth > maxW) parentWidth = maxW;
+        }
+
+        // Check and apply minimum height
+        if (layout->attributes.count("maximum_h")) {
+            int maxH = std::stoi(layout->attributes.at("maximum_h"));
+            if (parentHeight > maxH) parentHeight = maxH;
         }
 
         // --- Render background ONCE per layout, before elements ---
@@ -69,6 +78,12 @@ bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& cont
                     SkinBitmap& bmp = bmpIt->second;
                     SDL_Texture* texture = getOrLoadTexture(renderer, skin, bmp);
                 if (texture){
+                    if (!(layout->attributes.count("minimum_w"))){
+                            parentWidth = bmp.w;
+                        }
+                    if (!(layout->attributes.count("minimum_h"))){
+                            parentHeight = bmp.h;
+                        }
                     SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
                     SDL_Rect dst = { 0, 0, parentWidth, parentHeight };
                     SDL_RenderCopy(renderer, texture, &src, &dst);
