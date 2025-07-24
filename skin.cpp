@@ -113,6 +113,24 @@ void tryRegisterBitmap(const XMLElement* elem, const std::string& xmlPath) {
         elem->QueryIntAttribute("charheight", &bmp.charHeight);
         elem->QueryIntAttribute("hspacing", &bmp.hspacing);
         elem->QueryIntAttribute("vspacing", &bmp.vspacing);
+
+        // handle alias indirection: bitmapfont file refers to another bitmap's ID
+        auto aliasIt = g_targetSkin->bitmaps.find(bmp.file);
+        if (aliasIt != g_targetSkin->bitmaps.end()) {
+            const SkinBitmap& aliased = aliasIt->second;
+
+            // only copy over bitmap metadata, not font metadata
+            bmp.file = aliased.file;
+            bmp.x = aliased.x;
+            bmp.y = aliased.y;
+            bmp.w = aliased.w;
+            bmp.h = aliased.h;
+
+            // also inherit texture load state and texture itself
+            bmp.texture = aliased.texture;
+            bmp.triedLoading = aliased.triedLoading;
+            bmp.loadFailed = aliased.loadFailed;
+        }
     }
 
     if (std::string(elem->Name()) == "truetypefont") {
