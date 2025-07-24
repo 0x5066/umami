@@ -128,6 +128,8 @@ int main(int argc, char* argv[]) {
     SDL_Event e;
     renderLoop(renderer, skin, container_name, g_skinPath, 16);
 
+    skin.unload();
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit();

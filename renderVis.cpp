@@ -120,16 +120,6 @@ SDL_RendererFlip setSDLFlip(SDL_Renderer* renderer, bool flipv, bool fliph) {
 
 bool sa_thick = true;
 
-int last_y = 0;
-int top = 0, bottom = 0, color_index = 0;
-//unsigned char sample[150] = {15}; 
-static float sapeaks[75];
-static float safalloff[75];
-int sadata2[75];
-static float sadata3[75];
-
-int VisMode;
-
 int bar_falloff[5] = {3, 6, 12, 16, 32};
 float peak_falloff[5] = {1.05f, 1.1f, 1.2f, 1.4f, 1.6f};
 
@@ -199,10 +189,24 @@ void putPixel(SDL_Surface *surface, int x, int y, Uint32 color) {
     if (SDL_MUSTLOCK(surface)) SDL_UnlockSurface(surface);
 }
 
-// whenever there is more than one vis object in a skin, the calculations inside "speed up"
-// need to find a way to prevent it from happening
+// Internal per-instance state for each <vis> object
+struct VisState {
+    int sadata2[75] = {0};         // spectrum analyzer height values
+    float safalloff[75] = {0};     // falloff level tracking
+    int sapeaks[75] = {0};         // peak marker height
+    float sadata3[75] = {0};       // peak decay factor
+    int last_y = 0, top = 0, bottom = 0, color_index = 0;                // previous y position (for solid/line modes)
+    int VisMode;
+};
+
+// Stores state per UIElement instance
+static std::unordered_map<const UIElement*, VisState> visInstanceState;
+
 bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     
+    if (elem.attributes.count("visible") && elem.attributes.at("visible") == "0") return 0;
+    VisState& state = visInstanceState[&elem];
+
     loadVisColors(elem);
     Color* osc_colors = osccolors(visColors);
 
@@ -225,7 +229,7 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
     int relatw = elem.attributes.count("relatw") ? std::stoi(elem.attributes.at("relatw")) : 0;
     int relath = elem.attributes.count("relath") ? std::stoi(elem.attributes.at("relath")) : 0;
 
-    VisMode = elem.attributes.count("mode") ? std::stoi(elem.attributes.at("mode")) : 1;
+    state.VisMode = elem.attributes.count("mode") ? std::stoi(elem.attributes.at("mode")) : 1;
 
     bool flipv = elem.attributes.count("flipv") && elem.attributes.at("flipv") == "1";
     bool fliph = elem.attributes.count("fliph") && elem.attributes.at("fliph") == "1";
@@ -258,35 +262,35 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
             vy = vy < 0 ? 0 : (vy > 16 - 1 ? 16 - 1 : vy);
 
             if (vx == 0) {
-                last_y = vy;
+                state.last_y = vy;
             }
 
-            top = vy;
-            bottom = last_y;
-            last_y = vy;
+            state.top = vy;
+            state.bottom = state.last_y;
+            state.last_y = vy;
 
             if (wcscmp(oscstyle, L"lines") == 0 ) {
-                if (bottom < top) {
-                    int temp = bottom;
-                    bottom = top;
-                    top = temp + 1;
+                if (state.bottom < state.top) {
+                    int temp = state.bottom;
+                    state.bottom = state.top;
+                    state.top = temp + 1;
                 }
             } else if (wcscmp(oscstyle, L"solid") == 0 ) {
                 if (vy >= 8) {
-                    top = 8;
-                    bottom = vy;
+                    state.top = 8;
+                    state.bottom = vy;
                 } else {
-                    top = vy;
-                    bottom = 7;
+                    state.top = vy;
+                    state.bottom = 7;
                 }
             } else if (wcscmp(oscstyle, L"dots") == 0 ) {
-                top = vy;
-                bottom = vy;
+                state.top = vy;
+                state.bottom = vy;
             }
 
 
-            if (VisMode == 2){
-                for (int dy = top; dy <= bottom; dy++) {
+            if (state.VisMode == 2){
+                for (int dy = state.top; dy <= state.bottom; dy++) {
                     int color_index = vy;
                     Color scope_color = osc_colors[color_index];
                     //SDL_SetRenderDrawColor(surfaceRenderer, scope_color.r, scope_color.g, scope_color.b, alpha);
@@ -312,63 +316,63 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
                     int uVar12 = (int)((sample[i+3] + sample[i+2] + sample[i+1] + sample[i]) / 4);
 
                     // shove the data from uVar12 into sadata2
-                    sadata2[vx] = uVar12;
+                    state.sadata2[vx] = uVar12;
             } else if (sa_thick == false) { // just copy sadata to sadata2
-                sadata2[vx] = (int)sample[vx];
+                state.sadata2[vx] = (int)sample[vx];
             }
 
-        safalloff[vx] = safalloff[vx] - (bar_falloff[2] / 16.0f);
+        state.safalloff[vx] = state.safalloff[vx] - (bar_falloff[2] / 16.0f);
 
         // okay this is really funny
         // somehow the internal vis data for winamp/wacup can just, wrap around
         // but here it didnt, until i saw my rect drawing *under* its intended area
         // and i just figured out that winamp's vis box just wraps that around
         // this is really funny to me
-        if (sadata2[vx] < 0) {
-            sadata2[vx] = sadata2[vx] + 127;
+        if (state.sadata2[vx] < 0) {
+            state.sadata2[vx] = state.sadata2[vx] + 127;
         }
-        if (sadata2[vx] >= 15) {
-            sadata2[vx] = 15;
-        }
-
-        if (safalloff[vx] <= sadata2[vx]) {
-            safalloff[vx] = sadata2[vx];
+        if (state.sadata2[vx] >= 15) {
+            state.sadata2[vx] = 15;
         }
 
-    if (sapeaks[vx] <= (int)(safalloff[vx] * 256)) {
-        sapeaks[vx] = safalloff[vx] * 256;
-        sadata3[vx] = 3.0f;
+        if (state.safalloff[vx] <= state.sadata2[vx]) {
+            state.safalloff[vx] = state.sadata2[vx];
+        }
+
+    if (state.sapeaks[vx] <= (int)(state.safalloff[vx] * 256)) {
+        state.sapeaks[vx] = state.safalloff[vx] * 256;
+        state.sadata3[vx] = 3.0f;
     }
 
-    int intValue2 = (sapeaks[vx]/256);
+    int intValue2 = (state.sapeaks[vx]/256);
 
-    sapeaks[vx] -= (int)sadata3[vx];
-    sadata3[vx] *= (peak_falloff[1]);
+    state.sapeaks[vx] -= (int)state.sadata3[vx];
+    state.sadata3[vx] *= (peak_falloff[1]);
     
-    if (sapeaks[vx] < 0) 
+    if (state.sapeaks[vx] < 0) 
     {
-        sapeaks[vx] = 0;
+        state.sapeaks[vx] = 0;
     }
-    if (VisMode == 1){
+    if (state.VisMode == 1){
         if ((vx == i + 3 && vx < 72) && sa_thick) {
             // skip rendering
             } else {
-                for (int dy = 0; dy < safalloff[vx]; ++dy) {
+                for (int dy = 0; dy < state.safalloff[vx]; ++dy) {
                     switch (coloring[0]) {
                     case 'n': // normal
-                        color_index = dy + 1;
+                        state.color_index = dy + 1;
                         break;
                     case 'f': // fire
-                        color_index = (-safalloff[vx]+16) + dy + 1;
+                        state.color_index = (-state.safalloff[vx]+16) + dy + 1;
                         break;
                     case 'l': // line
-                        color_index = safalloff[vx] + 1;
+                        state.color_index = state.safalloff[vx] + 1;
                         break;
                     default:
-                        color_index = dy + 1; // default to normal
+                        state.color_index = dy + 1; // default to normal
                         break;
                     }
-                    Color scope_color = visColors[color_index];
+                    Color scope_color = visColors[state.color_index];
                     putPixel(surface, vx, dy, SDL_MapRGBA(surface->format, scope_color.r, scope_color.g, scope_color.b, alpha));
                 }            
             }
@@ -390,4 +394,8 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
     SDL_FreeSurface(surface);
 
     return true;
+}
+
+void Skin::clearVisStates() {
+    visInstanceState.clear();
 }

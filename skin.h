@@ -91,4 +91,7 @@ public:
 
     // Loads a skin given a path to skin.xml
     bool loadFromXML(const std::string& skinXmlPath);
+
+    void clearVisStates();
+    void unload();
 };
