@@ -205,6 +205,24 @@ bool Skin::loadFromXML(const std::string& skinXmlPath) {
     return result;
 }
 
+void Skin::unload() {
+    // Free all textures
+    for (auto& [id, bmp] : bitmaps) {
+        if (bmp.texture) {
+            SDL_DestroyTexture(bmp.texture);
+            bmp.texture = nullptr;
+        }
+    }
+
+    bitmaps.clear();
+    containers.clear();
+    groupDefs.clear();
+    globalElements.clear();
+    xuiTagMap.clear();
+    name.clear();
+    version.clear();
+}
+
 void registerElementHook(const XMLElement* elem, const std::string& xmlPath) {
     if (!elem || !g_targetSkin) return;
     std::string tag = elem->Name();

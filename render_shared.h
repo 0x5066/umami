@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <string>
+#include "PlayerCore.h"
 
 // Utility to get attribute with fallback
 template<typename ElemType>

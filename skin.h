@@ -17,8 +17,10 @@
 using namespace tinyxml2;
 
 extern std::string g_skinPath;
+#if defined(__LINUX__)
 extern std::vector<double> sample; // temp
-
+#endif
+extern char sample[75 * 2]; 
 extern void shift_vector_to_right(std::vector<double>& vec);
 
 // Represents a bitmap or bitmapfont resource
@@ -91,4 +93,5 @@ public:
 
     // Loads a skin given a path to skin.xml
     bool loadFromXML(const std::string& skinXmlPath);
+    void unload();
 };

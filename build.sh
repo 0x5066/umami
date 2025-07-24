@@ -32,7 +32,7 @@ if [ "$1" == "linux" ]; then
     build/umami "$2" "$3" #&> log.txt &
 elif [ "$1" == "mingw" ]; then
     export WINEPREFIX=$HOME/.wineumami
-    i686-w64-mingw32-cmake -B build -G Ninja
+    i686-w64-mingw32-cmake -B build -G Ninja -DPLUGIN=ON -DCMAKE_BUILD_TYPE=Release
     check_build_status
 
     cmake --build build
@@ -43,7 +43,18 @@ elif [ "$1" == "mingw" ]; then
 
     cp -r skins/ build/skins/ -v
 
-    wine explorer /desktop=shell build/umami.exe
+    cp /usr/i686-w64-mingw32/bin/SDL2.dll build/
+    cp /usr/i686-w64-mingw32/bin/SDL2_image.dll build/
+    cp /usr/i686-w64-mingw32/bin/libsharpyuv.dll build/
+    cp /usr/i686-w64-mingw32/bin/libwebp.dll build/
+    cp /usr/i686-w64-mingw32/bin/libwebpdemux.dll build/
+    cp /usr/i686-w64-mingw32/bin/SDL2_ttf.dll build/
+    cp /usr/i686-w64-mingw32/bin/libgcc_s_dw2-1.dll build/
+    cp /usr/i686-w64-mingw32/bin/libssp-0.dll build/
+    cp /usr/i686-w64-mingw32/bin/libstdc++-6.dll build/
+    cp /usr/i686-w64-mingw32/bin/libwinpthread-1.dll build/
+
+    #wine explorer /desktop=shell build/umami.exe "$2" "$3" 
 else
     echo "Invalid option. Use 'linux' or 'mingw'."
     exit 1

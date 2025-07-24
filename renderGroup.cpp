@@ -100,19 +100,29 @@ bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
     std::string orientation = getAttr(elem, "orientation", "v");
     std::string from = getAttr(elem, "from", "l");
 
-    int width     = std::stoi(getAttr(elem, "width", "100"));
-    int minwidth  = std::stoi(getAttr(elem, "minwidth", "0"));
-    int maxwidth  = std::stoi(getAttr(elem, "maxwidth", "9999"));
-
-    // Clamp width to frame bounds, handle negative values
-    int frameW = frameRect.w;
-    int frameH = frameRect.h;
-    if (width < 0) width = frameW + width;
-    if (maxwidth < 0) maxwidth = frameW + maxwidth;
-    if (minwidth < 0) minwidth = frameW + minwidth;
-
-    int split = std::min(std::max(width, minwidth), maxwidth);
-    split = std::max(0, std::min(split, orientation == "v" ? frameW : frameH));
+    int split; // split position (width or height depending on orientation)
+    int minsplit, maxsplit;
+    if (orientation == "v") {
+        int width     = std::stoi(getAttr(elem, "width", "200"));
+        int minwidth  = std::stoi(getAttr(elem, "minwidth", "0"));
+        int maxwidth  = std::stoi(getAttr(elem, "maxwidth", "9999"));
+        int frameW = frameRect.w;
+        if (width < 0) width = frameW + width;
+        if (maxwidth < 0) maxwidth = frameW + maxwidth;
+        if (minwidth < 0) minwidth = frameW + minwidth;
+        split = std::min(std::max(width, minwidth), maxwidth);
+        split = std::max(0, std::min(split, frameW));
+    } else {
+        int height     = std::stoi(getAttr(elem, "width", "500")); // 'width' attribute controls height for horizontal orientation
+        int minheight  = std::stoi(getAttr(elem, "minwidth", "0"));
+        int maxheight  = std::stoi(getAttr(elem, "maxwidth", "9999"));
+        int frameH = frameRect.h;
+        if (height < 0) height = frameH + height;
+        if (maxheight < 0) maxheight = frameH + maxheight;
+        if (minheight < 0) minheight = frameH + minheight;
+        split = std::min(std::max(height, minheight), maxheight);
+        split = std::max(0, std::min(split, frameH));
+    }
 
     std::string vbitmapId   = getAttr(elem, "vbitmap", "");
     std::string vgrabberId  = getAttr(elem, "vgrabber", "");
