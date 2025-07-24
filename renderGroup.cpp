@@ -4,6 +4,7 @@
 // renders groups and groups of groups (doesnt clip correctly)
 bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     SDL_Rect rect = computeElementRect(elem, parentX, parentY, parentW, parentH);
+    SDL_RenderSetClipRect(renderer, &rect);
 #ifdef DEBUG
     SDL_Log("renderGroup: elem id='%s' parent=(%d,%d,%d,%d) rect=(%d,%d,%d,%d)",
         elem.attributes.count("id") ? elem.attributes.at("id").c_str() : "",
@@ -21,39 +22,9 @@ bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
                 const std::string& bgId = skin.groupDefs[groupId].attributes.at("background");
                 auto bmpIt = skin.bitmaps.find(bgId);
                 if (bmpIt != skin.bitmaps.end()) {
-                    SDL_Surface* surface = nullptr;
-                    const SkinBitmap& bmp = bmpIt->second;
-                    std::string fullPath = g_skinPath + bmp.file;
-                    surface = IMG_Load(fullPath.c_str());
-                    if (!surface){ // try redirecting to freeform
-                        #ifdef DEBUG
-                        SDL_Log("Could not find file %s - using fallback", fullPath.c_str());
-                        #endif // DEBUG
-                        std::string wasabiPath = "freeform/xml/wasabi/" + bmp.file;
-                        #ifdef DEBUG
-                        std::cout << "DEBUG: new fallback: " << wasabiPath << std::endl;
-                        #endif // DEBUG
-                        surface = IMG_Load(wasabiPath.c_str());
-                        SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-                        SDL_FreeSurface(surface);
-                        if (texture) {
-                            SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
-                            SDL_Rect dst = { rect.x, rect.y, rect.w, rect.h };
-                            SDL_RenderCopy(renderer, texture, &src, &dst);
-                            SDL_DestroyTexture(texture);
-                        }
-                        if (!surface) {
-                            #ifdef DEBUG
-                            SDL_Log("Could not find file in fallback %s", wasabiPath.c_str());
-                            #endif // DEBUG
-                            return false;
-                        }
-                        if (!surface) {
-                            #ifdef DEBUG
-                            SDL_Log("FUCK ERROR: Could not find bitmap file: %s", bmp.file.c_str());
-                            #endif // DEBUG
-                        }
-                    }
+                    SkinBitmap& bmp = bmpIt->second;
+                    //std::string fullPath = g_skinPath + bmp.file;
+                    SDL_Texture* texture = getOrLoadTexture(renderer, skin, bmp);
                 }
             }
         }
@@ -90,12 +61,14 @@ bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
         }
     }
 
+    SDL_RenderSetClipRect(renderer, nullptr);
     return true;
 }
 
 // wasabi:frame rendering, a bit wonky and i'm not sure what's at fault right now
 bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     SDL_Rect frameRect = computeElementRect(elem, parentX, parentY, parentW, parentH);
+    SDL_RenderSetClipRect(renderer, &frameRect);
 
     std::string orientation = getAttr(elem, "orientation", "v");
     std::string from = getAttr(elem, "from", "l");
@@ -204,6 +177,6 @@ bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
             }
         }
     }
-
+    SDL_RenderSetClipRect(renderer, nullptr);
     return true;
 }

@@ -2,6 +2,44 @@
 #include "render_shared.h"
 #include <algorithm>
 
+const char *charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\"@   0123456789….:()-'!_+\\/[]^&%,=$#ÂÖÄ?* ";
+
+// from audacious' winamp skin mode, adjusted to include standard characters
+static void lookup_char(char c, int* col, int* row) {
+    switch (c) {
+        case '"': *col = 26; *row = 0; return;
+        case '@': *col = 27; *row = 0; return;
+        case ' ': *col = 29; *row = 0; return;
+        case ':': case ';': case '|': *col = 12; *row = 1; return;
+        case '(': case '{': *col = 13; *row = 1; return;
+        case ')': case '}': *col = 14; *row = 1; return;
+        case '-': case '~': *col = 15; *row = 1; return;
+        case '`': case '\'': *col = 16; *row = 1; return;
+        case '!': *col = 17; *row = 1; return;
+        case '_': *col = 18; *row = 1; return;
+        case '+': *col = 19; *row = 1; return;
+        case '\\': *col = 20; *row = 1; return;
+        case '/': *col = 21; *row = 1; return;
+        case '[': *col = 22; *row = 1; return;
+        case ']': *col = 23; *row = 1; return;
+        case '^': *col = 24; *row = 1; return;
+        case '&': *col = 25; *row = 1; return;
+        case '%': *col = 26; *row = 1; return;
+        case '.': case ',': *col = 27; *row = 1; return;
+        case '=': *col = 28; *row = 1; return;
+        case '$': *col = 29; *row = 1; return;
+        case '#': *col = 30; *row = 1; return;
+        case '?': *col = 3; *row = 2; return;
+        case '*': *col = 4; *row = 2; return;
+        default: *col = 3; *row = 2; break; /* '?' */
+    }
+    char upper_char = std::toupper(static_cast<unsigned char>(c));
+    const char *char_pos = strchr(charset, upper_char);
+    int index = char_pos ? (char_pos - charset) : 67;
+    *col = index % 31;
+    *row = index / 31;
+}
+
 // does TTFs now
 bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     std::string content;
@@ -51,18 +89,6 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
         return false;
     }
     SkinBitmap& font = it->second;
-
-    // If font.file is an ID of another bitmap, copy file and coordinates only
-    auto fileIt = skin.bitmaps.find(font.file);
-    if (fileIt != skin.bitmaps.end()) {
-        const SkinBitmap& srcBmp = fileIt->second;
-        font.file = srcBmp.file;
-        font.x = srcBmp.x;
-        font.y = srcBmp.y;
-        font.w = srcBmp.w;
-        font.h = srcBmp.h;
-        // Do NOT overwrite charWidth, charHeight, hspacing, vspacing, isFont, etc.
-    }
 
     bool isBitmapFont = font.isFont;
 #ifdef DEBUG
@@ -132,85 +158,7 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
 
     int charsPerRow = (font.w > 0) ? font.w / charW : 1;
 
-    #if defined(__linux__)
-        const wchar_t* charset = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ\"@   0123456789….:()-'!_+\\/[]^&%,=$#ÂÖÄ?* ";
-
-    #else
-    const wchar_t* charset = L"ABCDEFGHIJKLMNOPQRSTUVWXYZ\"@   0123456789 .:()-'!_+\\/[]^&%,=$#ÂÖÄ?* "; // windows doesnt like … (u2026) - FUCK WINDOWS
-#endif
-    // Mapping indices for each character in the charset
-    const int charset_indices[] = {
-        0, // A
-        1, // B
-        2, // C
-        3, // D
-        4, // E
-        5, // F
-        6, // G
-        7, // H
-        8, // I
-        9, // J
-        10, // K
-        11, // L
-        12, // M
-        13, // N
-        14, // O
-        15, // P
-        16, // Q
-        17, // R
-        18, // S
-        19, // T
-        20, // U
-        21, // V
-        22, // W
-        23, // X
-        24, // Y
-        25, // Z
-        26, // "
-        27, // @
-        67, // BLANK
-        67, // BLANK
-        67, // BLANK
-        31, // 0
-        32, // 1
-        33, // 2
-        34, // 3
-        35, // 4
-        36, // 5
-        37, // 6
-        38, // 7
-        39, // 8
-        40, // 9
-        41, // …
-        42, // .
-        43, // =
-        44, // (
-            45, // )
-            46, // -
-            47, // '
-            48, // !
-            49, // _
-            50, // +
-            51, // backslash
-            52, // slash
-            53, // [
-            54, // ]
-            55, // ^
-            56, // &
-            57, // %
-            58, // ,
-            59, // =
-            60, // $
-            61, // #
-            62, // Â
-            63, // Ö
-            64, // Ä
-            65, // ?
-            66, // *
-            67  // BLANK (for remaining undefined characters)
-    };
-
-    if (isBitmapFont || forceUpcase)
+    if (forceUpcase)
         std::transform(text.begin(), text.end(), text.begin(), ::toupper);
     else if (forceLocase)
         std::transform(text.begin(), text.end(), text.begin(), ::tolower);
@@ -227,13 +175,9 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
     else if (valign == "bottom") offsetY = h - textH;
 
     for (size_t i = 0; i < text.size(); ++i) {
-        wchar_t ch = (unsigned char)text[i];
-        const wchar_t* found = wcschr(charset, ch);
-        int index = (found ? found - charset : 67);
-
-        int mapped = charset_indices[index];
-        int col = mapped % charsPerRow;
-        int row = mapped / charsPerRow;
+        char ch = text[i];
+        int col = 0, row = 0;
+        lookup_char(ch, &col, &row);
 
         SDL_Rect src = {
             font.x + col * charW,

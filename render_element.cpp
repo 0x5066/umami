@@ -38,6 +38,7 @@ bool renderElement(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, in
     }
     if (elem.tag == "script") return false;
     if (elem.tag == "sendparams") return false;
+    if (elem.attributes.count("visible") && elem.attributes.at("visible") == "0") return false;
 
     /* std::cout << "Rendering element: " << elem.tag << " id: " << getAttr(elem, "id", "none") 
               << " at (" << x << ", " << y << ") with size (" << w << "x" << h << ")\n"; */

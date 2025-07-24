@@ -203,8 +203,6 @@ struct VisState {
 static std::unordered_map<const UIElement*, VisState> visInstanceState;
 
 bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
-    
-    if (elem.attributes.count("visible") && elem.attributes.at("visible") == "0") return 0;
     VisState& state = visInstanceState[&elem];
 
     loadVisColors(elem);
