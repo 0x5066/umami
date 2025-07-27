@@ -11,7 +11,7 @@ void renderLoop(SDL_Renderer* renderer, Skin& skin, const std::string& container
 
     while (running) {
         while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_QUIT) running = false;
+            if (e.type == SDL_EVENT_QUIT) running = false;
         }
 
         SDL_SetRenderDrawColor(renderer, 58, 110, 165, 255);
@@ -52,31 +52,15 @@ int main(int argc, char* argv[]) {
         container_name = argv[2];
     }
 
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        SDL_Log("SDL_Init Error: %s", SDL_GetError());
-        return 1;
-    }
+    SDL_Window *window;
+    SDL_Renderer *renderer;
+
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 
     // doesnt fix the weird artifacting happening in accelerated mode
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
+    //SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
-    if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
-        SDL_Log("IMG_Init Error: %s", IMG_GetError());
-        SDL_Quit();
-        return 1;
-    }
-
-    SDL_Window* window = SDL_CreateWindow("Umami (SDL2)", 100, 100, 800, 600, SDL_WINDOW_SHOWN);
-    if (!window) {
-        SDL_Log("CreateWindow Error: %s", SDL_GetError());
-        return 1;
-    }
-
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer) {
-        SDL_Log("CreateRenderer Error: %s", SDL_GetError());
-        return 1;
-    }
+    SDL_CreateWindowAndRenderer("Umami (SDL3)", 800, 600, SDL_WINDOW_VULKAN, &window, &renderer);
 
     TTF_Init();
     
@@ -132,7 +116,6 @@ int main(int argc, char* argv[]) {
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-    IMG_Quit();
     SDL_Quit();
     TTF_Quit();
     return 0;

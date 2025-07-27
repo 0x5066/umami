@@ -18,9 +18,9 @@ static void initializeRenderRegistry() {
     renderRegistry["button"] = renderLayer;
     renderRegistry["group"] = renderGroup;
     renderRegistry["togglebutton"] = renderLayer;
-    renderRegistry["NStatesbutton"] = renderLayer;
-    renderRegistry["Wasabi:Frame"] = renderFrame;
-    renderRegistry["AnimatedLayer"] = renderAnimatedLayer; 
+    renderRegistry["nstatesbutton"] = renderNStatesButton;
+    renderRegistry["wasabi:frame"] = renderFrame;
+    renderRegistry["animatedlayer"] = renderAnimatedLayer; 
     renderRegistry["grid"] = renderGrid;
     renderRegistry["progressgrid"] = renderProgressGrid;
     renderRegistry["status"] = renderStatus;
@@ -32,17 +32,17 @@ static void initializeRenderRegistry() {
 static bool initialized = false;
 // Entrypoint: always takes x, y, w, h
 bool renderElement(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int x, int y, int w, int h) {
+    std::string tag = elem.tag;
+    std::transform(tag.begin(), tag.end(), tag.begin(), ::tolower);
     if (!initialized) {
         initializeRenderRegistry();
         initialized = true;
     }
-    if (elem.tag == "script") return false;
-    if (elem.tag == "sendparams") return false;
+    if (tag == "script") return false;
+    if (tag == "sendparams") return false;
     if (elem.attributes.count("visible") && elem.attributes.at("visible") == "0") return false;
 
-    /* std::cout << "Rendering element: " << elem.tag << " id: " << getAttr(elem, "id", "none") 
-              << " at (" << x << ", " << y << ") with size (" << w << "x" << h << ")\n"; */
-    auto it = renderRegistry.find(elem.tag);
+    auto it = renderRegistry.find(tag);
     if (it != renderRegistry.end()) {
         return it->second(renderer, skin, elem, x, y, w, h);
     }

@@ -25,9 +25,9 @@
                 "tinyxml2/tinyxml2.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
-                "-lSDL2",
-                "-lSDL2_image",
-                "-lSDL2_ttf",
+                "-lSDL3",
+                "-lSDL3_image",
+                "-lSDL3_ttf",
             ],
             "options": {
                 "cwd": "${fileDirname}"

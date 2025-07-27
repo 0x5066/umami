@@ -1,7 +1,7 @@
 #include "skin.h"
 #include "render_shared.h"
 
-SDL_Rect computeElementRect(const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
+SDL_Rect computeElementRectSDL(const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     int x = 0, y = 0, w = parentW, h = parentH;
 
     // fitparent: fill parent rect

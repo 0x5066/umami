@@ -10,9 +10,9 @@
 #include <iostream>
 #include <filesystem>
 #include "tinyxml2/tinyxml2.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 
 using namespace tinyxml2;
 
@@ -21,12 +21,27 @@ extern std::vector<double> sample; // temp
 
 extern void shift_vector_to_right(std::vector<double>& vec);
 
+// Utility to get attribute with fallback
+template<typename ElemType>
+std::string getAttr(const ElemType& elem, const std::string& key, const std::string& fallback) {
+    auto it = elem.attributes.find(key);
+    return it != elem.attributes.end() ? it->second : fallback;
+}
+
+// Overload for tinyxml2::XMLElement
+inline std::string getAttr(const tinyxml2::XMLElement& elem, const std::string& key, const std::string& fallback) {
+    const char* val = elem.Attribute(key.c_str());
+    return val ? val : fallback;
+}
+
 // Represents a bitmap or bitmapfont resource
 struct SkinBitmap {
     std::string id; // unique id, e.g., "player.button.play"
     std::string file; // file path relative to skin
     int x = 0, y = 0, w = 0, h = 0; // cropping rectangle
     std::string gammaGroup;
+
+    std::unordered_map<std::string, std::string> attributes; // additional attributes from XML
 
     // font-specific
     bool isFont = false;
@@ -41,11 +56,25 @@ struct SkinBitmap {
 
 // Generic UI element, e.g., <button>, <sendparams>, etc.
 struct UIElement {
-    std::string tag; // element name
-    std::unordered_map<std::string, std::string> attributes; // all XML attributes
-    std::vector<std::unique_ptr<UIElement>> children; // for nested elements
-
+    std::string tag;
+    std::unordered_map<std::string, std::string> attributes;
+    std::vector<std::unique_ptr<UIElement>> children;
     bool syntheticId = false;
+
+    // Deep copy constructor
+    UIElement(const UIElement& other) {
+        tag = other.tag;
+        attributes = other.attributes;
+        syntheticId = other.syntheticId;
+        for (const auto& child : other.children) {
+            children.push_back(std::make_unique<UIElement>(*child));
+        }
+    }
+
+    UIElement() = default;
+    UIElement& operator=(const UIElement&) = delete; // disable assignment
+    UIElement(UIElement&&) noexcept = default;
+    UIElement& operator=(UIElement&&) noexcept = default;
 };
 
 // Represents a <layout> block

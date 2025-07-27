@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
+set (CMAKE_CXX_STANDARD 20)
+
 if(MSVC)
     set(CMAKE_CXX_FLAGS_DEBUG "/Zi /Od")
     set(CMAKE_CXX_FLAGS_RELEASE "/O2 /DNDEBUG")
@@ -28,4 +30,4 @@ add_executable(umami
     main.cpp
 )
 
-target_link_libraries(umami SDL2 SDL2_image SDL2_ttf)
+target_link_libraries(umami SDL3 SDL3_image SDL3_ttf)

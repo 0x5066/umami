@@ -3,8 +3,8 @@
 
 // renders groups and groups of groups (doesnt clip correctly)
 bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
-    SDL_Rect rect = computeElementRect(elem, parentX, parentY, parentW, parentH);
-    SDL_RenderSetClipRect(renderer, &rect);
+    SDL_Rect rect = computeElementRectSDL(elem, parentX, parentY, parentW, parentH);
+    SDL_SetRenderClipRect(renderer, &rect);
 #ifdef DEBUG
     SDL_Log("renderGroup: elem id='%s' parent=(%d,%d,%d,%d) rect=(%d,%d,%d,%d)",
         elem.attributes.count("id") ? elem.attributes.at("id").c_str() : "",
@@ -22,9 +22,39 @@ bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
                 const std::string& bgId = skin.groupDefs[groupId].attributes.at("background");
                 auto bmpIt = skin.bitmaps.find(bgId);
                 if (bmpIt != skin.bitmaps.end()) {
-                    SkinBitmap& bmp = bmpIt->second;
-                    //std::string fullPath = g_skinPath + bmp.file;
-                    SDL_Texture* texture = getOrLoadTexture(renderer, skin, bmp);
+                    SDL_Surface* surface = nullptr;
+                    const SkinBitmap& bmp = bmpIt->second;
+                    std::string fullPath = g_skinPath + bmp.file;
+                    surface = IMG_Load(fullPath.c_str());
+                    if (!surface){ // try redirecting to freeform
+                        #ifdef DEBUG
+                        SDL_Log("Could not find file %s - using fallback", fullPath.c_str());
+                        #endif // DEBUG
+                        std::string wasabiPath = "freeform/xml/wasabi/" + bmp.file;
+                        #ifdef DEBUG
+                        std::cout << "DEBUG: new fallback: " << wasabiPath << std::endl;
+                        #endif // DEBUG
+                        surface = IMG_Load(wasabiPath.c_str());
+                        SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+                        SDL_DestroySurface(surface);
+                        if (texture) {
+                            SDL_FRect src = { bmp.x, bmp.y, bmp.w, bmp.h };
+                            SDL_FRect dst = { rect.x, rect.y, rect.w, rect.h };
+                            SDL_RenderTexture(renderer, texture, &src, &dst);
+                            SDL_DestroyTexture(texture);
+                        }
+                        if (!surface) {
+                            #ifdef DEBUG
+                            SDL_Log("Could not find file in fallback %s", wasabiPath.c_str());
+                            #endif // DEBUG
+                            return false;
+                        }
+                        if (!surface) {
+                            #ifdef DEBUG
+                            SDL_Log("FUCK ERROR: Could not find bitmap file: %s", bmp.file.c_str());
+                            #endif // DEBUG
+                        }
+                    }
                 }
             }
         }
@@ -61,14 +91,14 @@ bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
         }
     }
 
-    SDL_RenderSetClipRect(renderer, nullptr);
+    SDL_SetRenderClipRect(renderer, nullptr);
     return true;
 }
 
 // wasabi:frame rendering, a bit wonky and i'm not sure what's at fault right now
 bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
-    SDL_Rect frameRect = computeElementRect(elem, parentX, parentY, parentW, parentH);
-    SDL_RenderSetClipRect(renderer, &frameRect);
+    SDL_Rect frameRect = computeElementRectSDL(elem, parentX, parentY, parentW, parentH);
+    SDL_SetRenderClipRect(renderer, &frameRect);
 
     std::string orientation = getAttr(elem, "orientation", "v");
     std::string from = getAttr(elem, "from", "l");
@@ -109,7 +139,7 @@ bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
         secondId = getAttr(elem, "bottom", "");
     }
 
-    SDL_Rect firstRect, secondRect;
+    SDL_FRect firstRect, secondRect;
     if (orientation == "v") {
         firstRect  = { frameRect.x, frameRect.y, split, frameRect.h };
         secondRect = { frameRect.x + split, frameRect.y, frameRect.w - split, frameRect.h };
@@ -118,7 +148,7 @@ bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
         secondRect = { frameRect.x, frameRect.y + split, frameRect.w, frameRect.h - split };
     }
 
-    auto renderGroupById = [&](const std::string& id, SDL_Rect area) {
+    auto renderGroupById = [&](const std::string& id, SDL_FRect area) {
         auto it = skin.groupDefs.find(id);
         if (it == skin.groupDefs.end()) return;
         for (const auto& child : it->second.elements) {
@@ -150,13 +180,13 @@ bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
         SDL_Texture* tex = getOrLoadTexture(renderer, skin, *vbitmap);
         if (tex) {
             if (orientation == "v") {
-                SDL_Rect src = { vbitmap->x, vbitmap->y, vbitmap->w, vbitmap->h };
-                SDL_Rect dst = { frameRect.x + split, frameRect.y, vbitmap->w, frameRect.h };
-                SDL_RenderCopy(renderer, tex, &src, &dst);
+                SDL_FRect src = { vbitmap->x, vbitmap->y, vbitmap->w, vbitmap->h };
+                SDL_FRect dst = { frameRect.x + split, frameRect.y, vbitmap->w, frameRect.h };
+                SDL_RenderTexture(renderer, tex, &src, &dst);
             } else {
-                SDL_Rect src = { vbitmap->x, vbitmap->y, vbitmap->w, vbitmap->h };
-                SDL_Rect dst = { frameRect.x, frameRect.y + split, frameRect.w, vbitmap->h };
-                SDL_RenderCopy(renderer, tex, &src, &dst);
+                SDL_FRect src = { vbitmap->x, vbitmap->y, vbitmap->w, vbitmap->h };
+                SDL_FRect dst = { frameRect.x, frameRect.y + split, frameRect.w, vbitmap->h };
+                SDL_RenderTexture(renderer, tex, &src, &dst);
             }
         }
     }
@@ -166,17 +196,17 @@ bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
         if (tex) {
             if (orientation == "v") {
                 int centerY = frameRect.y + (frameRect.h - vgrabber->h) / 2;
-                SDL_Rect src = { vgrabber->x, vgrabber->y, vgrabber->w, vgrabber->h };
-                SDL_Rect dst = { frameRect.x + split, centerY, vgrabber->w, vgrabber->h };
-                SDL_RenderCopy(renderer, tex, &src, &dst);
+                SDL_FRect src = { vgrabber->x, vgrabber->y, vgrabber->w, vgrabber->h };
+                SDL_FRect dst = { frameRect.x + split, centerY, vgrabber->w, vgrabber->h };
+                SDL_RenderTexture(renderer, tex, &src, &dst);
             } else {
                 int centerX = frameRect.x + (frameRect.w - vgrabber->w) / 2;
-                SDL_Rect src = { vgrabber->x, vgrabber->y, vgrabber->w, vgrabber->h };
-                SDL_Rect dst = { centerX, frameRect.y + split, vgrabber->w, vgrabber->h };
-                SDL_RenderCopy(renderer, tex, &src, &dst);
+                SDL_FRect src = { vgrabber->x, vgrabber->y, vgrabber->w, vgrabber->h };
+                SDL_FRect dst = { centerX, frameRect.y + split, vgrabber->w, vgrabber->h };
+                SDL_RenderTexture(renderer, tex, &src, &dst);
             }
         }
     }
-    SDL_RenderSetClipRect(renderer, nullptr);
+    SDL_SetRenderClipRect(renderer, nullptr);
     return true;
 }

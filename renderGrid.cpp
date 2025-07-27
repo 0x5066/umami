@@ -2,7 +2,7 @@
 #include "render_shared.h"
 
 bool renderGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
-    SDL_Rect rect = computeElementRect(elem, parentX, parentY, parentW, parentH);
+    SDL_Rect rect = computeElementRectSDL(elem, parentX, parentY, parentW, parentH);
 
     const std::string parts[9] = {
         "topleft", "top", "topright",
@@ -11,8 +11,8 @@ bool renderGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
     };
 
     SDL_Texture* textures[9] = {nullptr};
-    SDL_Rect src[9] = {};
-    SDL_Rect dst[9] = {};
+    SDL_FRect src[9] = {};
+    SDL_FRect dst[9] = {};
     std::string bitmapIds[9];  // for logging
 
     // Load and prepare each piece
@@ -31,12 +31,13 @@ bool renderGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
 
         textures[i] = getOrLoadTexture(renderer, skin, bmp);
 
+        if (!textures[i]) continue;
+
         src[i] = { bmp.x, bmp.y, bmp.w, bmp.h };
 
-        // fallback: query real size if missing
         if (src[i].w == 0 || src[i].h == 0) {
             int texW = 0, texH = 0;
-            SDL_QueryTexture(textures[i], nullptr, nullptr, &texW, &texH);
+            //SDL_QueryTexture(textures[i], nullptr, nullptr, &texW, &texH);
             if (src[i].w == 0) src[i].w = texW;
             if (src[i].h == 0) src[i].h = texH;
         }
@@ -86,7 +87,7 @@ bool renderGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
                     src[i].x, src[i].y, src[i].w, src[i].h,
                     dst[i].x, dst[i].y, dst[i].w, dst[i].h);
             #endif // DEBUG
-            SDL_RenderCopy(renderer, textures[i], &src[i], &dst[i]);
+            SDL_RenderTexture(renderer, textures[i], &src[i], &dst[i]);
             //SDL_DestroyTexture(textures[i]);
         } else {
             #ifdef DEBUG
@@ -99,7 +100,7 @@ bool renderGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
 }
 
 bool renderProgressGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
-    SDL_Rect rect = computeElementRect(elem, parentX, parentY, parentW, parentH);
+    SDL_Rect rect = computeElementRectSDL(elem, parentX, parentY, parentW, parentH);
     const std::string& id = elem.attributes.count("id") ? elem.attributes.at("id") : "(no-id)";
     std::string orientation = getAttr(elem, "orientation", "right"); // right, left, up, down
 
@@ -117,28 +118,28 @@ bool renderProgressGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& ele
 
     // Render left part (static)
     if (leftBmp) {
-        SDL_Rect src = { leftBmp->x, leftBmp->y, leftBmp->w, leftBmp->h };
-        SDL_Rect dst = { rect.x, rect.y, leftBmp->w, rect.h };
+        SDL_FRect src = { leftBmp->x, leftBmp->y, leftBmp->w, leftBmp->h };
+        SDL_FRect dst = { rect.x, rect.y, leftBmp->w, rect.h };
         std::string path = g_skinPath + leftBmp->file;
         if (SDL_Surface* s = IMG_Load(path.c_str())) {
             SDL_Texture* t = SDL_CreateTextureFromSurface(renderer, s);
-            SDL_FreeSurface(s);
-            SDL_RenderCopy(renderer, t, &src, &dst);
+            SDL_DestroySurface(s);
+            SDL_RenderTexture(renderer, t, &src, &dst);
             SDL_DestroyTexture(t);
         }
     }
 
     // Render middle (stretchable fill)
     if (middleBmp) {
-        SDL_Rect src = { middleBmp->x, middleBmp->y, middleBmp->w, middleBmp->h };
-        SDL_Rect dst = { rect.x + (leftBmp ? leftBmp->w : 0), rect.y,
+        SDL_FRect src = { middleBmp->x, middleBmp->y, middleBmp->w, middleBmp->h };
+        SDL_FRect dst = { rect.x + (leftBmp ? leftBmp->w : 0), rect.y,
                          fillW - (leftBmp ? leftBmp->w : 0) - (rightBmp ? rightBmp->w : 0), rect.h };
         if (dst.w > 0) {
             std::string path = g_skinPath + middleBmp->file;
             if (SDL_Surface* s = IMG_Load(path.c_str())) {
                 SDL_Texture* t = SDL_CreateTextureFromSurface(renderer, s);
-                SDL_FreeSurface(s);
-                SDL_RenderCopy(renderer, t, &src, &dst);
+                SDL_DestroySurface(s);
+                SDL_RenderTexture(renderer, t, &src, &dst);
                 SDL_DestroyTexture(t);
             }
         }
@@ -146,13 +147,13 @@ bool renderProgressGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& ele
 
     // Render right cap
     if (rightBmp) {
-        SDL_Rect src = { rightBmp->x, rightBmp->y, rightBmp->w, rightBmp->h };
-        SDL_Rect dst = { rect.x + fillW - rightBmp->w, rect.y, rightBmp->w, rect.h };
+        SDL_FRect src = { rightBmp->x, rightBmp->y, rightBmp->w, rightBmp->h };
+        SDL_FRect dst = { rect.x + fillW - rightBmp->w, rect.y, rightBmp->w, rect.h };
         std::string path = g_skinPath + rightBmp->file;
         if (SDL_Surface* s = IMG_Load(path.c_str())) {
             SDL_Texture* t = SDL_CreateTextureFromSurface(renderer, s);
-            SDL_FreeSurface(s);
-            SDL_RenderCopy(renderer, t, &src, &dst);
+            SDL_DestroySurface(s);
+            SDL_RenderTexture(renderer, t, &src, &dst);
             SDL_DestroyTexture(t);
         }
     }

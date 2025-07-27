@@ -109,11 +109,11 @@ void shift_vector_to_right(std::vector<double>& vec) {
     // std::cout << SHIFT_AMOUNT << std::endl;
 }
 
-SDL_RendererFlip setSDLFlip(SDL_Renderer* renderer, bool flipv, bool fliph) {
-    SDL_RendererFlip flip = SDL_FLIP_VERTICAL;
+SDL_FlipMode setSDLFlip(SDL_Renderer* renderer, bool flipv, bool fliph) {
+    SDL_FlipMode flip = SDL_FLIP_VERTICAL;
 
-    if (flipv) flip = static_cast<SDL_RendererFlip>(SDL_FLIP_NONE);
-    if (fliph) flip = static_cast<SDL_RendererFlip>(flip | SDL_FLIP_HORIZONTAL);
+    if (flipv) flip = static_cast<SDL_FlipMode>(SDL_FLIP_NONE);
+    if (fliph) flip = static_cast<SDL_FlipMode>(flip | SDL_FLIP_HORIZONTAL);
 
     return flip;
 }
@@ -249,8 +249,7 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
         h = compute_dimension(std::to_string(VISHEIGHT), relath, parentH);
     }
 
-    SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(
-    0, VISWIDTH, VISHEIGHT, 32, SDL_PIXELFORMAT_RGBA32);
+    SDL_Surface* surface = SDL_CreateSurface(VISWIDTH, VISHEIGHT, SDL_PIXELFORMAT_RGBA32);
 
         for (int vx = 0; vx < 75; vx++) {
 
@@ -293,7 +292,7 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
                     Color scope_color = osc_colors[color_index];
                     //SDL_SetRenderDrawColor(surfaceRenderer, scope_color.r, scope_color.g, scope_color.b, alpha);
                     //SDL_RenderDrawPoint(surfaceRenderer, vx, dy);
-                    putPixel(surface, vx, dy, SDL_MapRGB(surface->format, scope_color.r, scope_color.g, scope_color.b));
+                    putPixel(surface, vx, dy, SDL_MapRGB(SDL_GetPixelFormatDetails(surface->format), SDL_GetSurfacePalette(surface), scope_color.r, scope_color.g, scope_color.b));
                 }
             }
         
@@ -371,7 +370,7 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
                         break;
                     }
                     Color scope_color = visColors[state.color_index];
-                    putPixel(surface, vx, dy, SDL_MapRGBA(surface->format, scope_color.r, scope_color.g, scope_color.b, alpha));
+                    putPixel(surface, vx, dy, SDL_MapRGBA(SDL_GetPixelFormatDetails(surface->format), SDL_GetSurfacePalette(surface), scope_color.r, scope_color.g, scope_color.b, alpha));
                 }            
             }
 
@@ -379,17 +378,18 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
             // skip rendering
             } else {
                 Color peaksColor = visColors[17];
-                putPixel(surface, vx, intValue2, SDL_MapRGBA(surface->format, peaksColor.r, peaksColor.g, peaksColor.b, alpha));
+                putPixel(surface, vx, intValue2, SDL_MapRGBA(SDL_GetPixelFormatDetails(surface->format), SDL_GetSurfacePalette(surface), peaksColor.r, peaksColor.g, peaksColor.b, alpha));
             }
         }
     }
 
-    SDL_Rect src = { 0, 0, VISWIDTH, VISHEIGHT };
-    SDL_Rect dst = { parentX + x, parentY + y, w, h }; // <<--- add parent offset!
+    SDL_FRect src = { 0, 0, VISWIDTH, VISHEIGHT };
+    SDL_FRect dst = { parentX + x, parentY + y, w, h }; // <<--- add parent offset!
     //std::cout << "DEBUG: Rendering vis at (" << parentX + x << ", " << parentY + y << ") with size (" << w << ", " << h << ")" << std::endl;
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_RenderCopyEx(renderer, texture, &src, &dst, 0, 0, setSDLFlip(renderer, flipv, fliph));
-    SDL_FreeSurface(surface);
+    SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
+    SDL_RenderTextureRotated(renderer, texture, &src, &dst, 0, 0, setSDLFlip(renderer, flipv, fliph));
+    SDL_DestroySurface(surface);
 
     return true;
 }

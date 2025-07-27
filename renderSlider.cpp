@@ -22,7 +22,7 @@ bool renderSlider(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
     int high = std::stoi(getAttr(elem, "high", "255"));
 
     // Compute element rect
-    SDL_Rect rect = computeElementRect(elem, parentX, parentY, parentW, parentH);
+    SDL_Rect rect = computeElementRectSDL(elem, parentX, parentY, parentW, parentH);
 
     // Calculate progress value from state (smooth slow rise)
     static float valueF = 0.0f;
@@ -37,9 +37,9 @@ bool renderSlider(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
         if (it == skin.bitmaps.end()) return;
         SkinBitmap& bmp = it->second;
         SDL_Texture* tex = getOrLoadTexture(renderer, skin, bmp);
-        SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
-        SDL_Rect dst = { x, y, w, h };
-        SDL_RenderCopy(renderer, tex, &src, &dst);
+        SDL_FRect src = { bmp.x, bmp.y, bmp.w, bmp.h };
+        SDL_FRect dst = { x, y, w, h };
+        SDL_RenderTexture(renderer, tex, &src, &dst);
     };
 
     if (isVertical) {
@@ -60,8 +60,8 @@ bool renderSlider(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
         SkinBitmap& bmp = thumbIt->second;
         SDL_Texture* tex = getOrLoadTexture(renderer, skin, bmp);
 
-        SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
-        SDL_Rect dst;
+        SDL_FRect src = { bmp.x, bmp.y, bmp.w, bmp.h };
+        SDL_FRect dst;
 
         if (isVertical) {
             int sliderY = rect.y + int(progress * (rect.h - bmp.h));
@@ -71,7 +71,7 @@ bool renderSlider(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
             dst = { sliderX, rect.y + (rect.h - bmp.h) / 2, bmp.w, bmp.h };
         }
 
-        SDL_RenderCopy(renderer, tex, &src, &dst);
+        SDL_RenderTexture(renderer, tex, &src, &dst);
     }
 
     return true;

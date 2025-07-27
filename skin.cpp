@@ -21,6 +21,19 @@ std::unordered_map<std::string, std::string> collectAttributes(const XMLElement*
     return result;
 }
 
+std::unique_ptr<UIElement> cloneElement(const UIElement* src) {
+    auto copy = std::make_unique<UIElement>();
+    copy->tag = src->tag;
+    copy->attributes = src->attributes;
+    copy->syntheticId = src->syntheticId;
+
+    for (const auto& child : src->children) {
+        copy->children.push_back(cloneElement(child.get()));
+    }
+
+    return copy;
+}
+
 std::unique_ptr<UIElement> parseUIElement(const XMLElement* elem) {
     std::string tag = elem->Name();
 
@@ -28,23 +41,28 @@ std::unique_ptr<UIElement> parseUIElement(const XMLElement* elem) {
     if (g_targetSkin && g_targetSkin->xuiTagMap.count(tag)) {
         std::string groupId = g_targetSkin->xuiTagMap[tag];
 
-    #if defined(__linux__)
-        std::cout << "xuitag matched: " << tag << " → group id: " << groupId << "\n";
-    #else 
-        std::cout << "xuitag matched: " << tag << " -> group id: " << groupId << "\n";
-    #endif
-
-        auto ui = std::make_unique<UIElement>();
-        ui->tag = "group";
-        ui->attributes = collectAttributes(elem);
-
-        // Only inject "id" if the XML did not specify one
-        if (ui->attributes.count("id") == 0) {
-            ui->attributes["id"] = groupId;
-            ui->syntheticId = true;
+        auto groupDefIt = g_targetSkin->groupDefs.find(groupId);
+        if (groupDefIt == g_targetSkin->groupDefs.end()) {
+            std::cerr << "Missing groupdef: " << groupId << "\n";
+            return nullptr;
         }
 
-        return ui;
+        // Create a wrapper group
+        auto wrapper = std::make_unique<UIElement>();
+        wrapper->tag = "group";
+        wrapper->attributes = collectAttributes(elem);
+
+        if (wrapper->attributes.count("id") == 0) {
+            wrapper->attributes["id"] = groupId;
+            wrapper->syntheticId = true;
+        }
+
+        // Deep-copy groupdef contents into wrapper
+        for (const auto& child : groupDefIt->second.elements) {
+            wrapper->children.push_back(cloneElement(child.get()));
+        }
+
+        return wrapper;
     }
 
     auto ui = std::make_unique<UIElement>();
@@ -57,6 +75,76 @@ std::unique_ptr<UIElement> parseUIElement(const XMLElement* elem) {
         child = child->NextSiblingElement();
     }
     return ui;
+}
+
+void collectElementsById(UIElement* elem, std::unordered_map<std::string, UIElement*>& idMap) {
+    // If the element has an ID, register it
+    std::string id = getAttr(*elem, "id", "");
+    if (!id.empty()) {
+        idMap[id] = elem;
+    }
+
+    // Recurse into immediate children
+    for (auto& child : elem->children) {
+        collectElementsById(child.get(), idMap);
+    }
+
+    // If this element is a group referencing a groupdef, also collect its contents
+    if (elem->tag == "group" && g_targetSkin) {
+        std::string refId = getAttr(*elem, "id", "");
+        auto groupIt = g_targetSkin->groupDefs.find(refId);
+        if (groupIt != g_targetSkin->groupDefs.end()) {
+            for (auto& groupElem : groupIt->second.elements) {
+                collectElementsById(groupElem.get(), idMap);
+            }
+        }
+    }
+}
+
+static void applyPostLayoutMutations(Skin& skin) {
+    for (auto& [_, container] : skin.containers) {
+        for (auto& layout : container.layouts) {
+            std::unordered_map<std::string, UIElement*> idMap;
+
+            // Recursively collect all elements with IDs
+            for (auto& elem : layout->elements) {
+                collectElementsById(elem.get(), idMap);
+            }
+
+            // First pass: sendparams
+            for (auto& elem : layout->elements) {
+                if (elem->tag != "sendparams") continue;
+                std::string targets = getAttr(*elem, "target", "");
+                std::stringstream ss(targets);
+                std::string id;
+                while (std::getline(ss, id, ';')) {
+                    id.erase(std::remove_if(id.begin(), id.end(), ::isspace), id.end());
+                    if (auto it = idMap.find(id); it != idMap.end()) {
+                        UIElement* target = it->second;
+                        for (const auto& [key, value] : elem->attributes) {
+                            if (key != "target") {
+                                target->attributes[key] = value;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Second pass: hideobject
+            for (auto& elem : layout->elements) {
+                if (elem->tag != "hideobject") continue;
+                std::string targets = getAttr(*elem, "target", "");
+                std::stringstream ss(targets);
+                std::string id;
+                while (std::getline(ss, id, ';')) {
+                    id.erase(std::remove_if(id.begin(), id.end(), ::isspace), id.end());
+                    if (auto it = idMap.find(id); it != idMap.end()) {
+                        it->second->attributes["visible"] = "0";
+                    }
+                }
+            }
+        }
+    }
 }
 
 void tryRegisterBitmap(const XMLElement* elem, const std::string& xmlPath) {
@@ -85,26 +173,29 @@ void tryRegisterBitmap(const XMLElement* elem, const std::string& xmlPath) {
     }
 
     SDL_Surface* surface = nullptr;
-    for (const auto& path : searchPaths) {
-        surface = IMG_Load(path.c_str());
-        if (surface) {
-#ifdef DEBUG
-            std::cout << "Loaded bitmap for '" << bmp.id << "' from: " << path << std::endl;
-#endif
-            break;
-        } else {
-#ifdef DEBUG
-            std::cout << "Failed to load '" << bmp.file << "' from: " << path << std::endl;
-#endif
-        }
-    }
 
-    if (surface) {
-        if (bmp.w <= 0) bmp.w = surface->w;
-        if (bmp.h <= 0) bmp.h = surface->h;
-        SDL_FreeSurface(surface);
-    } else {
-        SDL_Log("Fatal: Could not find bitmap file: %s", bmp.file.c_str());
+    if (bmp.file != "$solid" && bmp.file != "$polygon" && bmp.file != "$gradient") {
+        for (const auto& path : searchPaths) {
+            surface = IMG_Load(path.c_str());
+            if (surface) {
+#ifdef DEBUG
+                std::cout << "Loaded bitmap for '" << bmp.id << "' from: " << path << std::endl;
+#endif
+                break;
+            } else {
+#ifdef DEBUG
+                std::cout << "Failed to load '" << bmp.file << "' from: " << path << std::endl;
+#endif
+            }
+        }
+
+        if (surface) {
+            if (bmp.w <= 0) bmp.w = surface->w;
+            if (bmp.h <= 0) bmp.h = surface->h;
+            SDL_DestroySurface(surface);
+        } else {
+            SDL_Log("Fatal: Could not find bitmap file: %s", bmp.file.c_str());
+        }
     }
 
     if (std::string(elem->Name()) == "bitmapfont") {
@@ -138,6 +229,35 @@ void tryRegisterBitmap(const XMLElement* elem, const std::string& xmlPath) {
         bmp.isFont = false; // TTF fonts are not bitmap fonts
     }
 
+    if (bmp.file == "$solid") {
+        if (const char* colorAttr = elem->Attribute("color")) {
+            bmp.attributes["color"] = colorAttr; // Store for deferred use
+            std::cout << "Info: Registering solid color bitmap: " << bmp.id << " with color: " << colorAttr << std::endl;
+        }
+    }
+
+    if (bmp.file == "$polygon") {
+        if (const char* pointsAttr = elem->Attribute("points")) {
+            bmp.attributes["points"] = pointsAttr; // Store for deferred use
+            std::cout << "Info: Registering $polygon color bitmap: " << bmp.id << " with points: " << pointsAttr << std::endl;
+        }
+    }
+
+    if (bmp.file == "$gradient") {
+        if (const char* pointsAttr = elem->Attribute("points")) {
+            bmp.attributes["points"] = pointsAttr;
+        }
+        bmp.attributes["gradient_x1"] = getAttr(*elem, "gradient_x1", "0");
+        bmp.attributes["gradient_y1"] = getAttr(*elem, "gradient_y1", "0");
+        bmp.attributes["gradient_x2"] = getAttr(*elem, "gradient_x2", "0");
+        bmp.attributes["gradient_y2"] = getAttr(*elem, "gradient_y2", "1");
+
+        std::cout << "Info: Registering gradient bitmap: " << bmp.id
+                << " from " << bmp.attributes["gradient_x1"] << "," << bmp.attributes["gradient_y1"]
+                << " to " << bmp.attributes["gradient_x2"] << "," << bmp.attributes["gradient_y2"]
+                << " with points: " << bmp.attributes["points"] << std::endl;
+    }
+
     g_targetSkin->bitmaps[bmp.id] = std::move(bmp);
 }
 
@@ -168,13 +288,47 @@ void tryRegisterLayout(const XMLElement* elem) {
 
     auto layout = std::make_unique<Layout>();
     layout->id = elem->Attribute("id") ? elem->Attribute("id") : "";
-    // Collect layout attributes
     layout->attributes = collectAttributes(elem);
 
     const XMLElement* child = elem->FirstChildElement();
     while (child) {
         layout->elements.push_back(parseUIElement(child));
         child = child->NextSiblingElement();
+    }
+
+    // Per-layout mutation logic here
+    std::unordered_map<std::string, UIElement*> idMap;
+
+    for (auto& elem : layout->elements) {
+        collectElementsById(elem.get(), idMap);
+    }
+
+    for (auto& elem : layout->elements) {
+        if (elem->tag == "sendparams") {
+            std::string targets = getAttr(*elem, "target", "");
+            std::stringstream ss(targets);
+            std::string id;
+            while (std::getline(ss, id, ';')) {
+                id.erase(std::remove_if(id.begin(), id.end(), ::isspace), id.end());
+                if (auto it = idMap.find(id); it != idMap.end()) {
+                    for (const auto& [key, value] : elem->attributes) {
+                        if (key != "target") {
+                            it->second->attributes[key] = value;
+                        }
+                    }
+                }
+            }
+        } else if (elem->tag == "hideobject") {
+            std::string targets = getAttr(*elem, "target", "");
+            std::stringstream ss(targets);
+            std::string id;
+            while (std::getline(ss, id, ';')) {
+                id.erase(std::remove_if(id.begin(), id.end(), ::isspace), id.end());
+                if (auto it = idMap.find(id); it != idMap.end()) {
+                    it->second->attributes["visible"] = "0";
+                }
+            }
+        }
     }
 
     g_pendingLayouts[targetId].push_back(std::move(layout));
@@ -216,6 +370,8 @@ bool Skin::loadFromXML(const std::string& skinXmlPath) {
             }
         }
     }
+
+    applyPostLayoutMutations(*this);
 
     g_targetSkin = nullptr;
     g_currentContainerId.clear();

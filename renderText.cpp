@@ -108,29 +108,29 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
         SDL_Log("DEBUG: TTF font path: %s", path.c_str());
 #endif // DEBUG
         if (!ttfFont) {
-            SDL_Log("Failed to load TTF font %s: %s", path.c_str(), TTF_GetError());
+            SDL_Log("Failed to load TTF font %s: %s", path.c_str(), SDL_GetError());
             return false;
         }
 
         SDL_Color color = {255, 255, 255, 255}; // white text
-        SDL_Surface* surface = TTF_RenderUTF8_Blended(ttfFont, text.c_str(), color);
+        SDL_Surface* surface = TTF_RenderText_Blended(ttfFont, text.c_str(), text.size(), color);
         if (!surface) {
 #ifdef DEBUG
-            SDL_Log("Failed to render text: %s", TTF_GetError());
+            SDL_Log("Failed to render text: %s", SDL_GetError());
 #endif // DEBUG
             TTF_CloseFont(ttfFont);
             return false;
         }
 
         SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_FreeSurface(surface);
+        SDL_DestroySurface(surface);
         if (!texture) {
             TTF_CloseFont(ttfFont);
             return false;
         }
 
         int tw, th;
-        SDL_QueryTexture(texture, nullptr, nullptr, &tw, &th);
+        //SDL_QueryTexture(texture, nullptr, nullptr, &tw, &th);
 
         int offsetX = 0;
         if (align == "center") offsetX = x + (w - tw) / 2;
@@ -142,8 +142,8 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
         else if (valign == "bottom") offsetY = y + h - th;
         else offsetY = y; // top
 
-        SDL_Rect dst = { parentX + offsetX, parentY + offsetY, tw, th };
-        SDL_RenderCopy(renderer, texture, nullptr, &dst);
+        SDL_FRect dst = { parentX + offsetX, parentY + offsetY, tw, th };
+        SDL_RenderTexture(renderer, texture, nullptr, &dst);
         SDL_DestroyTexture(texture);
         TTF_CloseFont(ttfFont);
         return true;
@@ -179,14 +179,14 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
         int col = 0, row = 0;
         lookup_char(ch, &col, &row);
 
-        SDL_Rect src = {
+        SDL_FRect src = {
             font.x + col * charW,
             font.y + row * charH,
             charW,
             charH
         };
 
-        SDL_Rect dst = {
+        SDL_FRect dst = {
             parentX + x + offsetX + (int)i * (charW + spacingX),
             parentY + y + offsetY,
             charW,
@@ -194,7 +194,7 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
         };
         if (dst.x + charW > parentX + x + w || dst.y + charH > parentY + y + h) continue;
 
-        SDL_RenderCopy(renderer, texture, &src, &dst);
+        SDL_RenderTexture(renderer, texture, &src, &dst);
     }
 
     //SDL_DestroyTexture(texture);

@@ -18,10 +18,47 @@ bool renderStatus(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
     SkinBitmap& bmp = bmpIt->second;
     SDL_Texture* texture = getOrLoadTexture(renderer, skin, bmp);
 
-    SDL_Rect dst = computeElementRect(elem, parentX, parentY, bmp.w, bmp.h);
-    SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
+    int x = 0, y = 0, w = parentW, h = parentH;
+    if (elem.attributes.count("x")) x = std::stoi(elem.attributes.at("x"));
+    if (elem.attributes.count("y")) y = std::stoi(elem.attributes.at("y"));
+    if (elem.attributes.count("w")) w = std::stoi(elem.attributes.at("w"));
+    if (elem.attributes.count("h")) h = std::stoi(elem.attributes.at("h"));
+    if (elem.attributes.count("relatx") && elem.attributes.at("relatx") == "1") x = parentW + x;
+    if (elem.attributes.count("relaty") && elem.attributes.at("relaty") == "1") y = parentH + y;
+    if (elem.attributes.count("relatw") && elem.attributes.at("relatw") == "1") w = parentW + w;
+    if (elem.attributes.count("relath") && elem.attributes.at("relath") == "1") h = parentH + h;
 
-    SDL_RenderCopy(renderer, texture, &src, &dst);
+    int relatx = elem.attributes.count("relatx") ? std::stoi(elem.attributes.at("relatx")) : 0;
+    int relaty = elem.attributes.count("relaty") ? std::stoi(elem.attributes.at("relaty")) : 0;
+    int relatw = elem.attributes.count("relatw") ? std::stoi(elem.attributes.at("relatw")) : 0;
+    int relath = elem.attributes.count("relath") ? std::stoi(elem.attributes.at("relath")) : 0;
+
+    x = compute_dimension(elem.attributes.count("x") ? elem.attributes.at("x") : "0", relatx, parentW);
+    y = compute_dimension(elem.attributes.count("y") ? elem.attributes.at("y") : "0", relaty, parentH);
+
+    w = bmp.w;
+    if (elem.attributes.count("w")) {
+        w = compute_dimension(elem.attributes.at("w"), relatw, parentW);
+    } else if (relatw == 2) {
+        w = compute_dimension(std::to_string(bmp.w), relatw, parentW);
+    }
+
+    h = bmp.h;
+    if (elem.attributes.count("h")) {
+        h = compute_dimension(elem.attributes.at("h"), relath, parentH);
+    } else if (relath == 2) {
+        h = compute_dimension(std::to_string(bmp.h), relath, parentH);
+    }
+
+    SDL_FRect src = { bmp.x, bmp.y, bmp.w, bmp.h };
+    SDL_FRect dst = { parentX + x, parentY + y, w, h }; // <<--- add parent offset!
+
+    std::cout << "Rendering status bitmap: " << bitmapKey << " at ("
+              << dst.x << "," << dst.y << ") size (" << dst.w << "x" << dst.h << ")"
+              << " with source rect (" << src.x << "," << src.y << ") size (" << src.w << "x" << src.h << ")"
+              << std::endl;
+
+    SDL_RenderTexture(renderer, texture, &src, &dst);
     //SDL_DestroyTexture(texture);
     return true;
 }

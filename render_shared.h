@@ -1,17 +1,10 @@
 // Render function declarations for registry
 #pragma once
 #include "skin.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL3/SDL.h>
+#include <SDL3_image/SDL_image.h>
+#include <SDL3_ttf/SDL_ttf.h>
 #include <string>
-
-// Utility to get attribute with fallback
-template<typename ElemType>
-std::string getAttr(const ElemType& elem, const std::string& key, const std::string& fallback) {
-    auto it = elem.attributes.find(key);
-    return it != elem.attributes.end() ? it->second : fallback;
-}
 
 // texture management
 SDL_Texture* getOrLoadTexture(SDL_Renderer* renderer, Skin& skin, SkinBitmap& bmp);
@@ -20,7 +13,7 @@ SDL_Texture* getOrLoadTexture(SDL_Renderer* renderer, Skin& skin, SkinBitmap& bm
 extern template std::string getAttr<UIElement>(const UIElement&, const std::string&, const std::string&);
 
 // Computes the rectangle for a UI element
-SDL_Rect computeElementRect(const UIElement& elem, int parentX, int parentY, int parentW, int parentH);
+SDL_Rect computeElementRectSDL(const UIElement& elem, int parentX, int parentY, int parentW, int parentH);
 
 // Computes a dimension with relativity
 int compute_dimension(const std::string& value, int relatMode, int parent);
@@ -35,6 +28,7 @@ bool renderFrame(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
 bool renderStatus(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH);
 bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH);
 bool renderLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH);
+bool renderNStatesButton(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH);
 bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH);
 bool renderSlider(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH);
 bool renderAnimatedLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH);

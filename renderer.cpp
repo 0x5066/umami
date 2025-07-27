@@ -4,7 +4,7 @@
 
 extern bool renderElement(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int x, int y, int w, int h);
 
-bool renderSkinBitmaps(SDL_Renderer* renderer, Skin& skin, const std::string& basePath) {
+/* bool renderSkinBitmaps(SDL_Renderer* renderer, Skin& skin, const std::string& basePath) {
     int x = 10, y = 10, rowHeight = 0;
 
     for (const auto& [id, bmp] : skin.bitmaps) {
@@ -18,14 +18,14 @@ bool renderSkinBitmaps(SDL_Renderer* renderer, Skin& skin, const std::string& ba
         }
 
         SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_FreeSurface(surface);
+        SDL_DestroySurface(surface);
 
         if (!texture) continue;
 
-        SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
-        SDL_Rect dst = { x, y, bmp.w, bmp.h };
+        SDL_FRect src = { bmp.x, bmp.y, bmp.w, bmp.h };
+        SDL_FRect dst = { x, y, bmp.w, bmp.h };
 
-        SDL_RenderCopy(renderer, texture, &src, &dst);
+        SDL_RenderTexture(renderer, texture, &src, &dst);
         SDL_DestroyTexture(texture);
 
         x += bmp.w + 10;
@@ -34,9 +34,9 @@ bool renderSkinBitmaps(SDL_Renderer* renderer, Skin& skin, const std::string& ba
     }
 
     return true;
-}
+} */
 
-int parentWidth, parentHeight; // fallback default
+int parentWidth, parentHeight, parentX, parentY; // fallback default
 bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& containerId, const std::string& basePath) {
     auto it = skin.containers.find(containerId);
     if (it == skin.containers.end()) return false;
@@ -44,6 +44,7 @@ bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& cont
 
     for (const auto& layout : container.layouts) {
         parentWidth = 800; parentHeight = 600;
+        parentX = 0; parentY = 0;
 
         // Check and apply minimum width
         if (layout->attributes.count("minimum_w")) {
@@ -69,6 +70,22 @@ bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& cont
             if (parentHeight > maxH) parentHeight = maxH;
         }
 
+        if (layout->attributes.count("default_w")) {
+            parentWidth = std::stoi(layout->attributes.at("default_w"));
+        }
+
+        if (layout->attributes.count("default_h")) {
+            parentHeight = std::stoi(layout->attributes.at("default_h"));
+        }
+
+        if (layout->attributes.count("default_x")) {
+            parentX = std::stoi(layout->attributes.at("default_x"));
+        }
+
+        if (layout->attributes.count("default_y")) {
+            parentY = std::stoi(layout->attributes.at("default_y"));
+        }
+
         // --- Render background ONCE per layout, before elements ---
         if (layout->attributes.count("background")) {
             const std::string& bgId = layout->attributes.at("background");
@@ -84,16 +101,16 @@ bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& cont
                     if (!(layout->attributes.count("minimum_h"))){
                             parentHeight = bmp.h;
                         }
-                    SDL_Rect src = { bmp.x, bmp.y, bmp.w, bmp.h };
-                    SDL_Rect dst = { 0, 0, parentWidth, parentHeight };
-                    SDL_RenderCopy(renderer, texture, &src, &dst);
+                    SDL_FRect src = { bmp.x, bmp.y, bmp.w, bmp.h };
+                    SDL_FRect dst = { 0, 0, parentWidth, parentHeight };
+                    SDL_RenderTexture(renderer, texture, &src, &dst);
                 }
             }
         }
         // --- End background ---
 
         for (const auto& elem : layout->elements) {
-            renderElement(renderer, skin, *elem, 0, 0, parentWidth, parentHeight);
+            renderElement(renderer, skin, *elem, parentX, parentY, parentWidth, parentHeight);
         }
         break; // Only render the first layout
     }
