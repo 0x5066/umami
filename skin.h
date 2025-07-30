@@ -28,9 +28,16 @@ std::string getAttr(const ElemType& elem, const std::string& key, const std::str
     return it != elem.attributes.end() ? it->second : fallback;
 }
 
-// Overload for tinyxml2::XMLElement
+// Overload for tinyxml2::XMLElement&
 inline std::string getAttr(const tinyxml2::XMLElement& elem, const std::string& key, const std::string& fallback) {
     const char* val = elem.Attribute(key.c_str());
+    return val ? val : fallback;
+}
+
+// Overload for tinyxml2::XMLElement*
+inline std::string getAttr(const tinyxml2::XMLElement* elem, const std::string& key, const std::string& fallback) {
+    if (!elem) return fallback;
+    const char* val = elem->Attribute(key.c_str());
     return val ? val : fallback;
 }
 
@@ -54,27 +61,13 @@ struct SkinBitmap {
     SDL_Texture* texture = nullptr;
 };
 
-// Generic UI element, e.g., <button>, <sendparams>, etc.
+// Generic UI element, e.g., <button>, etc.
 struct UIElement {
+    std::string name;
     std::string tag;
     std::unordered_map<std::string, std::string> attributes;
     std::vector<std::unique_ptr<UIElement>> children;
     bool syntheticId = false;
-
-    // Deep copy constructor
-    UIElement(const UIElement& other) {
-        tag = other.tag;
-        attributes = other.attributes;
-        syntheticId = other.syntheticId;
-        for (const auto& child : other.children) {
-            children.push_back(std::make_unique<UIElement>(*child));
-        }
-    }
-
-    UIElement() = default;
-    UIElement& operator=(const UIElement&) = delete; // disable assignment
-    UIElement(UIElement&&) noexcept = default;
-    UIElement& operator=(UIElement&&) noexcept = default;
 };
 
 // Represents a <layout> block
@@ -82,11 +75,13 @@ struct Layout {
     std::string id;
     std::unordered_map<std::string, std::string> attributes;
     std::vector<std::unique_ptr<UIElement>> elements;
+    std::unordered_map<std::string, UIElement*> idMap; 
 };
 
 // Represents a reusable groupdef definition
 struct GroupDef {
     std::string id;
+    std::string xuitag;
     std::unordered_map<std::string, std::string> attributes;
     std::vector<std::unique_ptr<UIElement>> elements;
 };

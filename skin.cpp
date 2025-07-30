@@ -34,20 +34,100 @@ std::unique_ptr<UIElement> cloneElement(const UIElement* src) {
     return copy;
 }
 
+void expandGroupdefReferences(UIElement* elem) {
+    if (!elem || !g_targetSkin) return;
+
+    // Expand <group groupdef="..." /> or <group id="..." />
+    if (elem->tag == "group") {
+        std::string groupdefRef = getAttr(*elem, "groupdef", "");
+        if (groupdefRef.empty()) {
+            std::string id = getAttr(*elem, "id", "");
+            if (!id.empty() && g_targetSkin->groupDefs.count(id))
+                groupdefRef = id;
+        }
+
+        if (!groupdefRef.empty()) {
+            auto it = g_targetSkin->groupDefs.find(groupdefRef);
+            if (it != g_targetSkin->groupDefs.end()) {
+                elem->children.clear(); // clear existing children
+                for (const auto& groupElem : it->second.elements) {
+                    elem->children.push_back(cloneElement(groupElem.get()));
+                }
+            }
+        }
+    }
+
+    // Expand <Wasabi:Frame> directional references
+    if (elem->tag == "Wasabi:Frame") {
+        std::vector<std::string> dirs = { "left", "right", "top", "bottom" };
+        for (const auto& dir : dirs) {
+            std::string target = getAttr(*elem, dir, "");
+            if (!target.empty() && g_targetSkin->groupDefs.count(target)) {
+                const auto& def = g_targetSkin->groupDefs.at(target);
+                for (const auto& groupElem : def.elements) {
+                    elem->children.push_back(cloneElement(groupElem.get()));
+                }
+            }
+        }
+    }
+
+    // Recursively expand children
+    for (auto& child : elem->children) {
+        expandGroupdefReferences(child.get());
+    }
+}
+
 std::unique_ptr<UIElement> parseUIElement(const XMLElement* elem) {
     std::string tag = elem->Name();
 
-    // Handle xuitag remapping
+    if (tag == "group" && g_targetSkin) {
+        std::string idAttr = getAttr(*elem, "id", "");
+        if (!idAttr.empty()) {
+            auto groupDefIt = g_targetSkin->groupDefs.find(idAttr);
+            if (groupDefIt != g_targetSkin->groupDefs.end()) {
+                const XMLElement* childXml = elem->FirstChildElement();
+                auto wrapper = std::make_unique<UIElement>();
+                wrapper->tag = "group";
+                wrapper->attributes = collectAttributes(elem);
+                wrapper->syntheticId = false;
+
+                for (const auto& child : groupDefIt->second.elements) {
+                    wrapper->children.push_back(cloneElement(child.get()));
+                }
+
+                if (groupDefIt->second.elements.size() == 1)
+                    return cloneElement(groupDefIt->second.elements[0].get());
+
+                wrapper->tag = "group";
+                wrapper->attributes = collectAttributes(elem);
+                for (const auto& e : groupDefIt->second.elements)
+                    wrapper->children.push_back(cloneElement(e.get()));
+
+                // If it has children, mix static and inline children
+                wrapper->tag = "group";
+                wrapper->attributes = collectAttributes(elem);
+                for (const auto& e : groupDefIt->second.elements)
+                    wrapper->children.push_back(cloneElement(e.get()));
+                while (childXml) {
+                    auto parsedChild = parseUIElement(childXml);
+                    if (parsedChild)
+                        wrapper->children.push_back(std::move(parsedChild));
+                    childXml = childXml->NextSiblingElement();
+                }
+                expandGroupdefReferences(wrapper.get());
+                return wrapper;
+            }
+        }
+    }
+
     if (g_targetSkin && g_targetSkin->xuiTagMap.count(tag)) {
         std::string groupId = g_targetSkin->xuiTagMap[tag];
-
         auto groupDefIt = g_targetSkin->groupDefs.find(groupId);
         if (groupDefIt == g_targetSkin->groupDefs.end()) {
             std::cerr << "Missing groupdef: " << groupId << "\n";
             return nullptr;
         }
 
-        // Create a wrapper group
         auto wrapper = std::make_unique<UIElement>();
         wrapper->tag = "group";
         wrapper->attributes = collectAttributes(elem);
@@ -57,10 +137,20 @@ std::unique_ptr<UIElement> parseUIElement(const XMLElement* elem) {
             wrapper->syntheticId = true;
         }
 
-        // Deep-copy groupdef contents into wrapper
-        for (const auto& child : groupDefIt->second.elements) {
-            wrapper->children.push_back(cloneElement(child.get()));
+        for (const auto& templateChild : groupDefIt->second.elements) {
+            wrapper->children.push_back(cloneElement(templateChild.get()));
         }
+
+        const XMLElement* childXml = elem->FirstChildElement();
+        while (childXml) {
+            auto parsedChild = parseUIElement(childXml);
+            if (parsedChild) {
+                wrapper->children.push_back(std::move(parsedChild));
+            }
+            childXml = childXml->NextSiblingElement();
+        }
+
+        expandGroupdefReferences(wrapper.get());  // Expand nested groupdef references here
 
         return wrapper;
     }
@@ -69,33 +159,39 @@ std::unique_ptr<UIElement> parseUIElement(const XMLElement* elem) {
     ui->tag = tag;
     ui->attributes = collectAttributes(elem);
 
-    const XMLElement* child = elem->FirstChildElement();
-    while (child) {
-        ui->children.push_back(parseUIElement(child));
-        child = child->NextSiblingElement();
+    const XMLElement* childXml = elem->FirstChildElement();
+    while (childXml) {
+        auto parsedChild = parseUIElement(childXml);
+        if (parsedChild) {
+            ui->children.push_back(std::move(parsedChild));
+        }
+        childXml = childXml->NextSiblingElement();
     }
+
+    expandGroupdefReferences(ui.get());  // Expand nested groupdef references here too
+
     return ui;
 }
 
 void collectElementsById(UIElement* elem, std::unordered_map<std::string, UIElement*>& idMap) {
-    // If the element has an ID, register it
     std::string id = getAttr(*elem, "id", "");
     if (!id.empty()) {
         idMap[id] = elem;
     }
 
-    // Recurse into immediate children
     for (auto& child : elem->children) {
         collectElementsById(child.get(), idMap);
     }
 
-    // If this element is a group referencing a groupdef, also collect its contents
+    // Use 'groupdef' attribute for referencing groupdefs, not 'id'
     if (elem->tag == "group" && g_targetSkin) {
-        std::string refId = getAttr(*elem, "id", "");
-        auto groupIt = g_targetSkin->groupDefs.find(refId);
-        if (groupIt != g_targetSkin->groupDefs.end()) {
-            for (auto& groupElem : groupIt->second.elements) {
-                collectElementsById(groupElem.get(), idMap);
+        std::string groupdefRef = getAttr(*elem, "groupdef", "");
+        if (!groupdefRef.empty()) {
+            auto it = g_targetSkin->groupDefs.find(groupdefRef);
+            if (it != g_targetSkin->groupDefs.end()) {
+                for (auto& groupElem : it->second.elements) {
+                    collectElementsById(groupElem.get(), idMap);
+                }
             }
         }
     }
@@ -106,10 +202,31 @@ static void applyPostLayoutMutations(Skin& skin) {
         for (auto& layout : container.layouts) {
             std::unordered_map<std::string, UIElement*> idMap;
 
-            // Recursively collect all elements with IDs
+            // Inject <sendparams> if none exist
+            bool hasSendparams = std::any_of(layout->elements.begin(), layout->elements.end(), [](const auto& el) {
+                return el->tag == "sendparams";
+            });
+            if (!hasSendparams) {
+                auto sendparams = std::make_unique<UIElement>();
+                sendparams->tag = "sendparams";
+                sendparams->attributes["target"] = "window.titlebar.title";
+                sendparams->attributes["default"] = container.name;
+                sendparams->syntheticId = true;
+                layout->elements.push_back(std::move(sendparams));
+            }
+
+            // Recursively collect all elements with IDs (verify this collects deeply)
             for (auto& elem : layout->elements) {
                 collectElementsById(elem.get(), idMap);
             }
+
+            // Debug: print collected IDs
+            #ifdef DEBUG
+            std::cout << "Layout " << layout->id << " IDs collected:\n";
+            for (const auto& [id, elemPtr] : idMap) {
+                std::cout << "  " << id << " (" << elemPtr->tag << ")\n";
+            }
+            #endif
 
             // First pass: sendparams
             for (auto& elem : layout->elements) {
@@ -121,11 +238,15 @@ static void applyPostLayoutMutations(Skin& skin) {
                     id.erase(std::remove_if(id.begin(), id.end(), ::isspace), id.end());
                     if (auto it = idMap.find(id); it != idMap.end()) {
                         UIElement* target = it->second;
+                        std::cout << "sendparams applying to: " << id << "\n";
                         for (const auto& [key, value] : elem->attributes) {
                             if (key != "target") {
                                 target->attributes[key] = value;
+                                std::cout << "  set " << key << " = " << value << "\n";
                             }
                         }
+                    } else {
+                        std::cout << "sendparams target '" << id << "' not found\n";
                     }
                 }
             }
@@ -140,6 +261,9 @@ static void applyPostLayoutMutations(Skin& skin) {
                     id.erase(std::remove_if(id.begin(), id.end(), ::isspace), id.end());
                     if (auto it = idMap.find(id); it != idMap.end()) {
                         it->second->attributes["visible"] = "0";
+                        std::cout << "hideobject hiding: " << id << "\n";
+                    } else {
+                        std::cout << "hideobject target '" << id << "' not found\n";
                     }
                 }
             }
@@ -158,6 +282,11 @@ void tryRegisterBitmap(const XMLElement* elem, const std::string& xmlPath) {
     elem->QueryIntAttribute("y", &bmp.y);
     elem->QueryIntAttribute("w", &bmp.w);
     elem->QueryIntAttribute("h", &bmp.h);
+
+    // fix path slashes on Linux
+#if defined(__linux__)
+    std::replace(bmp.file.begin(), bmp.file.end(), '\\', '/');
+#endif
 
     // Set up the fallback paths
     std::vector<std::string> searchPaths;
@@ -269,7 +398,10 @@ void tryRegisterGroupDef(const XMLElement* elem) {
 
     // Check and register xuitag
     if (const char* xtag = elem->Attribute("xuitag")) {
-        g_targetSkin->xuiTagMap[xtag] = group.id;
+        // Always overwrite previous xuitag mapping to allow user skin to override built-in tags
+        std::string xtagStr = xtag;
+        g_targetSkin->xuiTagMap[xtagStr] = group.id;
+        std::cout << "Registered xuitag: " << xtagStr << " -> " << group.id << std::endl;
     }
 
     const XMLElement* child = elem->FirstChildElement();
@@ -277,6 +409,8 @@ void tryRegisterGroupDef(const XMLElement* elem) {
         group.elements.push_back(parseUIElement(child));
         child = child->NextSiblingElement();
     }
+
+    std::cout << "Registering groupdef id=" << group.id << " with " << group.elements.size() << " elements\n";
 
     g_targetSkin->groupDefs[group.id] = std::move(group);
 }
@@ -301,34 +435,6 @@ void tryRegisterLayout(const XMLElement* elem) {
 
     for (auto& elem : layout->elements) {
         collectElementsById(elem.get(), idMap);
-    }
-
-    for (auto& elem : layout->elements) {
-        if (elem->tag == "sendparams") {
-            std::string targets = getAttr(*elem, "target", "");
-            std::stringstream ss(targets);
-            std::string id;
-            while (std::getline(ss, id, ';')) {
-                id.erase(std::remove_if(id.begin(), id.end(), ::isspace), id.end());
-                if (auto it = idMap.find(id); it != idMap.end()) {
-                    for (const auto& [key, value] : elem->attributes) {
-                        if (key != "target") {
-                            it->second->attributes[key] = value;
-                        }
-                    }
-                }
-            }
-        } else if (elem->tag == "hideobject") {
-            std::string targets = getAttr(*elem, "target", "");
-            std::stringstream ss(targets);
-            std::string id;
-            while (std::getline(ss, id, ';')) {
-                id.erase(std::remove_if(id.begin(), id.end(), ::isspace), id.end());
-                if (auto it = idMap.find(id); it != idMap.end()) {
-                    it->second->attributes["visible"] = "0";
-                }
-            }
-        }
     }
 
     g_pendingLayouts[targetId].push_back(std::move(layout));

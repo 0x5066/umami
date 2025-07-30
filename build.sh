@@ -26,8 +26,8 @@ if [ "$1" == "linux" ]; then
     cmake --build build
     check_build_status
 
-    cp -r freeform/ build/freeform/ -v
-    cp -r skins/ build/skins/ -v
+    cp -r freeform/ build/freeform/ -v &> /dev/null
+    cp -r skins/ build/skins/ -v &> /dev/null
 
     build/umami "$2" "$3" #&> log.txt &
 elif [ "$1" == "mingw" ]; then

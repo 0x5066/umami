@@ -110,7 +110,7 @@ int main(int argc, char* argv[]) {
 
     bool running = true;
     SDL_Event e;
-    renderLoop(renderer, skin, container_name, g_skinPath, 16);
+    renderLoop(renderer, skin, container_name, g_skinPath);
 
     skin.unload();
 

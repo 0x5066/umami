@@ -5,12 +5,13 @@
 // stub for button, togglebutton, NStatesbutton, AnimatedLayer
 bool renderLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     // Log input parameters
-    /* SDL_Log("[renderLayer] tag=%s id=%s parent=(%d,%d,%d,%d)", 
+#ifdef DEBUG
+    SDL_Log("[renderLayer] tag=%s id=%s parent=(%d,%d,%d,%d)", 
         elem.tag.c_str(),
         elem.attributes.count("id") ? elem.attributes.at("id").c_str() : "(none)",
-        parentX, parentY, parentW, parentH); */
+        parentX, parentY, parentW, parentH);
 
-    /* Extract and log all relevant attributes
+    //Extract and log all relevant attributes
     auto get = [&](const char* key) -> const char* {
         auto it = elem.attributes.find(key);
         return it != elem.attributes.end() ? it->second.c_str() : "(none)";
@@ -18,7 +19,8 @@ bool renderLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
     SDL_Log("[renderLayer] attrs: x=%s y=%s w=%s h=%s relatx=%s relaty=%s relatw=%s relath=%s fitparent=%s image=%s",
         get("x"), get("y"), get("w"), get("h"),
         get("relatx"), get("relaty"), get("relatw"), get("relath"),
-        get("fitparent"), get("image")); */
+        get("fitparent"), get("image"));
+#endif // DEBUG
 
     // Existing code for computing x, y, w, h
     int x = 0, y = 0, w = parentW, h = parentH;
@@ -31,8 +33,6 @@ bool renderLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
     if (elem.attributes.count("relatw") && elem.attributes.at("relatw") == "1") w = parentW + w;
     if (elem.attributes.count("relath") && elem.attributes.at("relath") == "1") h = parentH + h;
 
-    // SDL_Log("[renderLayer] computed: x=%d y=%d w=%d h=%d (final rect: %d,%d,%d,%d)", x, y, w, h, parentX + x, parentY + y, w, h);
-
     auto it_img = elem.attributes.find("image");
     if (it_img == elem.attributes.end()) return false;
     const std::string& imageId = it_img->second;
@@ -40,7 +40,6 @@ bool renderLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
     auto bmpIt = skin.bitmaps.find(imageId);
     if (bmpIt == skin.bitmaps.end()) return false;
     SkinBitmap& bmp = bmpIt->second;
-    //std::string fullPath = g_skinPath + bmp.file;
     SDL_Texture* texture = getOrLoadTexture(renderer, skin, bmp);
 
     int relatx = elem.attributes.count("relatx") ? std::stoi(elem.attributes.at("relatx")) : 0;
@@ -73,6 +72,8 @@ bool renderLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
     return true;
 }
 
+// how does wasabi determine how many frames there are in the image?
+// something like framewidth divided by the width of the first frame?
 bool renderAnimatedLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     // Existing code for computing x, y, w, h
     int x = 0, y = 0, w = parentW, h = parentH, animW, animH;
@@ -86,8 +87,6 @@ bool renderAnimatedLayer(SDL_Renderer* renderer, Skin& skin, const UIElement& el
     if (elem.attributes.count("relath") && elem.attributes.at("relath") == "1") h = parentH + h;
     if (elem.attributes.count("framewidth")) animW = std::stoi(elem.attributes.at("framewidth")) ? std::stoi(elem.attributes.at("framewidth")) : w; else animW = w;
     if (elem.attributes.count("frameheight")) animH = std::stoi(elem.attributes.at("frameheight")) ? std::stoi(elem.attributes.at("frameheight")) : h; else animH = h;
-
-    // SDL_Log("[renderLayer] computed: x=%d y=%d w=%d h=%d (final rect: %d,%d,%d,%d)", x, y, w, h, parentX + x, parentY + y, w, h);
 
     auto it_img = elem.attributes.find("image");
     if (it_img == elem.attributes.end()) return false;

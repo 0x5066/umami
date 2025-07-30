@@ -53,11 +53,6 @@ bool renderStatus(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
     SDL_FRect src = { bmp.x, bmp.y, bmp.w, bmp.h };
     SDL_FRect dst = { parentX + x, parentY + y, w, h }; // <<--- add parent offset!
 
-    std::cout << "Rendering status bitmap: " << bitmapKey << " at ("
-              << dst.x << "," << dst.y << ") size (" << dst.w << "x" << dst.h << ")"
-              << " with source rect (" << src.x << "," << src.y << ") size (" << src.w << "x" << src.h << ")"
-              << std::endl;
-
     SDL_RenderTexture(renderer, texture, &src, &dst);
     //SDL_DestroyTexture(texture);
     return true;

@@ -25,8 +25,25 @@ static void initializeRenderRegistry() {
     renderRegistry["progressgrid"] = renderProgressGrid;
     renderRegistry["status"] = renderStatus;
     renderRegistry["text"] = renderText;
+    renderRegistry["songticker"] = renderSongTicker;
     renderRegistry["vis"] = renderVis; 
     renderRegistry["slider"] = renderSlider; 
+}
+
+void debugDumpUIElement(const UIElement* elem, int depth) {
+    std::string indent(depth * 2, ' ');
+    std::cout << indent << elem->tag;
+    if (elem->attributes.count("id")) {
+        std::cout << " id=" << elem->attributes.at("id");
+    }
+    if (elem->syntheticId) {
+        std::cout << " [synthetic]";
+    }
+    std::cout << " children=" << elem->children.size() << "\n";
+
+    for (const auto& child : elem->children) {
+        debugDumpUIElement(child.get(), depth + 1);
+    }
 }
 
 static bool initialized = false;
@@ -40,6 +57,7 @@ bool renderElement(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, in
     }
     if (tag == "script") return false;
     if (tag == "sendparams") return false;
+    if (tag == "hideobject") return false;
     if (elem.attributes.count("visible") && elem.attributes.at("visible") == "0") return false;
 
     auto it = renderRegistry.find(tag);

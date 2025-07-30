@@ -110,6 +110,7 @@ bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& cont
         // --- End background ---
 
         for (const auto& elem : layout->elements) {
+            //debugDumpUIElement(elem.get());
             renderElement(renderer, skin, *elem, parentX, parentY, parentWidth, parentHeight);
         }
         break; // Only render the first layout
