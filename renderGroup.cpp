@@ -46,7 +46,7 @@ bool renderGroup(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int 
                     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
                     SDL_DestroySurface(surface);
                     if (texture) {
-                        SDL_FRect src = { bmp.x, bmp.y, bmp.w, bmp.h };
+                        SDL_FRect src = { static_cast<float>(bmp.x), static_cast<float>(bmp.y), static_cast<float>(bmp.w), static_cast<float>(bmp.h)};
                         SDL_FRect dst = { float(rect.x), float(rect.y), float(rect.w), float(rect.h) };
                         SDL_RenderTexture(renderer, texture, &src, &dst);
                         SDL_DestroyTexture(texture);

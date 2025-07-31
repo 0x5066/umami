@@ -50,8 +50,8 @@ bool renderStatus(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
         h = compute_dimension(std::to_string(bmp.h), relath, parentH);
     }
 
-    SDL_FRect src = { bmp.x, bmp.y, bmp.w, bmp.h };
-    SDL_FRect dst = { parentX + x, parentY + y, w, h }; // <<--- add parent offset!
+    SDL_FRect src = { static_cast<float>(bmp.x), static_cast<float>(bmp.y), static_cast<float>(bmp.w), static_cast<float>(bmp.h)};
+    SDL_FRect dst = { static_cast<float>(parentX + x), static_cast<float>(parentY + y), static_cast<float>(w), static_cast<float>(h)}; // <<--- add parent offset!
 
     SDL_RenderTexture(renderer, texture, &src, &dst);
     //SDL_DestroyTexture(texture);

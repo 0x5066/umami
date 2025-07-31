@@ -101,8 +101,8 @@ bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& cont
                     if (!(layout->attributes.count("minimum_h"))){
                             parentHeight = bmp.h;
                         }
-                    SDL_FRect src = { bmp.x, bmp.y, bmp.w, bmp.h };
-                    SDL_FRect dst = { 0, 0, parentWidth, parentHeight };
+                    SDL_FRect src = { static_cast<float>(bmp.x), static_cast<float>(bmp.y), static_cast<float>(bmp.w), static_cast<float>(bmp.h)};
+                    SDL_FRect dst = { 0, 0, static_cast<float>(parentWidth), static_cast<float>(parentHeight) };
                     SDL_RenderTexture(renderer, texture, &src, &dst);
                 }
             }

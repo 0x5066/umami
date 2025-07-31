@@ -33,7 +33,7 @@ bool renderGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
 
         if (!textures[i]) continue;
 
-        src[i] = { bmp.x, bmp.y, bmp.w, bmp.h };
+        src[i] = { static_cast<float>(bmp.x), static_cast<float>(bmp.y), static_cast<float>(bmp.w), static_cast<float>(bmp.h) };
 
         if (src[i].w == 0 || src[i].h == 0) {
             int texW = 0, texH = 0;
@@ -64,17 +64,17 @@ bool renderGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
     int midH = std::max(0, rect.h - totalMinH);
 
     // 3x3 destination grid
-    dst[0] = {rect.x, rect.y, wL, hT};                         // topleft
-    dst[1] = {rect.x + wL, rect.y, midW, hT};                  // top
-    dst[2] = {rect.x + wL + midW, rect.y, wR, hT};             // topright
+    dst[0] = {static_cast<float>(rect.x), static_cast<float>(rect.y), static_cast<float>(wL), static_cast<float>(hT)};                         // topleft
+    dst[1] = {static_cast<float>(rect.x) + static_cast<float>(wL), static_cast<float>(rect.y), static_cast<float>(midW), static_cast<float>(hT)};                  // top
+    dst[2] = {static_cast<float>(rect.x) + static_cast<float>(wL) + static_cast<float>(midW), static_cast<float>(rect.y), static_cast<float>(wR), static_cast<float>(hT)};             // topright
 
-    dst[3] = {rect.x, rect.y + hT, wL, midH};                  // left
-    dst[4] = {rect.x + wL, rect.y + hT, midW, midH};           // middle
-    dst[5] = {rect.x + wL + midW, rect.y + hT, wR, midH};      // right
+    dst[3] = {static_cast<float>(rect.x), static_cast<float>(rect.y) + static_cast<float>(hT), static_cast<float>(wL), static_cast<float>(midH)};                  // left
+    dst[4] = {static_cast<float>(rect.x) + static_cast<float>(wL), static_cast<float>(rect.y) + static_cast<float>(hT), static_cast<float>(midW), static_cast<float>(midH)};           // middle
+    dst[5] = {static_cast<float>(rect.x) + static_cast<float>(wL) + static_cast<float>(midW), static_cast<float>(rect.y) + static_cast<float>(hT), static_cast<float>(wR), static_cast<float>(midH)};      // right
 
-    dst[6] = {rect.x, rect.y + hT + midH, wL, hB};             // bottomleft
-    dst[7] = {rect.x + wL, rect.y + hT + midH, midW, hB};      // bottom
-    dst[8] = {rect.x + wL + midW, rect.y + hT + midH, wR, hB}; // bottomright
+    dst[6] = {static_cast<float>(rect.x), static_cast<float>(rect.y) + static_cast<float>(hT) + static_cast<float>(midH), static_cast<float>(wL), static_cast<float>(hB)};             // bottomleft
+    dst[7] = {static_cast<float>(rect.x) + static_cast<float>(wL), static_cast<float>(rect.y) + static_cast<float>(hT) + static_cast<float>(midH), static_cast<float>(midW), static_cast<float>(hB)};      // bottom
+    dst[8] = {static_cast<float>(rect.x) + static_cast<float>(wL) + static_cast<float>(midW), static_cast<float>(rect.y) + static_cast<float>(hT) + static_cast<float>(midH), static_cast<float>(wR), static_cast<float>(hB)}; // bottomright
 
     const std::string& gridId = elem.attributes.count("id") ? elem.attributes.at("id") : "(no-id)";
 
@@ -118,8 +118,8 @@ bool renderProgressGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& ele
 
     // Render left part (static)
     if (leftBmp) {
-        SDL_FRect src = { leftBmp->x, leftBmp->y, leftBmp->w, leftBmp->h };
-        SDL_FRect dst = { rect.x, rect.y, leftBmp->w, rect.h };
+        SDL_FRect src = { static_cast<float>(leftBmp->x), static_cast<float>(leftBmp->y), static_cast<float>(leftBmp->w), static_cast<float>(leftBmp->h)};
+        SDL_FRect dst = { static_cast<float>(rect.x), static_cast<float>(rect.y), static_cast<float>(leftBmp->w), static_cast<float>(rect.h)};
         std::string path = g_skinPath + leftBmp->file;
         if (SDL_Surface* s = IMG_Load(path.c_str())) {
             SDL_Texture* t = SDL_CreateTextureFromSurface(renderer, s);
@@ -131,9 +131,9 @@ bool renderProgressGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& ele
 
     // Render middle (stretchable fill)
     if (middleBmp) {
-        SDL_FRect src = { middleBmp->x, middleBmp->y, middleBmp->w, middleBmp->h };
-        SDL_FRect dst = { rect.x + (leftBmp ? leftBmp->w : 0), rect.y,
-                         fillW - (leftBmp ? leftBmp->w : 0) - (rightBmp ? rightBmp->w : 0), rect.h };
+        SDL_FRect src = { static_cast<float>(middleBmp->x), static_cast<float>(middleBmp->y), static_cast<float>(middleBmp->w), static_cast<float>(middleBmp->h)};
+        SDL_FRect dst = { static_cast<float>(rect.x + (leftBmp ? leftBmp->w : 0)), static_cast<float>(rect.y),
+                         static_cast<float>(fillW - (leftBmp ? leftBmp->w : 0) - (rightBmp ? rightBmp->w : 0)), static_cast<float>(rect.h)};
         if (dst.w > 0) {
             std::string path = g_skinPath + middleBmp->file;
             if (SDL_Surface* s = IMG_Load(path.c_str())) {
@@ -147,8 +147,8 @@ bool renderProgressGrid(SDL_Renderer* renderer, Skin& skin, const UIElement& ele
 
     // Render right cap
     if (rightBmp) {
-        SDL_FRect src = { rightBmp->x, rightBmp->y, rightBmp->w, rightBmp->h };
-        SDL_FRect dst = { rect.x + fillW - rightBmp->w, rect.y, rightBmp->w, rect.h };
+        SDL_FRect src = { static_cast<float>(rightBmp->x), static_cast<float>(rightBmp->y), static_cast<float>(rightBmp->w), static_cast<float>(rightBmp->h)};
+        SDL_FRect dst = { static_cast<float>(rect.x + fillW - rightBmp->w), static_cast<float>(rect.y), static_cast<float>(rightBmp->w), static_cast<float>(rect.h)};
         std::string path = g_skinPath + rightBmp->file;
         if (SDL_Surface* s = IMG_Load(path.c_str())) {
             SDL_Texture* t = SDL_CreateTextureFromSurface(renderer, s);

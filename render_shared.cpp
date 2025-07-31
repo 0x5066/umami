@@ -109,7 +109,7 @@ SDL_Texture* getOrLoadTexture(SDL_Renderer* renderer, Skin& skin, SkinBitmap& bm
         while (std::getline(ss, token, ';')) {
             int x, y;
             if (sscanf(token.c_str(), "%f,%f", &x, &y) == 2) {
-                points.push_back({x, y});
+                points.push_back({static_cast<float>(x), static_cast<float>(y)});
             }
         }
 

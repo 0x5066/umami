@@ -3,8 +3,8 @@
 #include <vector>
 #include <algorithm>
 
-int VISWIDTH = 72;
-int VISHEIGHT = 16;
+float VISWIDTH = 72.f;
+float VISHEIGHT = 16.f;
 
 int SHIFT_AMOUNT = 0;
 int DIRECTION = 1;
@@ -126,6 +126,7 @@ float peak_falloff[5] = {1.05f, 1.1f, 1.2f, 1.4f, 1.6f};
 wchar_t* oscstyle = L"lines"; // lines, dots, solid
 wchar_t* bandwidth = L"thick"; // thin, thick
 wchar_t* coloring = L"normal"; // normal, lines, fire
+SDL_Surface* surface = nullptr; 
 
 Color visColors[COLOR_TOTAL]; // Holds all parsed visual colors
 
@@ -191,6 +192,9 @@ void putPixel(SDL_Surface *surface, int x, int y, Uint32 color) {
 
 // Internal per-instance state for each <vis> object
 struct VisState {
+    SDL_Surface* cachedSurface = nullptr;
+    SDL_Texture* cachedTexture = nullptr;
+    int cachedWidth = 0, cachedHeight = 0;
     int sadata2[75] = {0};         // spectrum analyzer height values
     float safalloff[75] = {0};     // falloff level tracking
     int sapeaks[75] = {0};         // peak marker height
@@ -249,7 +253,16 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
         h = compute_dimension(std::to_string(VISHEIGHT), relath, parentH);
     }
 
-    SDL_Surface* surface = SDL_CreateSurface(VISWIDTH, VISHEIGHT, SDL_PIXELFORMAT_RGBA32);
+    if (!state.cachedSurface || state.cachedWidth != VISWIDTH || state.cachedHeight != VISHEIGHT) {
+        if (state.cachedSurface) SDL_DestroySurface(state.cachedSurface);
+        state.cachedSurface = SDL_CreateSurface(VISWIDTH, VISHEIGHT, SDL_PIXELFORMAT_RGBA32);
+        state.cachedWidth = VISWIDTH;
+        state.cachedHeight = VISHEIGHT;
+    }
+    surface = state.cachedSurface;
+    for (int i = 0; i < VISWIDTH * VISHEIGHT; ++i) {
+        putPixel(surface, i % 72, i / VISWIDTH, SDL_MapRGBA(SDL_GetPixelFormatDetails(surface->format), SDL_GetSurfacePalette(surface), 0, 0, 0, 0));
+    }
 
         for (int vx = 0; vx < 75; vx++) {
 
@@ -384,16 +397,23 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
     }
 
     SDL_FRect src = { 0, 0, VISWIDTH, VISHEIGHT };
-    SDL_FRect dst = { parentX + x, parentY + y, w, h }; // <<--- add parent offset!
+    SDL_FRect dst = { static_cast<float>(parentX + x), static_cast<float>(parentY + y), static_cast<float>(w), static_cast<float>(h)}; // <<--- add parent offset!
     //std::cout << "DEBUG: Rendering vis at (" << parentX + x << ", " << parentY + y << ") with size (" << w << ", " << h << ")" << std::endl;
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
-    SDL_RenderTextureRotated(renderer, texture, &src, &dst, 0, 0, setSDLFlip(renderer, flipv, fliph));
-    SDL_DestroySurface(surface);
+    if (texture) {
+        SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
+        SDL_RenderTextureRotated(renderer, texture, &src, &dst, 0, 0, setSDLFlip(renderer, flipv, fliph));
+        SDL_DestroyTexture(texture); // ✅ no leak
+    }
+
 
     return true;
 }
 
 void Skin::clearVisStates() {
+    for (auto& [_, state] : visInstanceState) {
+        if (state.cachedSurface) SDL_DestroySurface(state.cachedSurface);
+        if (state.cachedTexture) SDL_DestroyTexture(state.cachedTexture);
+    }
     visInstanceState.clear();
 }

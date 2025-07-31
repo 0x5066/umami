@@ -170,7 +170,7 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
         else if (valign == "bottom") offsetY = y + h - th;
         else offsetY = y; // top
 
-        SDL_FRect dst = { parentX + offsetX, parentY + offsetY, tw, th };
+        SDL_FRect dst = { static_cast<float>(parentX + offsetX), static_cast<float>(parentY + offsetY), static_cast<float>(tw), static_cast<float>(th)};
         SDL_RenderTexture(renderer, texture, nullptr, &dst);
         SDL_DestroyTexture(texture);
         TTF_CloseFont(ttfFont);
@@ -208,17 +208,17 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
         lookup_char(ch, &col, &row);
 
         SDL_FRect src = {
-            font.x + col * charW,
-            font.y + row * charH,
-            charW,
-            charH
+            static_cast<float>(font.x + col * charW),
+            static_cast<float>(font.y + row * charH),
+            static_cast<float>(charW),
+            static_cast<float>(charH)
         };
 
         SDL_FRect dst = {
-            parentX + x + offsetX + (int)i * (charW + spacingX),
-            parentY + y + offsetY,
-            charW,
-            charH
+            static_cast<float>(parentX + x + offsetX + (int)i * (charW + spacingX)),
+            static_cast<float>(parentY + y + offsetY),
+            static_cast<float>(charW),
+            static_cast<float>(charH)
         };
         if (dst.x + charW > parentX + x + w || dst.y + charH > parentY + y + h) continue;
 
@@ -338,7 +338,7 @@ bool renderSongTicker(SDL_Renderer* renderer, Skin& skin, const UIElement& elem,
         else if (valign == "bottom") offsetY = y + h - th;
         else offsetY = y; // top
 
-        SDL_FRect dst = { parentX + offsetX, parentY + offsetY, tw, th };
+        SDL_FRect dst = { static_cast<float>(parentX + offsetX), static_cast<float>(parentY + offsetY), static_cast<float>(tw), static_cast<float>(th)};
         SDL_RenderTexture(renderer, texture, nullptr, &dst);
         SDL_DestroyTexture(texture);
         TTF_CloseFont(ttfFont);
@@ -376,17 +376,17 @@ bool renderSongTicker(SDL_Renderer* renderer, Skin& skin, const UIElement& elem,
         lookup_char(ch, &col, &row);
 
         SDL_FRect src = {
-            font.x + col * charW,
-            font.y + row * charH,
-            charW,
-            charH
+            static_cast<float>(font.x + col * charW),
+            static_cast<float>(font.y + row * charH),
+            static_cast<float>(charW),
+            static_cast<float>(charH)
         };
 
         SDL_FRect dst = {
-            parentX + x + offsetX + (int)i * (charW + spacingX),
-            parentY + y + offsetY,
-            charW,
-            charH
+            static_cast<float>(parentX + x + offsetX + (int)i * (charW + spacingX)),
+            static_cast<float>(parentY + y + offsetY),
+            static_cast<float>(charW),
+            static_cast<float>(charH)
         };
         if (dst.x + charW > parentX + x + w || dst.y + charH > parentY + y + h) continue;
 

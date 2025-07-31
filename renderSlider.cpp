@@ -37,8 +37,8 @@ bool renderSlider(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
         if (it == skin.bitmaps.end()) return;
         SkinBitmap& bmp = it->second;
         SDL_Texture* tex = getOrLoadTexture(renderer, skin, bmp);
-        SDL_FRect src = { bmp.x, bmp.y, bmp.w, bmp.h };
-        SDL_FRect dst = { x, y, w, h };
+        SDL_FRect src = { static_cast<float>(bmp.x), static_cast<float>(bmp.y), static_cast<float>(bmp.w), static_cast<float>(bmp.h)};
+        SDL_FRect dst = { static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h)};
         SDL_RenderTexture(renderer, tex, &src, &dst);
     };
 
@@ -60,15 +60,15 @@ bool renderSlider(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
         SkinBitmap& bmp = thumbIt->second;
         SDL_Texture* tex = getOrLoadTexture(renderer, skin, bmp);
 
-        SDL_FRect src = { bmp.x, bmp.y, bmp.w, bmp.h };
+        SDL_FRect src = { static_cast<float>(bmp.x), static_cast<float>(bmp.y), static_cast<float>(bmp.w), static_cast<float>(bmp.h)};
         SDL_FRect dst;
 
         if (isVertical) {
             int sliderY = rect.y + int(progress * (rect.h - bmp.h));
-            dst = { rect.x + (rect.w - bmp.w) / 2, sliderY, bmp.w, bmp.h };
+            dst = { static_cast<float>(rect.x) + (rect.w - bmp.w) / 2, static_cast<float>(sliderY), static_cast<float>(bmp.w), static_cast<float>(bmp.h)};
         } else {
             int sliderX = rect.x + int(progress * (rect.w - bmp.w));
-            dst = { sliderX, rect.y + (rect.h - bmp.h) / 2, bmp.w, bmp.h };
+            dst = { static_cast<float>(sliderX), static_cast<float>(rect.y) + (rect.h - bmp.h) / 2, static_cast<float>(bmp.w), static_cast<float>(bmp.h)};
         }
 
         SDL_RenderTexture(renderer, tex, &src, &dst);
