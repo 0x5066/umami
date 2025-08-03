@@ -7,9 +7,9 @@ bool running = true;
 #if defined(__MINGW32__) || defined(__MINGW64__)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include "wacup/wa_ipc.h"
-#include "wacup/gen.h"
-#include "PlayerCore.h"
+#include "../wacup/wa_ipc.h"
+#include "../wacup/gen.h"
+#include "core/PlayerCore.h"
 
 HWND hwnd_winamp = FindWindow("Winamp v1.x", NULL);
 PlayerCore g_PlayerCore;
@@ -23,6 +23,7 @@ WCHAR skinname_buffer[MAX_PATH];
 LRESULT CALLBACK WinampSubclass(HWND, UINT, WPARAM, LPARAM);
 int init();
 void quit();
+int main(int argc, char* argv[]);
 // Plug-in structure
 winampGeneralPurposePlugin plugin = {
 	GPPHDR_VER_U,
@@ -170,10 +171,7 @@ int main(int argc, char* argv[]) {
 }
 
 #if defined(__MINGW32__) || defined(__MINGW64__)
-
-SDL_Window* window = nullptr;
-SDL_Renderer* renderer = nullptr;
-
+SDL_Renderer *renderer;
 int init() {
     // Initialize Winamp plugin
     SendMessage(hwnd_winamp, WM_WA_IPC, (WPARAM)skinname_buffer, IPC_GETSKINW);
@@ -181,31 +179,11 @@ int init() {
     lpOldWinampWndProc = WNDPROC(SetWindowLongPtr(plugin.hwndParent, GWLP_WNDPROC, reinterpret_cast<intptr_t>(&WinampSubclass)));
     PlayerCore->Initialize(hwnd_winamp);
 
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        SDL_Log("SDL_Init Error: %s", SDL_GetError());
-        return 1;
-    }
+    SDL_Window *window;
 
-    // doesnt fix the weird artifacting happening in accelerated mode
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 
-    if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
-        SDL_Log("IMG_Init Error: %s", IMG_GetError());
-        SDL_Quit();
-        return 1;
-    }
-
-    window = SDL_CreateWindow("Umami (SDL2)", 100, 100, 800, 600, SDL_WINDOW_SHOWN);
-    if (!window) {
-        SDL_Log("CreateWindow Error: %s", SDL_GetError());
-        return 1;
-    }
-
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer) {
-        SDL_Log("CreateRenderer Error: %s", SDL_GetError());
-        return 1;
-    }
+    SDL_CreateWindowAndRenderer("Umami (SDL3)", 800, 600, SDL_WINDOW_VULKAN, &window, &renderer);
 
     TTF_Init();
     return 0; // Return success
@@ -219,7 +197,6 @@ void quit() {
     skin.unload();
     running = false;
     SDL_Quit();
-    IMG_Quit();
     TTF_Quit();
     MessageBoxExW(hwnd_winamp, L"Umami plugin quit", L"umami", MB_OK, 0);
 }

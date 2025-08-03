@@ -26,8 +26,8 @@ if [ "$1" == "linux" ]; then
     cmake --build build
     check_build_status
 
-    cp -r freeform/ build/freeform/ -v &> /dev/null
-    cp -r skins/ build/skins/ -v &> /dev/null
+    cp -r freeform/ build/freeform/ -v
+    cp -r skins/ build/skins/ -v
 
     build/umami "$2" "$3" #&> log.txt &
 elif [ "$1" == "mingw" ]; then
@@ -43,12 +43,12 @@ elif [ "$1" == "mingw" ]; then
 
     cp -r skins/ build/skins/ -v
 
-    cp /usr/i686-w64-mingw32/bin/SDL2.dll build/
-    cp /usr/i686-w64-mingw32/bin/SDL2_image.dll build/
+    cp /usr/i686-w64-mingw32/bin/SDL3.dll build/
+    cp /usr/i686-w64-mingw32/bin/SDL3_image.dll build/
     cp /usr/i686-w64-mingw32/bin/libsharpyuv.dll build/
     cp /usr/i686-w64-mingw32/bin/libwebp.dll build/
     cp /usr/i686-w64-mingw32/bin/libwebpdemux.dll build/
-    cp /usr/i686-w64-mingw32/bin/SDL2_ttf.dll build/
+    cp /usr/i686-w64-mingw32/bin/SDL3_ttf.dll build/
     cp /usr/i686-w64-mingw32/bin/libgcc_s_dw2-1.dll build/
     cp /usr/i686-w64-mingw32/bin/libssp-0.dll build/
     cp /usr/i686-w64-mingw32/bin/libstdc++-6.dll build/

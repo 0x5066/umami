@@ -5,7 +5,7 @@
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
-#include "PlayerCore.h"
+#include "../core/PlayerCore.h"
 
 // texture management
 SDL_Texture* getOrLoadTexture(SDL_Renderer* renderer, Skin& skin, SkinBitmap& bmp);
