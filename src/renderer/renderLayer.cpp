@@ -1,4 +1,4 @@
-#include "skin.h"
+#include "../skin/skin.h"
 #include "render_shared.h"
 
 // Renders a "layer" (image) at x, y, width, height relative to parent

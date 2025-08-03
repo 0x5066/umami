@@ -1,5 +1,5 @@
 // main.cpp
-#include "skin.h"
+#include "skin/skin.h"
 std::string g_skinPath;
 
 extern bool renderContainer(SDL_Renderer* renderer, Skin& skin, const std::string& containerId, const std::string& basePath);

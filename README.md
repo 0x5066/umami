@@ -8,9 +8,9 @@ Features:
 
 WasabiXML Parser:
 - [x] Compile to Linux
-- [ ] Compile to Windows using MinGW
+- [x] Compile to Windows using MinGW
 - [x] Compile to Windows using MSVC
-- [ ] Parse and understand the contents of the ``freeform`` folder found within Winamp
+- [x] Parse and understand the contents of the ``freeform`` folder found within Winamp
 - skin.xml:
   - [x] Parse the contents of the file to gather information and print to console
   - [x] Load and parse the other XML files included with the ``<include file="">`` tag and parameter

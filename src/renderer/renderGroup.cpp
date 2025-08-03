@@ -1,4 +1,4 @@
-#include "skin.h"
+#include "../skin/skin.h"
 #include "render_shared.h"
 
 // renders groups and groups of groups (doesnt clip correctly)

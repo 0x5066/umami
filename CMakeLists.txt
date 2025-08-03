@@ -14,20 +14,20 @@ project(umami)
 
 add_executable(umami
     tinyxml2/tinyxml2.cpp
-    wasabiparser.cpp
-    skin.cpp
-    renderer.cpp
-    render_element.cpp
-    render_helpers.cpp
-    renderLayer.cpp
-    renderText.cpp
-    renderGroup.cpp
-    renderStatus.cpp
-    renderGrid.cpp
-    render_shared.cpp
-    renderVis.cpp
-    renderSlider.cpp
-    main.cpp
+    src/skin/wasabiparser.cpp
+    src/skin/skin.cpp
+    src/renderer/renderer.cpp
+    src/renderer/render_element.cpp
+    src/renderer/render_helpers.cpp
+    src/renderer/renderLayer.cpp
+    src/renderer/renderText.cpp
+    src/renderer/renderGroup.cpp
+    src/renderer/renderStatus.cpp
+    src/renderer/renderGrid.cpp
+    src/renderer/render_shared.cpp
+    src/renderer/renderVis.cpp
+    src/renderer/renderSlider.cpp
+    src/main.cpp
 )
 
 target_link_libraries(umami SDL3 SDL3_image SDL3_ttf)

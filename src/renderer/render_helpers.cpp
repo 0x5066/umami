@@ -1,4 +1,4 @@
-#include "skin.h"
+#include "../skin/skin.h"
 #include "render_shared.h"
 
 SDL_Rect computeElementRectSDL(const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {

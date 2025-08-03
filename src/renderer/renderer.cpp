@@ -1,6 +1,6 @@
 // renderer.cpp
 #include "render_shared.h"
-#include "skin.h"
+#include "../skin/skin.h"
 
 extern bool renderElement(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int x, int y, int w, int h);
 

@@ -1,6 +1,6 @@
 // Render function declarations for registry
 #pragma once
-#include "skin.h"
+#include "../skin/skin.h"
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>

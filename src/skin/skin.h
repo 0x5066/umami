@@ -9,7 +9,7 @@
 #include <optional>
 #include <iostream>
 #include <filesystem>
-#include "tinyxml2/tinyxml2.h"
+#include "../../tinyxml2/tinyxml2.h"
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
