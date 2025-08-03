@@ -81,6 +81,7 @@ void parseSkinXML(const std::string& filepath, bool recursive) {
 bool WALvalidator(const char* skinXML)
 {
     XMLDocument xml_doc;
+    bool freeform = false;
 
     std::ifstream file(skinXML, std::ios::binary);
     if (!file.is_open()) {
@@ -145,8 +146,8 @@ bool WALvalidator(const char* skinXML)
     XMLElement* skininfo = WAL->FirstChildElement("skininfo");
     if (skininfo != nullptr) {
         for (XMLElement* child = skininfo->FirstChildElement();
-             child != nullptr;
-             child = child->NextSiblingElement()) {
+            child != nullptr;
+            child = child->NextSiblingElement()) {
             const char* tagName = child->Name();
             const char* information = child->GetText();
             std::cout << tagName << ": " << (information ? information : "") << '\n';
@@ -154,7 +155,9 @@ bool WALvalidator(const char* skinXML)
     } else {
         std::cout << "No <skininfo> found, continuing without it.\n";
 
-        // ✅ FIX: call parseSkinXML with absolute path to ensure includes resolve relative to this file
+        // i'm sure it's fine
+        freeform = true;
+        // call parseSkinXML with absolute path to ensure includes resolve relative to this file
         parseSkinXML(std::filesystem::absolute(skinXML).string(), false);
     }
 
@@ -172,6 +175,16 @@ bool WALvalidator(const char* skinXML)
 
             parseSkinXML(includePath.lexically_normal().string(), true);
         }
+    }
+
+    // some skins are quirky (at night) and, rather than putting stuff like element definitions
+    // and container and group stuff in different xml files, they put it all in skin.xml instead
+
+    // it's always the one liners.
+    // ... well it was, but we were parsing the skin twice
+    if (!WAL->FirstChildElement("include") && !freeform) {
+        std::cout << "Found a skin that is quirky. Shouldn't normally fire.\n";
+        parseSkinXML(std::filesystem::absolute(skinXML).string(), false);
     }
 
     return true;
