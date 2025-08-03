@@ -444,6 +444,7 @@ void tryRegisterContainer(const XMLElement* elem) {
     if (!g_targetSkin) return;
     Container container;
     container.id = elem->Attribute("id") ? elem->Attribute("id") : "";
+    std::transform(container.id.begin(), container.id.end(), container.id.begin(), ::tolower);
     g_currentContainerId = container.id;
     container.name = elem->Attribute("name") ? elem->Attribute("name") : "";
     elem->QueryIntAttribute("default_x", &container.defaultX);
