@@ -4,6 +4,8 @@
 
 const char *charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ\"@   0123456789….:()-'!_+\\/[]^&%,=$#ÂÖÄ?* ";
 
+extern PlayerCore* PlayerCore;
+
 // from audacious' winamp skin mode, adjusted to include standard characters
 static void lookup_char(char c, int* col, int* row) {
     switch (c) {
@@ -40,6 +42,63 @@ static void lookup_char(char c, int* col, int* row) {
     *row = index / 31;
 }
 
+float total_time = 0;
+
+void format_time(unsigned int time, char *buffer, int width) {
+    unsigned int display_time = time;
+
+    unsigned int minutes = display_time / 60;
+    unsigned int seconds = display_time % 60;
+
+    sprintf(buffer, "%2u:%02u", minutes, seconds);
+
+    // Ensure null-termination
+    buffer[width] = '\0';
+}
+
+std::wstring formatTime(int milliseconds, int tos = 0) {
+    // Convert milliseconds to seconds
+    int totalSeconds = milliseconds / 1000;
+
+    // Extract minutes and seconds
+    int minutes = totalSeconds / 60;
+    int seconds = totalSeconds % 60;
+
+    // Format as m:ss (because modern skins fucking SUCK)
+    std::wstringstream ss;
+    if (PlayerCore->isPlaying() == 1 || PlayerCore->isPlaying() == 3) {
+        ss << minutes << L":"
+            << std::setw(2) << std::setfill(L'0') << seconds;
+    } else {
+        switch(tos){
+            case 0: ss << L"  :  ";
+            case 1: ss << L"00:00"; // yet here, setting timeroffstyle to 1 makes it display mm:ss??? thanks for nothing nullsoft
+            case 2: ss << L"";
+            default: ss << L"  :  "; // i dont know what the default here is
+        }
+    }
+
+    return ss.str();
+}
+
+std::wstring CreateSongTickerText() {
+    // Convert the time to MM:SS format
+    std::wstring getSongTime = formatTime(static_cast<int>(PlayerCore->getLength()));
+
+    // Combine the strings
+    if (PlayerCore->isPlaying() == 1 || PlayerCore->isPlaying() == 3) {
+        return PlayerCore->getPlayingTitle() + L" (" + getSongTime + L")";
+    } else if (PlayerCore->getKhz() == 0 && PlayerCore->getKbps() == 0 && PlayerCore->getChannels() == 0) {
+        return PlayerCore->getPlayingTitle();
+    }
+    return PlayerCore->getPlayingTitle();
+}
+
+std::string wstring_to_string(const std::wstring& wstr) {
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+    return conv.to_bytes(wstr);
+}
+
 // does TTFs now
 bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     std::string content;
@@ -47,18 +106,43 @@ bool renderText(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int p
     std::string defaultText = getAttr(elem, "default", getAttr(elem, "text", "This is a test string"));
     std::transform(display.begin(), display.end(), display.begin(), ::tolower);
 
-    if (display == "songname")        content = "DJ Mike Llama - Llama Whippin' Intro (0:05)";
-    else if (display == "songinfo")   content = "56kbps Stereo 22.0khz";
+    int timeroffstyle;
+
+    if (elem.attributes.count("timeroffstyle")) timeroffstyle = std::stoi(elem.attributes.at("timeroffstyle"));
+
+    if (display == "songname") content = wstring_to_string(CreateSongTickerText());
+    else if (display == "songinfo"){
+        char channelstate[64];
+        char buf[255];
+        if ((PlayerCore->isPlaying() == 1 || PlayerCore->isPlaying() == 3) &&
+           (PlayerCore->getKbps() == 0 || PlayerCore->getKhz() == 0 || PlayerCore->getChannels() == 0)) {
+            snprintf(buf, sizeof(buf), ""); // setting NULL is probably a bad idea
+           }
+        else if (PlayerCore->isPlaying() == 1 || PlayerCore->isPlaying() == 3) {
+            switch(PlayerCore->getChannels()) {
+                case 1: snprintf(channelstate, sizeof(channelstate), "Mono"); break;
+                case 2: snprintf(channelstate, sizeof(channelstate), "Stereo"); break;
+                case 4: snprintf(channelstate, sizeof(channelstate), "Quad"); break;
+                case 6: snprintf(channelstate, sizeof(channelstate), "5.1 Surround"); break;
+                case 8: snprintf(channelstate, sizeof(channelstate), "7.1 Surround"); break;
+                default: snprintf(channelstate, sizeof(channelstate), "Surround"); break;
+            }
+            snprintf(buf, sizeof(buf), "%dkbps %s %.1fkHz", PlayerCore->getKbps(), channelstate, PlayerCore->getRealKhz() / 1000.0f);
+        } else {
+            snprintf(buf, sizeof(buf), "");
+        }
+        content = buf;
+    }
     else if (display == "songartist") content = "DJ Mike Llama";
-    else if (display == "songtitle")  content = "My Song";
+    else if (display == "songtitle")  content = "Llama Whippin' Intro";
     else if (display == "songalbum")  content = "Beats of Burdon";
     else if (display == "songlength") content = "0:05";
-    else if (display == "time")       content = "0:02";
+    else if (display == "time") content = wstring_to_string(formatTime(PlayerCore->getOutputTime(), timeroffstyle));
     else if (display == "timeelapsed") content = "0:02";
     else if (display == "timeremaining") content = "-0:05";
     else if (display == "componentbucket") content = "media.library";
-    else if (display == "songbitrate") content = "56";
-    else if (display == "songsamplerate") content = "22";
+    else if (display == "songbitrate") content = std::to_string(PlayerCore->getKbps());
+    else if (display == "songsamplerate") content = std::to_string(PlayerCore->getKhz());
     else if (display == "normalizer:status") content = "enabled";
     else content = defaultText;
 

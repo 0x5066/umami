@@ -271,8 +271,9 @@ bool renderVis(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int pa
         putPixel(surface, i % 72, i / VISWIDTH, SDL_MapRGBA(SDL_GetPixelFormatDetails(surface->format), SDL_GetSurfacePalette(surface), 0, 0, 0, 0));
     }
 
-
-    PlayerCore->GetSaData(sample);
+    if (!PlayerCore->GetSaData(sample)) {
+        memset(sample, 0, sizeof(sample)); // zero-fill fallback
+    }
 
         for (int vx = 0; vx < 75; vx++) {
 

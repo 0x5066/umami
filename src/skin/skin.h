@@ -17,6 +17,8 @@
 using namespace tinyxml2;
 
 extern std::string g_skinPath;
+extern char *plugdir_raw;
+extern std::string plugdir;
 #if defined(__LINUX__)
 extern std::vector<double> sample; // temp
 #endif

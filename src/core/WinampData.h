@@ -2,13 +2,24 @@
 #pragma once
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include "../../wacup/wa_ipc.h"
+#include <string>
 
-class WinampSaData {
+class WinampData {
 public:
-    explicit WinampSaData(HWND winampHwnd);
+    explicit WinampData(HWND winampHwnd);
     bool Initialize();
-    void SetRequest(int want); // want = 0 or 1
     bool GetData(char out[75 * 2 + 8]);
+    int getOutputTime();
+    int getCurVolume();
+    int getLength();
+    int isPlaying();
+    int getKbps();
+    int getKhz();
+    int getRealKhz();
+    int getChannels();
+    int getPlaylistPos();
+    std::wstring getPlayingTitle();
 
 private:
     HWND hwnd;

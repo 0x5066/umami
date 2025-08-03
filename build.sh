@@ -41,8 +41,6 @@ elif [ "$1" == "mingw" ]; then
     cmake --build build
     check_build_status
 
-    cp -r skins/ build/skins/ -v
-
     cp /usr/i686-w64-mingw32/bin/SDL3.dll build/
     cp /usr/i686-w64-mingw32/bin/SDL3_image.dll build/
     cp /usr/i686-w64-mingw32/bin/libsharpyuv.dll build/
@@ -54,7 +52,6 @@ elif [ "$1" == "mingw" ]; then
     cp /usr/i686-w64-mingw32/bin/libstdc++-6.dll build/
     cp /usr/i686-w64-mingw32/bin/libwinpthread-1.dll build/
 
-    #wine explorer /desktop=shell build/umami.exe "$2" "$3" 
 else
     echo "Invalid option. Use 'linux' or 'mingw'."
     exit 1

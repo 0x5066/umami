@@ -1,6 +1,8 @@
 // main.cpp
 #include "skin/skin.h"
 std::string g_skinPath;
+char* plugdir_raw = nullptr;
+std::string plugdir;
 
 bool running = true;
 
@@ -175,7 +177,6 @@ SDL_Renderer *renderer;
 int init() {
     // Initialize Winamp plugin
     SendMessage(hwnd_winamp, WM_WA_IPC, (WPARAM)skinname_buffer, IPC_GETSKINW);
-    MessageBoxExW(hwnd_winamp, L"Umami plugin initialized", L"umami", MB_OK, 0);
     lpOldWinampWndProc = WNDPROC(SetWindowLongPtr(plugin.hwndParent, GWLP_WNDPROC, reinterpret_cast<intptr_t>(&WinampSubclass)));
     PlayerCore->Initialize(hwnd_winamp);
 
@@ -198,7 +199,7 @@ void quit() {
     running = false;
     SDL_Quit();
     TTF_Quit();
-    MessageBoxExW(hwnd_winamp, L"Umami plugin quit", L"umami", MB_OK, 0);
+    //MessageBoxExW(hwnd_winamp, L"Umami plugin quit", L"umami", MB_OK, 0);
 }
 
 LRESULT CALLBACK WinampSubclass(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -219,19 +220,21 @@ LRESULT CALLBACK WinampSubclass(HWND hwnd, UINT message, WPARAM wParam, LPARAM l
             WideCharToMultiByte(CP_UTF8, 0, skinname_wstr.c_str(), -1, skinname_utf8.data(), len, nullptr, nullptr);
             skinname_utf8.pop_back(); // remove trailing null
             g_skinPath = skinname_utf8 + "\\";
+            char *plugdir_raw = (char*)SendMessage(hwnd_winamp, WM_WA_IPC, 0, IPC_GETPLUGINDIRECTORY);
+            std::string plugdir(plugdir_raw);
 
-            skin.loadFromXML("freeform/xml/winamp/cover/cover.xml");
-            skin.loadFromXML("freeform/xml/winamp/thinger/thinger.xml");
-            skin.loadFromXML("freeform/xml/wasabi/wasabi.xml");
-            skin.loadFromXML("freeform/xml/pathpicker/pathpicker.xml");
-            skin.loadFromXML("freeform/xml/statusbar/statusbar.xml");
-            skin.loadFromXML("freeform/xml/tabsheet/tabsheet.xml");
-            skin.loadFromXML("freeform/xml/checkbox/checkbox.xml");
-            skin.loadFromXML("freeform/xml/titlebox/titlebox.xml");
-            skin.loadFromXML("freeform/xml/dropdownlist/dropdownlist.xml");
-            skin.loadFromXML("freeform/xml/combobox/combobox.xml");
-            skin.loadFromXML("freeform/xml/historyeditbox/historyeditbox.xml");
-            skin.loadFromXML("freeform/xml/tooltips/tooltips.xml");
+            skin.loadFromXML(plugdir + "\\freeform/xml/winamp/cover/cover.xml");
+            skin.loadFromXML(plugdir + "\\freeform/xml/winamp/thinger/thinger.xml");
+            skin.loadFromXML(plugdir + "\\freeform/xml/wasabi/wasabi.xml");
+            skin.loadFromXML(plugdir + "\\freeform/xml/pathpicker/pathpicker.xml");
+            skin.loadFromXML(plugdir + "\\freeform/xml/statusbar/statusbar.xml");
+            skin.loadFromXML(plugdir + "\\freeform/xml/tabsheet/tabsheet.xml");
+            skin.loadFromXML(plugdir + "\\freeform/xml/checkbox/checkbox.xml");
+            skin.loadFromXML(plugdir + "\\freeform/xml/titlebox/titlebox.xml");
+            skin.loadFromXML(plugdir + "\\freeform/xml/dropdownlist/dropdownlist.xml");
+            skin.loadFromXML(plugdir + "\\freeform/xml/combobox/combobox.xml");
+            skin.loadFromXML(plugdir + "\\freeform/xml/historyeditbox/historyeditbox.xml");
+            skin.loadFromXML(plugdir + "\\freeform/xml/tooltips/tooltips.xml");
 
             skin.loadFromXML(g_skinPath + "skin.xml");
             renderLoop(renderer, skin, "main", g_skinPath, 16);

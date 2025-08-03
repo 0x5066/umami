@@ -27,7 +27,7 @@ set(SOURCES
     src/renderer/renderVis.cpp
     src/renderer/renderSlider.cpp
     src/core/PlayerCore.cpp
-    src/core/WinampSaData.cpp
+    src/core/WinampData.cpp
     src/main.cpp
 )
 

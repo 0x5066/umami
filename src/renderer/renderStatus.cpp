@@ -1,15 +1,16 @@
 #include "../skin/skin.h"
 #include "render_shared.h"
 
+extern PlayerCore* PlayerCore;
+
 bool renderStatus(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int parentX, int parentY, int parentW, int parentH) {
     std::string bitmapKey;
-    /*switch (g_fakePlayerState) {
-        case PlayerState::Playing: bitmapKey = getAttr(elem, "playBitmap", ""); break;
-        case PlayerState::Paused:  bitmapKey = getAttr(elem, "pauseBitmap", ""); break;
-        case PlayerState::Stopped: bitmapKey = getAttr(elem, "stopBitmap", ""); break;
-    }*/
-
-    bitmapKey = getAttr(elem, "playbitmap", "");
+    switch (PlayerCore->isPlaying()) {
+        case 1: bitmapKey = getAttr(elem, "playbitmap", ""); break;
+        case 3: bitmapKey = getAttr(elem, "pausebitmap", ""); break;
+        case 0: bitmapKey = getAttr(elem, "stopbitmap", ""); break;
+        default: bitmapKey = getAttr(elem, "stopbitmap", ""); break; // default to stop if unknown state
+    }
 
     if (bitmapKey.empty()) return false;
 

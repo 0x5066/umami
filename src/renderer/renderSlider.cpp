@@ -4,6 +4,8 @@
 static float valueF = 0.0f;
 float progress = 0.0f;
 
+extern PlayerCore* PlayerCore;
+
 // Render a slider element (horizontal or vertical)
 // whenever there is more than one slider object in a skin (as is usually the case), the calculations inside "speed up"
 // need to find a way to prevent it from happening
@@ -34,16 +36,12 @@ bool renderSlider(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
     switch (wasabi_action[0]) {
         case 's': // seek
         {
-            float increment = 0.25f; // adjust for speed
-            valueF += increment;
-            if (valueF > high) valueF = low;
-            progress = (valueF - low) / float(high - low);
+            progress = ((float(PlayerCore->getOutputTime()) / PlayerCore->getLength()) * 255.f - low) / float(high - low);
             break;
         }
         case 'v': // volume
         {
-            static float volumeF = 255.f;
-            progress = (volumeF - low) / float(high - low);
+            progress = (PlayerCore->getCurVolume() - low) / float(high - low);
             break;
         }
         case 'p': // pan
@@ -178,7 +176,13 @@ bool renderSlider(SDL_Renderer* renderer, Skin& skin, const UIElement& elem, int
             dst = { static_cast<float>(sliderX), static_cast<float>(rect.y) + (rect.h - bmp.h) / 2, static_cast<float>(bmp.w), static_cast<float>(bmp.h)};
         }
 
-        SDL_RenderTexture(renderer, tex, &src, &dst);
+        if (wasabi_action == "seek" && (PlayerCore->isPlaying() == 1 || PlayerCore->isPlaying() == 3)) {
+            SDL_RenderTexture(renderer, tex, &src, &dst);
+        } else if (wasabi_action == "seek") {
+            // SORRY NOTHING
+        } else {
+            SDL_RenderTexture(renderer, tex, &src, &dst);
+        }
     }
 
     return true;
