@@ -5,8 +5,8 @@ if(MSVC)
     set(CMAKE_CXX_FLAGS_DEBUG "/Zi /Od")
     set(CMAKE_CXX_FLAGS_RELEASE "/O2 /DNDEBUG")
 else()
-    set(CMAKE_CXX_FLAGS_DEBUG "-g3 -DDEBUG")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -fno-omit-frame-pointer -fno-inline -DDEBUG -fno-optimize-sibling-calls -fdiagnostics-color=always")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fno-omit-frame-pointer -fno-inline -fno-optimize-sibling-calls -w -fdiagnostics-color=always")
 endif()
 
 set(SOURCES
@@ -43,4 +43,4 @@ endif()
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "gen_") # Prevent CMake from prepending "lib" to the binary name 
 set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".dll") # Prevent cross-compilers from adding the wrong suffix (".so") to the binary name 
 
-target_link_libraries(umami SDL2 SDL2_image SDL2_ttf)
+target_link_libraries(umami SDL3 SDL3_image SDL3_ttf)

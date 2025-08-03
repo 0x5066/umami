@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<WasabiXML version="1.2">
+
+  <skininfo>
+    <version>1.2</version>
+    <name>AS Fx21 Skin</name>
+    <comment>Nice single Gui skin with home hi-fi aspect for Winamp 5.x</comment>
+    <author gaybag="bolzabeach">Andrea Scaramussi</author>
+    <email>andrea@scaramussi.com</email>
+    <homepage>http://www.scaramussi.com</homepage>
+    <screenshot>screenshot.png</screenshot>
+  </skininfo>
+
+
+<!-- ELEMENTS DEFINITIONS -->
+<elements>
+
+  <!-- MAIN WINDOW BACKGROUND -->
+  <bitmap id="player.main.background" file="immagini/player_background.png" w="782" h="652" x="0" y="0" gammagroup="Backgrounds" />
+
+  <!-- SMALLFONT -->
+  <bitmap id="bitmapfont.player.smallfont" file="immagini/smallfont.png" x="0" y="0" h="24" w="192" charwidth="6" charheight="8" hspacing="0" vspacing="-1" gammagroup="TextDark"/>
+  <bitmapfont id="player.smallfont" file="bitmapfont.player.smallfont" charwidth="6" charheight="8" hspacing="0" vspacing="-1"/>
+
+  <!-- SONG TICKER FONT -->
+  <bitmap id="bitmapfont.player.songticker" file="immagini/songtickerfont.png" x="0" y="0" h="45" w="315" gammagroup="DisplaySongticker"/>
+  <bitmapfont id="player.medium.font" file="bitmapfont.player.songticker" charwidth="9" charheight="15" hspacing="2" vspacing="0"/>
+
+  <!-- SONG TIME FONT -->
+  <bitmap id="bitmapfont.player.BIGNUM" file="immagini/timer_fonts.png" x="0" y="0" h="88" w="960" gammagroup="DisplayElements"/>
+  <bitmapfont id="player.LCD.font" file="bitmapfont.player.BIGNUM" charwidth="30" charheight="30" hspacing="0" vspacing="0"/>
+
+  <!-- POWER BUTTON -->
+  <bitmap id="player.button.power.on" file="immagini/buttons_power_on.png" x="0" y="0" h="24" w="38" gammagroup="Buttons" />
+  <bitmap id="player.button.power.off" file="immagini/buttons_power_off.png" x="0" y="0" h="24" w="38" gammagroup="Buttons" />
+  <bitmap id="player.button.power.pressed" file="immagini/buttons_power_press.png" x="0" y="0" h="24" w="38" gammagroup="Buttons" />
+
+  <!-- SMALL BUTTON -->
+  <bitmap id="player.button.small.on" file="immagini/butt_small_on.png" x="0" y="0" h="18" w="22" gammagroup="Buttons" />
+  <bitmap id="player.button.small.off" file="immagini/butt_small_off.png" x="0" y="0" h="18" w="22" gammagroup="Buttons" />
+  <bitmap id="player.button.small.pressed" file="immagini/butt_small_pressed.png" x="0" y="0" h="18" w="22" gammagroup="Buttons" />
+
+  <!-- VOLUME KNOB -->
+  <bitmap id="player.map.volknob" file="immagini/knob.png" x="0" y="0" w="88" h="88" />
+  <bitmap id="player.VolumeKnob" file="immagini/knob_dot.png" x="0" y="0" w="88" h="88" />
+
+  <!-- PROGRESS BAR -->
+  <bitmap id="player.progressbar" file="immagini/progressbar_slider.png" x="0" y="0" w="27" h="11" />
+
+  <!-- BEAT ANALOG -->
+  <bitmap id="player.display.analog.bkg" file="immagini/vu-meter_bkg.png" gammagroup="Buttons"/>
+  <bitmap id="player.display.analog" file="immagini/vu-meter_smooth.png" gammagroup="Buttons"/>
+
+  <!-- PLAYER BUTTONS -->
+  <bitmap id="player.button.previous" file="immagini/buttons_previous_norm.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.previous.pressed" file="immagini/buttons_previous_press.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.play" file="immagini/buttons_play_norm.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.play.pressed" file="immagini/buttons_play_press.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.pause" file="immagini/buttons_pause_norm.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.pause.pressed" file="immagini/buttons_pause_press.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.stop" file="immagini/buttons_stop_norm.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.stop.pressed" file="immagini/buttons_stop_press.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.next" file="immagini/buttons_next_norm.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.next.pressed" file="immagini/buttons_next_press.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+
+  <!-- SHUFFLE (RANDOM) BUTTON -->
+  <bitmap id="player.button.shuffle" file="immagini/buttons_random_norm.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.shuffle.pressed" file="immagini/buttons_random_press.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.shuffle.active" file="immagini/buttons_random_select.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+
+  <!-- REPEAT (LOOP) BUTTON -->
+  <bitmap id="player.button.loop" file="immagini/buttons_loop_norm.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.loop.pressed" file="immagini/buttons_loop_press.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+  <bitmap id="player.button.loop.active" file="immagini/buttons_loop_select.png" x="0" y="0" h="24" w="38" gammagroup="Buttons"/>
+
+  <!-- EQUALIZER SLIDE -->
+  <bitmap id="eq.slide.vert" file="immagini/eq_slider_vert.png" gammagroup="Buttons"/>
+  <bitmap id="eq.slide.gold.vert" file="immagini/eq_slider_gold_vert.png" gammagroup="Buttons"/>
+
+  <!-- PEAK LED -->
+  <bitmap id="player.peak.led" file="immagini/peak_led.png" gammagroup="Buttons"/>
+
+  <!-- CD ANIMATION LCD -->
+  <bitmap id="player.lcd.cd" file="immagini/cd_animation.png" gammagroup="Buttons"/>
+
+  <!-- CREDITS -->
+  <bitmap id="player.credits" file="immagini/credits_single.png" gammagroup="Buttons"/>
+
+</elements>
+
+
+
+
+<!-- GROUPS DEFINITIONS -->
+<groupdef id="ObjectsGroup" name="Display Objects" w="782" h="652" x="0" y="0">
+
+  <!-- CLOSE BUTTON -->
+  <button id="Close" action="CLOSE" x="27" y="238" image="player.button.power.on" downImage="player.button.power.pressed" inactiveImage="player.button.power.off"  tooltip="Exit Winamp" />
+
+  <!-- TIMER DISPLAY -->
+  <text id="Timer" display="time" x="103" y="46" w="179" h="30" font="player.LCD.font" fontsize="30" align="right" timecolonwidth="12" />
+
+  <!-- SONG INFO (TICKER)-->
+  <text id="songticker" ticker="1" display="songname" default="" showlen="1" x="30" y="84" w="251" h="15" font="player.medium.font" />
+
+  <!-- SPECTRUM ANALYZER -->
+  <vis id="visual" x="502" y="329" w="90" h="44" gammagroup="DisplayVis" ColorBand1="91,87,56" ColorBand2="91,87,56" ColorBand3="91,87,56" ColorBand4="91,87,56" ColorBand5="91,87,56" ColorBand6="91,87,56" ColorBand7="91,87,56" ColorBand8="91,87,56" ColorBand9="91,87,56" ColorBand10="91,87,56" ColorBand11="91,87,56" ColorBand12="91,87,56" ColorBand13="91,87,56"  ColorBand14="91,87,56" ColorBand15="91,87,56" ColorBand16="91,87,56" colorbandpeak="91,87,56" />
+
+  <!-- VOLUME KNOB -->
+  <layer tooltip="Move mouse horizontal to set Volume" id="VolumeKnob" image="player.VolumeKnob" x="321" y="46" move="0"/>
+  <slider id="HiddenVolume" ACTION="Volume" x="-1000" y="-1000" w="88" h="88" thumb="player.VolumeKnob" alpha="0" ghost="1" /> 
+
+  <!-- PLAYER BUTTONS -->
+  <button id="Butt.Previous" action="PREV" x="27" y="123" image="player.button.previous" downImage="player.button.previous.pressed" />
+  <button id="Butt.Play" action="PLAY" x="67" y="123" image="player.button.Play" downImage="player.button.Play.pressed" />
+  <button id="Butt.Pause" action="PAUSE" x="107" y="123" image="player.button.Pause" downImage="player.button.Pause.pressed" />
+  <button id="Butt.Stop" action="STOP" x="147" y="123" image="player.button.Stop" downImage="player.button.Stop.pressed" />
+  <button id="Butt.Next" action="NEXT" x="187" y="123" image="player.button.Next" downImage="player.button.Next.pressed" />
+
+  <!-- RANDOM (SHUFFLE) -->
+  <togglebutton id="ShuffleDisplay" x="228" y="123" image="player.button.shuffle" downImage="player.button.shuffle.pressed" activeImage="player.button.shuffle.active" tooltip="Toggle playlist shuffling" cfgattrib="{45F3F7C1-A6F3-4EE6-A15E-125E92FC3F8D};Shuffle" rectrgn="1" />
+
+  <!-- LOOP (REPEAT) -->
+  <togglebutton id="RepeatDisplay" x="257" y="123" nstates="3" image="player.button.loop" downImage="player.button.loop.pressed" activeImage="player.button.loop.active" tooltip="Toggle playlist or song repeating" cfgattrib="{45F3F7C1-A6F3-4EE6-A15E-125E92FC3F8D};Repeat" cfgvals="0;1" rectrgn="1" />
+
+  <!-- CD ANIMATION LCD -->
+  <AnimatedLayer x="30" y="46" w="40" h="24" id="LCDcdAnim" image="player.lcd.cd" move="0" autoplay="0" autoreplay="0" ghost="1" />
+
+  <!-- BEAT ANALOG ANIMATION -->
+  <AnimatedLayer id="AnalogLeftBkg" image="player.display.analog.bkg" x="79" y="194" w="100" h="68" move="0" autoplay="0" autoreplay="0" ghost="1"/>
+  <AnimatedLayer id="AnalogRightBkg" image="player.display.analog.bkg" x="184" y="194" w="100" h="68" move="0" autoplay="0" autoreplay="0" ghost="1"/>
+  <AnimatedLayer id="AnalogLeft" x="80" y="194" w="98" h="67" image="player.display.analog" move="0" autoplay="0" autoreplay="0" ghost="1" />
+  <AnimatedLayer id="AnalogRight" x="185" y="194" w="98" h="67" image="player.display.analog" move="0" autoplay="0" autoreplay="0" ghost="1" />
+
+  <!-- POSITION -->
+  <slider id="SeekBar" ACTION="Seek" x="28" y="166" w="255" h="11" thumb="player.progressbar" />
+
+  <!-- CROSSFADE -->
+  <slider id="CrossFading" cfgattrib="{F1239F09-8CC6-4081-8519-C2AE99FCB14C};Crossfade time" x="301" y="212" w="128" h="11" thumb="player.progressbar" />
+
+  <!-- BALANCE -->
+  <slider id="Balancing" action="PAN" x="301" y="196" w="128" h="11" thumb="player.progressbar" />
+
+  <!-- PEAK LED -->
+  <AnimatedLayer id="PeakLeftLed" image="player.peak.led" x="308" y="155" w="15" h="15" move="0" autoplay="0" autoreplay="0" ghost="1" />
+  <AnimatedLayer id="PeakRightLed" image="player.peak.led" x="409" y="155" w="15" h="15" move="0" autoplay="0" autoreplay="0" ghost="1" />
+
+  <!-- EQUALIZER -->
+  <slider id="preamp" action="EQ_BAND" param="preamp" x="88" y="299" w="18" h="75" orientation="vertical" thumb="eq.slide.gold.vert" hoverthumb="" downthumb="" />
+  <slider id="eq1" action="EQ_BAND" param="1" x="114" y="299" w="18" h="75" orientation="vertical" thumb="eq.slide.vert" hoverthumb="" downthumb="" />
+  <slider id="eq2" action="EQ_BAND" param="2" x="134" y="299" w="18" h="75" orientation="vertical" thumb="eq.slide.vert" hoverthumb="" downthumb="" />
+  <slider id="eq3" action="EQ_BAND" param="3" x="154" y="299" w="18" h="75" orientation="vertical" thumb="eq.slide.vert" hoverthumb="" downthumb="" />
+  <slider id="eq4" action="EQ_BAND" param="4" x="174" y="299" w="18" h="75" orientation="vertical" thumb="eq.slide.vert" hoverthumb="" downthumb="" />
+  <slider id="eq5" action="EQ_BAND" param="5" x="194" y="299" w="18" h="75" orientation="vertical" thumb="eq.slide.vert" hoverthumb="" downthumb="" />
+  <slider id="eq6" action="EQ_BAND" param="6" x="214" y="299" w="18" h="75" orientation="vertical" thumb="eq.slide.vert" hoverthumb="" downthumb="" />
+  <slider id="eq7" action="EQ_BAND" param="7" x="234" y="299" w="18" h="75" orientation="vertical" thumb="eq.slide.vert" hoverthumb="" downthumb="" />
+  <slider id="eq8" action="EQ_BAND" param="8" x="254" y="299" w="18" h="75" orientation="vertical" thumb="eq.slide.vert" hoverthumb="" downthumb="" />
+  <slider id="eq9" action="EQ_BAND" param="9" x="274" y="299" w="18" h="75" orientation="vertical" thumb="eq.slide.vert" hoverthumb="" downthumb="" />
+  <slider id="eq10" action="EQ_BAND" param="10" x="294" y="299" w="18" h="75" orientation="vertical" thumb="eq.slide.vert" hoverthumb="" downthumb="" />
+
+  <!-- CONTROLS BUTTONS -->
+  <togglebutton id="AnalogMeterSwitch" w="38" h="24" x="300" y="238" nstates="2" image="player.button.power.off" downImage="player.button.power.pressed" activeImage="player.button.power.on" tooltip="Switch analog meter" cfgvals="0;1" rectrgn="1" />
+  <togglebutton id="CrossFadeSwitch" w="38" h="24" x="346" y="238" nstates="2" image="player.button.power.off" downImage="player.button.power.pressed" activeImage="player.button.power.on" tooltip="Switch crossfade" cfgattrib="{FC3EAF78-C66E-4ED2-A0AA-1494DFCC13FF};Enable crossfading" rectrgn="1" />
+  <togglebutton id="CreditsSwitch" w="38" h="24" x="392" y="238" nstates="2" image="player.button.power.off" downImage="player.button.power.pressed" activeImage="player.button.power.on" tooltip="Switch credits" cfgvals="0;1" rectrgn="1" />
+
+  <togglebutton id="AVSSwitch" w="38" h="24" x="714" y="303" nstates="2" image="player.button.power.off" downImage="player.button.power.pressed" activeImage="player.button.power.on" tooltip="Switch AVS" cfgvals="0;1" rectrgn="1" />
+  <togglebutton id="VideoSwitch" w="38" h="24" x="618" y="303" nstates="2" image="player.button.power.off" downImage="player.button.power.pressed" activeImage="player.button.power.on" tooltip="Switch Video" cfgvals="0;1" rectrgn="1" />
+  <togglebutton id="PLSwitch" w="38" h="24" x="666" y="303" nstates="2" image="player.button.power.off" downImage="player.button.power.pressed" activeImage="player.button.power.on" tooltip="Switch Playlist" cfgvals="0;1" rectrgn="1" />
+
+  <!-- SONG INFO -->
+  <text id="BitrateInfo" align="center" x="28" y="71" w="44" h="9" font="player.smallfont" fontsize="8" />
+
+  <!-- EQ VISUAL EFFECT -->
+  <eqvis x="340" y="313" w="151" h="58" id="EQ.vis" colortop="#68635F" colormiddle="#68635F" colorbottom="#68635F" colorpreamp="#880000" />
+
+  <!-- EQ BUTTONS -->
+  <button id="EqualizerSwitch" Image="player.button.power.off" downImage="player.button.power.pressed" activeImage="player.button.power.on" action="EQ_TOGGLE" w="38" h="24" x="27" y="357" tooltip="Switch equalizer on/off" />
+  <button id="EqualizerAutoSwitch" Image="player.button.small.off" downImage="player.button.small.pressed" activeImage="player.button.small.on" action="EQ_AUTO" w="22" h="18" x="35" y="303" tooltip="Switch auto equalize levels" />
+
+  <!-- LIBRARY WINDOW -->
+  <component id="MLibrary" x="23" y="425" w="736" h="204" noshowcmdbar="1" autoclose="0" autoopen="1" autoavailable="1" visible="1" param="guid:{6B0EDF80-C9A5-11D3-9F26-00C04F39FFC6}"/>
+
+  <component dynamic="1" id="Video" x="444" y="36" w="316" h="224" noshowcmdbar="1" autoclose="0" autoopen="1" autoavailable="1" visible="1" param="guid:{F0816D7B-FFFC-4343-80F2-E8199AA15CC3}"/>
+  <component dynamic="1" id="AVS" x="444" y="36" w="316" h="224" noshowcmdbar="1" autoclose="0" autoopen="1" autoavailable="1" visible="1" param="guid:{0000000A-000C-0010-FF7B-01014263450C}"/>
+  <component dynamic="1" id="Pledit" x="444" y="36" w="316" h="224" noshowcmdbar="1" autoclose="0" autoopen="1" autoavailable="1" visible="1" param="guid:{45F3F7C1-A6F3-4ee6-A15E-125E92FC3F8D}"/>
+
+  <script id="filetype.script" file="scripts/filetype.maki" /> 
+  <script id="lcdbeat.script" file="scripts/lcdbeats.maki" /> 
+  <script id="analogbeat.script" file="scripts/analogbeats.maki" /> 
+  <script id="peakled.script" file="scripts/peakled.maki" /> 
+  <script id="volumeknob" file="scripts/knob.maki"/> 
+  <script id="clock" file="scripts/clock.maki"/>
+  <script id="general" file="scripts/general.maki"/>
+
+</groupdef>
+
+
+<groupdef id="Display.Objects.Credits" name="Credits Objects" x="0" y="0" w="360" h="282">
+  <button id="BtClose" Image="player.button.small.off" downImage="player.button.small.pressed" activeImage="player.button.small.on" action="CLOSE" w="22" h="18" x="318" y="10" tooltip="Close window" />
+</groupdef>
+
+
+<!-- CREDITS -->
+<container id="Credits" name="Credits Window" center="1" w="360" h="282" default_Visible="0" >
+  <layout id="normal" background="player.credits" x="0" y="0" w="360" h="282" maximum_w="360" maximum_h="282" minimum_w="360" minimum_h="282" >
+    <group id="Display.Objects.Credits" />
+  </layout>
+</container>
+
+
+
+
+
+<!-- MAIN WINDOW PLAYER CONTAINER -->
+<container id="Main" name="Main Window" x="0" y="0" w="782" h="652" default_Visible="1">
+
+  <layout id="normal" background="player.main.background" x="0" y="0" droptarget="pldr" w="782" h="652" maximum_w="782" maximum_h="652" minimum_w="782" minimum_h="652" >
+    <group id="ObjectsGroup" />
+  </layout>
+
+</container>
+
+
+
+
+
+</WasabiXML>
